@@ -1,0 +1,30 @@
+from psychopy import visual
+import marmobox
+import reward
+
+while 1:
+    mywin = visual.Window([1600,960], monitor="testMonitor", units="deg", pos = (0,0))
+win.flip()
+    print('Background display initiated.')
+    r = raw_input('Manual Reward? (y/n): ')
+    if r == 'y':
+        while r == 'y':
+            reward.deliver()
+            print('Reward delivered.')
+            r = raw_input('Manual Reward? (y/n): ')
+	else:
+            mywin.close()
+            marmobox.run(taskname,delay)
+    elif r == 'n':
+        taskname = raw_input('Select Task: ')
+        delay = input('Set Delay: ')
+        try:
+            mywin.close()
+            marmobox.run(taskname,delay)
+        except:
+            pump.forceStop()
+            print 'An error occured.'
+
+	   
+	      
+

@@ -1,0 +1,54 @@
+from psychopy import visual, core, logging, event
+import time
+import marmocontrol as control
+
+pause = control.getParamTrialDelay()
+
+def execTask():
+
+	#create window
+	mywin = visual.Window([1280,720], monitor="testMonitor", units="pix") #was 1600 x 900, deg
+	mouse = event.Mouse(win=mywin)
+
+	#create stimulus
+	grating = visual.GratingStim(win=mywin, size=(320,450), pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb' ) #was size 17
+	limitTrial=20
+	trial = 0
+	buttons = []
+	results = []
+	xpos = 0
+	ypos = 0
+
+	while trial < limitTrial:
+		counter = 0
+		trial = trial+1
+		t=time.time() #returns time in sec as float
+		
+		grating.draw()
+		mywin.update()
+		mouse.clickReset() #resets a timer for timing button clicks
+		
+		while counter == 0:
+				if mouse.getPressed()[0]: # Returns whether mouse button (i.e. button '0') was pressed 
+					xpos = mouse.getPos()[0] #Returns current positions of mouse during press
+					ypos = mouse.getPos()[1]
+					buttons = mouse.isPressedIn(grating) #Returns True if mouse pressed in grating
+					counter = 1
+		if buttons == True:
+			control.correctAnswer()
+			results.append([trial, xpos, ypos, time.time() - t, '-', 'yes'])
+		else:
+			control.incorrectAnswer()
+			results.append([trial, xpos, ypos, time.time() - t, '-', 'no'])
+			mywin.update()
+			core.wait(2) # specifies timeout period - use this instead of variable 'pause'
+   
+	return results
+	
+	
+	
+	
+	
+	
+
+
