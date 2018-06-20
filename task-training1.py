@@ -7,11 +7,11 @@ pause = control.getParamTrialDelay()
 def execTask():
 
 	#create window
-	mywin = visual.Window([1280,720], monitor="testMonitor", units="pix") #was 1600 x 900, deg
+	mywin = visual.Window([1600,900], monitor="testMonitor", units="deg")
 	mouse = event.Mouse(win=mywin)
 
 	#create stimulus
-	grating = visual.GratingStim(win=mywin, size=(320,450), pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb' ) #was size 17
+	grating = visual.GratingStim(win=mywin, size=(17), pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb' )
 	limitTrial=20
 	trial = 0
 	buttons = []

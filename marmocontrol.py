@@ -17,7 +17,7 @@ def correctAnswer():
 	GPIO.setwarnings(False)
 	GPIO.setup(settings.PIN_LED_BLUE, GPIO.OUT, initial=GPIO.LOW)
 	GPIO.setup(settings.PIN_BUZZER, GPIO.OUT, initial=GPIO.LOW)
-	GPIO.setup(settings.PIN_PUMP, GPIO.OUT, initial=GPIO.LOW)
+	GPIO.setup(settings.PIN_PUMP, GPIO.OUT, initial=GPIO.HIGH)
 
 	buzzer = GPIO.PWM(settings.PIN_BUZZER, settings.BUZZER_PITCH_CORRECT)
 	buzzer.start(0.05)
