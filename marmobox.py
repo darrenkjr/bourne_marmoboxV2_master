@@ -11,6 +11,7 @@ def run(taskname,delay):
    print 'Attempting to detect marmoset...'
    beamInput = True
    while beamInput:
+       time.sleep(0.1)
        beamInput = control.readBeam()
    print 'Found! Now attempting to read RFID tag...'
 

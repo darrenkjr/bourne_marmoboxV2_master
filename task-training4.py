@@ -90,9 +90,6 @@ def execTask():
 			x = 'red' 		
 			c2 += 1
 		
-		
-
-		counter = 0
 		trial = trial+1
 		t=time.time() #returns time in sec as float
 		
@@ -100,12 +97,13 @@ def execTask():
 		mywin.update()
 		mouse.clickReset() #resets a timer for timing button clicks
 		
-		while counter == 0:
-				if mouse.getPressed()[0]: # Returns whether mouse button was pressed 
-					xpos = mouse.getPos()[0] #Returns current positions of mouse during press
-					ypos = mouse.getPos()[1]
-					buttons = mouse.isPressedIn(grating) #Returns True if mouse pressed in grating
-					counter = 1
+		while not mouse.getPressed()[0]:# checks whether mouse button (i.e. button '0') was pressed 
+			time.sleep(0.01) # Sleeps if not pressed and then checks again after 10ms
+		else: #If pressed
+			xpos = mouse.getPos()[0] #Returns current positions of mouse during press
+			ypos = mouse.getPos()[1]
+			buttons = mouse.isPressedIn(grating) #Returns True if mouse pressed in grating
+
 		if buttons == True:
 			control.correctAnswer()
 			printsize = str(size) and ' degrees' #need to report location instead of printsize!

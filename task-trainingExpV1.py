@@ -25,15 +25,15 @@ def execTask():
     ypos = 0
     #correct = [0]*(limitTrial+1)
     while trial < limitTrial:
-	    counter =0;
 	    trial = trial+1
 	    t=time.time()
-	    while counter == 0:
-        	    if mouse.getPressed()[0]:
-                            xpos = mouse.getPos()[0]
-                            ypos = mouse.getPos()[1]
-                	    buttons = mouse.isPressedIn(grating)
-                	    counter = 1
+        while not mouse.getPressed()[0]:# checks whether mouse button (i.e. button '0') was pressed 
+			time.sleep(0.01) # Sleeps if not pressed and then checks again after 10ms
+		else: #If pressed
+			xpos = mouse.getPos()[0] #Returns current positions of mouse during press
+			ypos = mouse.getPos()[1]
+			buttons = mouse.isPressedIn(grating) #Returns True if mouse pressed in grating
+            
 	    if buttons == True:
 		    #correct[trial-1] = 1
 		    size = size-1
