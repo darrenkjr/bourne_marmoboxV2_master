@@ -28,12 +28,14 @@ def execTask():
 		mywin.update()
 		mouse.clickReset() #resets a timer for timing button clicks
 		
-		while counter == 0:
-				if mouse.getPressed()[0]: # Returns whether mouse button (i.e. button '0') was pressed 
-					xpos = mouse.getPos()[0] #Returns current positions of mouse during press
-					ypos = mouse.getPos()[1]
-					buttons = mouse.isPressedIn(grating) #Returns True if mouse pressed in grating
-					counter = 1
+		while not mouse.getPressed()[0]:
+			time.sleep(0.01)
+			#if mouse.getPressed()[0]: # Returns whether mouse button (i.e. button '0') was pressed 
+		else:
+			xpos = mouse.getPos()[0] #Returns current positions of mouse during press
+			ypos = mouse.getPos()[1]
+			buttons = mouse.isPressedIn(grating) #Returns True if mouse pressed in grating
+			counter = 1
 		if buttons == True:
 			control.correctAnswer()
 			results.append([trial, xpos, ypos, time.time() - t, '-', 'yes'])
