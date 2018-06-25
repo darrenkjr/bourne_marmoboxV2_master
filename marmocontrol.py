@@ -14,7 +14,7 @@ def getParamTrialDelay():
 # For the LED and BUZZER ON time, modify BUZZER_LED_TIME in the settings file.
 # For the PUMP, modify the values REWARD_VOLUME and REWARD_VOL_FACTOR in the settings file.
 def correctAnswer():
-	instance = marmoIO(settings.PIN_LED_BLUE,settings.PIN_LED_GREEN,settings.PIN_BUZZER,settings.PIN_PUMP,settings.PIN_BEAM,settings.BUZZER_PITCH_CORRECT,settings.BUZZER_PITCH_INCORRECT,settings.DEFAULT_DUTYCYCLE)
+	instance = marmoIO(settings.PIN_LED_BLUE,settings.PIN_LED_GREEN,settings.PIN_BUZZER,settings.PIN_PUMP,settings.PIN_BEAM,settings.BUZZER_PITCH_CORRECT,settings.BUZZER_PITCH_INCORRECT,DEFAULT_DUTYCYCLE)
 	instance.BuzzerCorrect(True)
 	instance.BlueLED(True)
 	instance.Pump(True)
@@ -45,7 +45,7 @@ def correctAnswer():
 # The delay time specifies the time both the BUZZER and GREEN LED are ON.
 # This value is configurable in the settings file: BUZZER_LED_TIME
 def incorrectAnswer():
-	instance = marmoIO(settings.PIN_LED_BLUE,settings.PIN_LED_GREEN,settings.PIN_BUZZER,settings.PIN_PUMP,settings.PIN_BEAM,settings.BUZZER_PITCH_CORRECT,settings.BUZZER_PITCH_INCORRECT,settings.DEFAULT_DUTYCYCLE)
+	instance = marmoIO(settings.PIN_LED_BLUE,settings.PIN_LED_GREEN,settings.PIN_BUZZER,settings.PIN_PUMP,settings.PIN_BEAM,settings.BUZZER_PITCH_CORRECT,settings.BUZZER_PITCH_INCORRECT,DEFAULT_DUTYCYCLE)
 	instance.GreenLED(marmoIO.On)
 	instance.BuzzerIncorrect(marmoIO.On)
 	time.sleep(settings.BUZZER_LED_TIME)
@@ -68,7 +68,7 @@ def incorrectAnswer():
 
 # This function returns the state of the beam breaker as a True/False value.
 def readBeam():
-	instance = marmoIO(settings.PIN_LED_BLUE,settings.PIN_LED_GREEN,settings.PIN_BUZZER,settings.PIN_PUMP,settings.PIN_BEAM,settings.BUZZER_PITCH_CORRECT,settings.BUZZER_PITCH_INCORRECT,settings.DEFAULT_DUTYCYCLE)
+	instance = marmoIO(settings.PIN_LED_BLUE,settings.PIN_LED_GREEN,settings.PIN_BUZZER,settings.PIN_PUMP,settings.PIN_BEAM,settings.BUZZER_PITCH_CORRECT,settings.BUZZER_PITCH_INCORRECT,DEFAULT_DUTYCYCLE)
 	# GPIO.setmode(GPIO.BOARD)
 	# GPIO.setwarnings(False)
 	# GPIO.setup(settings.PIN_BEAM, GPIO.IN)
