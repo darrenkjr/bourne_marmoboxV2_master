@@ -34,10 +34,6 @@ def deliver():
     pump.stop()
     GPIO.cleanup()
 
-def forceStop():
-    PIN_PUMP=13
-    DEFAULT_FREQUENCY = 100		# In Hz
-    pump = GPIO.PWM(PIN_PUMP, DEFAULT_FREQUENCY)
-    pump.stop()
+
 if __name__ == '__main__':
     deliver()

@@ -1,7 +1,7 @@
 
 from psychopy import visual
 import marmobox
-import reward
+import marmocontrol
 mywin = visual.Window([1600,960], monitor="testMonitor", units="deg", pos = (0,0))
 while 1:
 #    mywin = visual.Window([1600,960], monitor="testMonitor", units="deg", pos = (0,0))
@@ -10,7 +10,7 @@ while 1:
     r = raw_input('Manual Reward? (y/n): ')
     if r == 'y':
 #        while r == 'y':
-         reward.deliver()
+         marmocontrol.reward()
          print('Reward delivered.')
 #            r = raw_input('Manual Reward? (y/n): ')
 #	else:
@@ -23,7 +23,7 @@ while 1:
             mywin.close()
             marmobox.run(taskname,delay)
         except:
-            pump.forceStop()
+            marmocontrol.force_stop()
             print 'An error occured.'
         finally:
              mywin = visual.Window([1600,960], monitor="testMonitor", units="deg", pos = (0,0))
