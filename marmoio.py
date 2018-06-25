@@ -11,8 +11,9 @@ class marmoIO:
         GPIO.setup(PIN_BUZZER, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(PIN_PUMP, GPIO.OUT, initial=GPIO.HIGH)
         GPIO.setup(PIN_BEAM, GPIO.IN)
-        self.buzzIncorrect = GPIO.PWM(PIN_BUZZER, BUZZER_PITCH_INCORRECT)
-        self.buzzCorrect = GPIO.PWM(PIN_BUZZER, BUZZER_PITCH_CORRECT)
+        self.PIN_BUZZER = PIN_BUZZER
+        self.BUZZER_PITCH_CORRECT = BUZZER_PITCH_CORRECT
+        self.BUZZER_PITCH_INCORRECT = BUZZER_PITCH_INCORRECT
         self.PIN_LED_GREEN = PIN_LED_GREEN
         self.PIN_LED_BLUE = PIN_LED_BLUE
         self.PIN_PUMP = PIN_PUMP
@@ -21,12 +22,14 @@ class marmoIO:
         
     def BuzzerCorrect(self,state):
         if state:
-	        self.buzzCorrect.start(self.DEFAULT_DUTYCYCLE)
+            self.buzzCorrect = GPIO.PWM(self.PIN_BUZZER, self.BUZZER_PITCH_CORRECT)
+            self.buzzCorrect.start(self.DEFAULT_DUTYCYCLE)
         else:
             self.buzzCorrect.stop()
         
     def BuzzerIncorrect(self,state):
         if state:
+            self.buzzIncorrect = GPIO.PWM(self.PIN_BUZZER, self.BUZZER_PITCH_INCORRECT)
             self.buzzIncorrect.start(self.DEFAULT_DUTYCYCLE)
         else:
             self.buzzIncorrect.stop()
