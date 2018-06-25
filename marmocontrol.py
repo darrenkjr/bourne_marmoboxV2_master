@@ -2,11 +2,12 @@ import time
 import marmosettings as settings
 import os
 
-marmobox_env = os.environ.get('marmobox_env')
+# Check if running on Pi
+marmobox_env = os.environ.get('marmobox_env') 
 if marmobox_env == 'RPI':
 	from marmoio import marmoIO
 	import marmoio
-else:
+else: # If not runing on RPi, initiate the simulation module
 	from marmoiosim import marmoIO
 	import marmoiosim as marmoio
 

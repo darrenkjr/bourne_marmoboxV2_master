@@ -50,6 +50,7 @@ class marmoIO:
 def forceStop(): # Force stop a run-away pump
     PIN_PUMP=13
     DEFAULT_FREQUENCY = 100		# In Hz
+    GPIO.setmode(GPIO.BOARD)
     pump = GPIO.PWM(PIN_PUMP, DEFAULT_FREQUENCY)
     pump.stop()
 

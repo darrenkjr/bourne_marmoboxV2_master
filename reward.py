@@ -1,3 +1,5 @@
+#This is a manual reward module. This will only work on the PI not on PC. 
+# Do not import this module into any scripts. Always use marmocontrol which imports marmoio. 
 import RPi.GPIO as GPIO
 import time
 
