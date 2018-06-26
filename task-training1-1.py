@@ -3,8 +3,6 @@ from psychopy.tools.monitorunittools import posToPix
 import time
 import marmocontrol as control
 
-posPix = posToPix(stim)
-
 def execTask():
 
 	#create window
