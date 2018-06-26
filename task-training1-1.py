@@ -1,8 +1,9 @@
 from psychopy import visual, core, logging, event
+from psychopy.tools.monitorunittools import posToPix 
 import time
 import marmocontrol as control
 
-pause = control.getParamTrialDelay()
+posPix = posToPix(stim)
 
 def execTask():
 
@@ -11,7 +12,7 @@ def execTask():
 	mouse = event.Mouse(win=mywin)
 
 	#create stimulus
-	grating = visual.GratingStim(win=mywin, size=(17), pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb' )
+	grating = visual.GratingStim(win=mywin, size=(3), pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb' )
 	limitTrial=20
 	trial = 0
 	buttons = []
@@ -41,7 +42,7 @@ def execTask():
 			control.incorrectAnswer()
 			results.append([trial, xpos, ypos, time.time() - t, '-', 'no'])
 			mywin.update()
-			core.wait(2) # specifies timeout period - use this instead of variable 'pause'
+			core.wait(2) # specifies timeout period
    
 	return results
 	
