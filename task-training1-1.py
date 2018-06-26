@@ -10,7 +10,7 @@ def execTask():
 	mouse = event.Mouse(win=mywin)
 
 	#create stimulus
-	grating = visual.GratingStim(win=mywin, size=(4), pos=[800,0], sf=0, color = [-1,-1,1], colorSpace='rgb' )
+	grating = visual.GratingStim(win=mywin, size=(4), pos=[400,0], sf=0, color = [-1,-1,1], colorSpace='rgb' )
 	limitTrial=20
 	trial = 0
 	buttons = []
