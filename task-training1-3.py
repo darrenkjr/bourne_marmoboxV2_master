@@ -8,7 +8,7 @@ def execTask():
 	mywin = visual.Window([1600,900], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
         stepNumber = 3 
-    	limitTrial = 6 #modify
+    	limitTrial = 15 #modify
     	reductionFactor = limitTrial // stepNumber #number of success trials to next size decrease
 	successCounter = 0
     	trial = 0
