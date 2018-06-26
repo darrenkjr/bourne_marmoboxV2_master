@@ -6,11 +6,11 @@ import marmocontrol as control
 def execTask():
 
 	#create window
-	mywin = visual.Window([1600,900], monitor="testMonitor", units="deg")
+	mywin = visual.Window([1600,900], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
 
 	#create stimulus
-	grating = visual.GratingStim(win=mywin, size=(4), pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb' )
+	grating = visual.GratingStim(win=mywin, size=(50), pos=[400,0], sf=0, color = [-1,-1,1], colorSpace='rgb' )
 	limitTrial=20
 	trial = 0
 	buttons = []
