@@ -5,7 +5,7 @@ import marmocontrol as control
 def execTask():
 
 	#create window
-	mywin = visual.Window([1600,960], monitor="testMonitor", units="deg")
+	mywin = visual.Window([1600,900], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
         stepNumber = 3 
     	limitTrial = 6 #modify
@@ -16,7 +16,7 @@ def execTask():
 	results = []
 	xpos = 0
 	ypos = 0
-    	size = 17
+    	size = 800
 	
 	#set stimuli limit and trial counter variables
 	stimLimit = limitTrial // 3
@@ -111,7 +111,7 @@ def execTask():
             		successCounter += 1
             		if successCounter > 0:
 				    if successCounter % reductionFactor == 0 and size >= 3: # size reduction following successful hit trials or limit
-                				size -= 2 # modify
+                				size -= 200 # modify
 		else:
 			control.incorrectAnswer()
 			printsize = str(size) + ' degrees'

@@ -5,7 +5,7 @@ import marmocontrol as control
 def execTask():
 
 	#create window
-	mywin = visual.Window([1600,960], monitor="testMonitor", units="deg")
+	mywin = visual.Window([1600,900], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
 	
     	limitTrial = 21 #modify
@@ -14,7 +14,7 @@ def execTask():
 	results = []
 	xpos = 0
 	ypos = 0
-    	size = 4 #make consistent with task-training3.py
+    	size = 200 #make consistent with task-training3.py
 	
 	#set stimuli limit and trial counter variables
 	stimLimit = limitTrial // 3
@@ -26,8 +26,8 @@ def execTask():
 	while trial < limitTrial: 
 
 		#create stimuli
-		stimPosx = random.uniform(-15.0,15.0)
-		stimPosy = random.randint(-7.0,7.0)
+		stimPosx = random.uniform(-1350,1350)
+		stimPosy = random.randint(-650,650)
 		blue = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [-1,-1,1], colorSpace='rgb')
 		red = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [1,-1,-1], colorSpace='rgb')
 		yellow = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [1,1,-1], colorSpace='rgb')

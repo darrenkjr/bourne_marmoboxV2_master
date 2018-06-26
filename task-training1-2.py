@@ -5,7 +5,7 @@ import marmocontrol as control
 def execTask():
 
 	#create window
-	mywin = visual.Window([1600,960], monitor="testMonitor", units="deg")
+	mywin = visual.Window([1600,900], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
 	
     	limitTrial = 21 #modify
@@ -14,6 +14,7 @@ def execTask():
 	results = []
 	xpos = 0
 	ypos = 0
+	size = 800
 	
 	#set stimuli limit and trial counter variables
 	stimLimit = limitTrial // 3
@@ -27,57 +28,57 @@ def execTask():
 		if c1 < stimLimit and c2 < stimLimit and c3 < stimLimit:
 			y = random.randint(0,2)
 			if y == 0:
-				grating = visual.GratingStim(win=mywin, size=17, pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb') 		
+				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb') 		
 				x = 'blue' 		
 				c1 += 1
 			elif y == 1:
-				grating = visual.GratingStim(win=mywin, size=17, pos=[0,0], sf=0, color = [1,-1,-1], colorSpace='rgb') 		
+				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [1,-1,-1], colorSpace='rgb') 		
 				x = 'red' 		
 				c2 += 1
 			elif y == 2:
-				grating = visual.GratingStim(win=mywin, size=17, pos=[0,0], sf=0, color = [1,1,-1], colorSpace='rgb') 		
+				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [1,1,-1], colorSpace='rgb') 		
 				x = 'yellow' 		
 				c3 += 1
 		elif c1 == stimLimit and c2 < stimLimit and c3 < stimLimit:
 			y = random.randint(0,1)
 			if y == 0:
-				grating = visual.GratingStim(win=mywin, size=17, pos=[0,0], sf=0, color = [1,-1,-1], colorSpace='rgb') 		
+				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [1,-1,-1], colorSpace='rgb') 		
 				x = 'red' 		
 				c2 += 1
 			else:
-				grating = visual.GratingStim(win=mywin, size=17, pos=[0,0], sf=0, color = [1,1,-1], colorSpace='rgb') 		
+				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [1,1,-1], colorSpace='rgb') 		
 				x = 'yellow' 		
 				c3 += 1				
 		elif c1 < stimLimit and c2 == stimLimit and c3 < stimLimit:
 			y = random.randint(0,1)
 			if y == 0:
-				grating = visual.GratingStim(win=mywin, size=17, pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb') 		
+				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb') 		
 				x = 'blue' 		
 				c1 += 1
 			else:
-				grating = visual.GratingStim(win=mywin, size=17, pos=[0,0], sf=0, color = [1,1,-1], colorSpace='rgb') 		
+				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [1,1,-1], colorSpace='rgb') 		
 				x = 'yellow' 		
 				c3 += 1
 		elif c1 < stimLimit and c2 < stimLimit and c3 == stimLimit:
 			y = random.randint(0,1)
 			if y == 0:
-				grating = visual.GratingStim(win=mywin, size=17, pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb') 		
+				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb') 		
 				x = 'blue' 		
 				c1 += 1
 			else:
-				grating = visual.GratingStim(win=mywin, size=17, pos=[0,0], sf=0, color = [1,-1,-1], colorSpace='rgb') 		
+				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [1,-1,-1], colorSpace='rgb') 		
 				x = 'red' 		
 				c2 += 1
 		elif c1 == stimLimit and c2 == stimLimit and c3 < stimLimit:
-			grating = visual.GratingStim(win=mywin, size=17, pos=[0,0], sf=0, color = [1,1,-1], colorSpace='rgb') 		
+			grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [1,1,-1], colorSpace='rgb') 		
 			x = 'yellow' 		
 			c3 += 1
 		elif c1 < stimLimit and c2 == stimLimit and c3 == stimLimit:
-			grating = visual.GratingStim(win=mywin, size=17, pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb') 		
+			grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb') 		
 			x = 'blue' 		
 			c1 += 1
 		elif c1 == stimLimit and c2 < stimLimit and c3 == stimLimit:
-			grating = visual.GratingStim(win=mywin, size=17, pos=[0,0], sf=0, color = [1,-1,-1], colorSpace='rgb') 		
+			grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [1,-1,-1], colorSpace='rgb') 		
 			x = 'red' 		
 			c2 += 1
 		
