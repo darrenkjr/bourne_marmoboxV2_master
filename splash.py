@@ -10,8 +10,8 @@ while 1:
     r = raw_input('Manual Reward? (y/n): ')
     if r == 'y':
 #        while r == 'y':
-         marmocontrol.reward()
-         print('Reward delivered.')
+        marmocontrol.reward()
+        print('Reward delivered.')
 #            r = raw_input('Manual Reward? (y/n): ')
 #	else:
 #           mywin.close()
@@ -19,14 +19,14 @@ while 1:
     elif r == 'n':
         taskname = raw_input('Select Task: ')
         delay = input('Set Delay: ')
-        try:
-            mywin.close()
-            marmobox.run(taskname,delay)
-        except:
-            marmocontrol.force_stop()
-            print 'An error occured.'
-        finally:
-             mywin = visual.Window([1600,960], monitor="testMonitor", units="deg", pos = (0,0))
+   #     try:
+        mywin.close()
+        marmobox.run(taskname,delay)
+#        except:
+ #           marmocontrol.force_stop()
+  #          print 'An error occured.'
+#        finally:
+ #            mywin = visual.Window([1600,960], monitor="testMonitor", units="deg", pos = (0,0))
 
 	   
 	      
