@@ -26,8 +26,8 @@ def execTask():
 	while trial < limitTrial: 
 
 		#create stimuli
-		stimPosx = random.uniform(-1350,1350)
-		stimPosy = random.randint(-650,650)
+		stimPosx = random.uniform(-1200,1200)
+		stimPosy = random.randint(-500,500)
 		blue = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [-1,-1,1], colorSpace='rgb')
 		red = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [1,-1,-1], colorSpace='rgb')
 		yellow = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [1,1,-1], colorSpace='rgb')
