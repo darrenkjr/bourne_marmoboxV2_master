@@ -16,8 +16,9 @@ def execTask():
 	results = []
 	xpos = 0
 	ypos = 0
-    	size = 700
-	
+	initSize = 700
+	size = initSize
+
 	#set stimuli limit and trial counter variables
 	stimLimit = limitTrial // 3
 	c1 = 0
@@ -111,7 +112,7 @@ def execTask():
             		successCounter += 1
             		if successCounter > 0:
 				    if successCounter % reductionFactor == 0 and size >= 200: # size reduction following successful hit trials or limit
-                				size -= ((size - 200)/4) # modify
+                				size -= ((initSize - 200)/4) # modify
 		else:
 			control.incorrectAnswer()
 			printsize = str(size) + ' degrees'
