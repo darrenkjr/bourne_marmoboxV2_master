@@ -110,8 +110,8 @@ def execTask():
 			mywin.update()
             		successCounter += 1
             		if successCounter > 0:
-				    if successCounter % reductionFactor == 0 and size >= 3: # size reduction following successful hit trials or limit
-                				size -= 200 # modify
+				    if successCounter % reductionFactor == 0 and size >= 200: # size reduction following successful hit trials or limit
+                				size -= ((size - 200)/4) # modify
 		else:
 			control.incorrectAnswer()
 			printsize = str(size) + ' degrees'
