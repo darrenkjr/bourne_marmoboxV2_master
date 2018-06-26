@@ -14,7 +14,7 @@ def execTask():
 	results = []
 	xpos = 0
 	ypos = 0
-	size = 800
+	size = 700
 	
 	#set stimuli limit and trial counter variables
 	stimLimit = limitTrial // 3
