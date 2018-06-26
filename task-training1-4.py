@@ -14,7 +14,7 @@ def execTask():
 	results = []
 	xpos = 0
 	ypos = 0
-    	size = 200 #make consistent with task-training3.py
+    	size = 200
 	
 	#set stimuli limit and trial counter variables
 	stimLimit = limitTrial // 3
@@ -106,14 +106,14 @@ def execTask():
 
 		if buttons == True:
 			control.correctAnswer()
-			printsize = str(size) and ' degrees' #need to report location instead of printsize!
-			results.append([trial, xpos, ypos, time.time() - t, x, printsize, 'yes'])
+			printPos = str(stimPosx) + ',' + str(stimPosy)
+			results.append([trial, xpos, ypos, time.time() - t, x, printPos, 'yes'])
 			mywin.update()
 
 		else:
 			control.incorrectAnswer()
-			printsize = str(size) and ' degrees' #and here too
-			results.append([trial, xpos, ypos, time.time() - t, x, printsize, 'no'])
+			printPos = str(stimPosx) + ',' + str(stimPosy)
+			results.append([trial, xpos, ypos, time.time() - t, x, printPos, 'no'])
 			mywin.update()
 			core.wait(2) # specifies trial delay
    
