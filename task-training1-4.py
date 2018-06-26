@@ -5,7 +5,7 @@ import marmocontrol as control
 def execTask():
 
 	#create window
-	mywin = visual.Window([1600,900], monitor="testMonitor", units="pix")
+	mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
 	
     	limitTrial = 21 #modify
