@@ -12,14 +12,14 @@ def execTask():
     mPos = [0, 0]
     limitTrial = 20  # modify
 
+    mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix")
+    mouse = event.Mouse(win=mywin)
+    
     # create stimuli
     circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
     cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
     sampleCover = visual.GratingStim(win=mywin, size=size, pos=mPos, sf=0, color=[-1, -1, -1], colorSpace='rgb')  # check if necessary
     nmCover = visual.GratingStim(win=mywin, size=size, pos=nmPos, sf=0, color=[-1, -1, -1], colorSpace='rgb')
-
-    mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix")
-    mouse = event.Mouse(win=mywin)
 
     trial = 0
     buttons = []
