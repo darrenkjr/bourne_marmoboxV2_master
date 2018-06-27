@@ -17,12 +17,6 @@ def execTask():
 
 	mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
-	
-	# create stimuli
-	circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
-	cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
-	sampleCover = visual.GratingStim(win=mywin, size=size, pos=mPos, sf=0, color=[-1, -1, -1], colorSpace='rgb')  # check if necessary
-	nmCover = visual.GratingStim(win=mywin, size=size, pos=nmPos, sf=0, color=[-1, -1, -1], colorSpace='rgb')
 
 	trial = 0
 	buttons = []
@@ -31,7 +25,7 @@ def execTask():
 	ypos = 0
 
 	while trial < limitTrial:
-
+		
 		# show warning
 
 		warning = visual.GratingStim(win=mywin, size=size, pos=[0, 0], sf=0, color=[-1, -1, -1], colorSpace='rgb')
@@ -70,6 +64,13 @@ def execTask():
 			ciPos = nmPos
 			x = 'red cross'
 
+		# create stimuli
+		
+		circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
+		cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
+		#sampleCover = visual.GratingStim(win=mywin, size=size, pos=mPos, sf=0, color=[-1, -1, -1], colorSpace='rgb')  # check if necessary
+		#nmCover = visual.GratingStim(win=mywin, size=size, pos=nmPos, sf=0, color=[-1, -1, -1], colorSpace='rgb')
+
 		sample.draw()
 		#sampleCover.draw()  # check if necessary
 		mywin.update()
@@ -85,11 +86,7 @@ def execTask():
 			elif button2 == True:
 				control.correctAnswer()
 				c2 = True
-			
-		mywin.update()
-		time.sleep(delay2)
-		
-		# forced choice
+
 		b = random.randint(0,1)
 		if b == 0:
 			nmPos = [-400,0] #left of target - modify
@@ -97,6 +94,11 @@ def execTask():
 		else:
 			nmPos = [400,0] #right of target - modify
 			printPos = 'right'
+			
+		mywin.update()
+		time.sleep(delay2)
+		
+		# forced choice
 
 		sample.draw()
 		nonmatch.draw()
