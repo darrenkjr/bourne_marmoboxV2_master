@@ -100,13 +100,14 @@ def execTask():
 			nmPos = [400,0] #right of target - modify
 			printPos = 'right'
 			
-		circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
-		cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
+		circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=nmPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
+		cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=nmPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
 		#sampleCover = visual.GratingStim(win=mywin, size=size, pos=mPos, sf=0, color=[-1, -1, -1], colorSpace='rgb')  # check if necessary
 		#nmCover = visual.GratingStim(win=mywin, size=size, pos=nmPos, sf=0, color=[-1, -1, -1], colorSpace='rgb')
 		
 		if a == 0:
 			nonmatch = cross
+
 		elif a == 1:
 			nonmatch = circle
 		
