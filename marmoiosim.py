@@ -48,8 +48,8 @@ class marmoIO:
         print 'Pin: ' + str(self.PIN_PUMP)
 
     def readBeam(self):
-        val = input('Press any key then Enter/Return to continue')
-        return True if val else False
+        val = raw_input('Press any key then Enter/Return to continue')
+        return False if str(val) else True
 
     def finish(self):
         print 'Clean GPIO State'
