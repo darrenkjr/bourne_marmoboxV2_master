@@ -34,12 +34,10 @@ def execTask():
 				time.sleep(0.01)
 			else:
 				button1 = mouse.isPressedIn(warning)
-
-			if button1 == False:
-				control.incorrectAnswer()
-			elif button1 == True:
-					control.correctAnswer()
-					c1 = True
+				
+			if button1 == True:
+				control.correctAnswer(False)
+				c1 = True
 
 		mywin.update()
 		time.sleep(delay1)
@@ -53,8 +51,6 @@ def execTask():
 		
 		circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
 		cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
-		#sampleCover = visual.GratingStim(win=mywin, size=size, pos=mPos, sf=0, color=[-1, -1, -1], colorSpace='rgb')  # check if necessary
-		#nmCover = visual.GratingStim(win=mywin, size=size, pos=nmPos, sf=0, color=[-1, -1, -1], colorSpace='rgb')
 		
 		# show sample
 
@@ -73,7 +69,6 @@ def execTask():
 			x = 'red cross'
 
 		sample.draw()
-		#sampleCover.draw()  # check if necessary
 		mywin.update()
 
 		c2 = False
@@ -81,11 +76,10 @@ def execTask():
 			while not mouse.getPressed()[0]:
 				time.sleep(0.01)
 			else:
-				button2 = mouse.isPressedIn(sample) #changed from sampleCover
-			if button2 == False:
-				control.incorrectAnswer() 
-			elif button2 == True:
-				control.correctAnswer()
+				button2 = mouse.isPressedIn(sample)
+
+			if button2 == True:
+				control.correctAnswer(False)
 				c2 = True
 
 		mywin.update()
@@ -95,16 +89,14 @@ def execTask():
 		
 		b = random.randint(0,1)
 		if b == 0:
-			nmPos = [-400,0] #left of target - modify
+			nmPos = [-400,0]
 			printPos = 'left'
 		else:
-			nmPos = [400,0] #right of target - modify
+			nmPos = [400,0]
 			printPos = 'right'
 			
-		circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=nmPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
-		cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=nmPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
-		#sampleCover = visual.GratingStim(win=mywin, size=size, pos=mPos, sf=0, color=[-1, -1, -1], colorSpace='rgb')  # check if necessary
-		#nmCover = visual.GratingStim(win=mywin, size=size, pos=nmPos, sf=0, color=[-1, -1, -1], colorSpace='rgb')
+		circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=nmPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')
+		cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=nmPos, sf=0, color=[1, -1, -1], colorSpace='rgb')
 		
 		if a == 0:
 			nonmatch = cross
@@ -114,8 +106,6 @@ def execTask():
 		
 		sample.draw()
 		nonmatch.draw()
-		#sampleCover.draw()
-		#nmCover.draw()
 		mywin.update()
 		mouse.clickReset()
 
@@ -128,8 +118,8 @@ def execTask():
 			while not mouse.getPressed()[0]:
 				time.sleep(0.01)
 			else:
-				button3 = mouse.isPressedIn(sample) #changes
-				button4 = mouse.isPressedIn(nonmatch) #changes
+				button3 = mouse.isPressedIn(sample)
+				button4 = mouse.isPressedIn(nonmatch)
 
 			if button3 == True:
 				control.correctAnswer()
