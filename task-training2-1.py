@@ -10,10 +10,6 @@ def execTask():
 	delay1 = 1
 	delay2 = 0.5
 	size = 200
-	mPos = [0,0]
-	nmPos = [0,0]
-	ciPos = [0,0]
-	crPos = [0,0]
 
 	mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
@@ -49,6 +45,11 @@ def execTask():
 		time.sleep(delay1)
 
 		# create stimuli
+
+		mPos = [0,0]
+		nmPos = [0,0]
+		ciPos = [0,0]
+		crPos = [0,0]
 		
 		circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
 		cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
