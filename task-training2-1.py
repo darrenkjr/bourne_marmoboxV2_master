@@ -80,7 +80,7 @@ def execTask():
 			while not mouse.getPressed()[0]:
 				time.sleep(0.01)
 			else:
-				button2 = mouse.isPressedIn(sampleCover)
+				button2 = mouse.isPressedIn(sample) #changed from sampleCover
 			if button2 == False:
 				control.incorrectAnswer() 
 			elif button2 == True:
@@ -116,8 +116,8 @@ def execTask():
 			while not mouse.getPressed()[0]:
 				time.sleep(0.01)
 			else:
-				button3 = mouse.isPressedIn(sampleCover)
-				button4 = mouse.isPressedIn(nmCover)
+				button3 = mouse.isPressedIn(sample) #changes
+				button4 = mouse.isPressedIn(nonmatch) #changes
 
 		if button3 == True:
 			control.correctAnswer()
