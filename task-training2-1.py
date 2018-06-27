@@ -8,21 +8,17 @@ def execTask():
 
     delay1 = 1
     delay2 = 0.5
-    size = 3  # modify to make consistent with task-training1.4
+    size = 200
     mPos = [0, 0]
     limitTrial = 20  # modify
 
     # create stimuli
-    circle = visual.GratingStim(win=mywin, mask='circle', size=size,
-                                pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
-    cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[
-                               1, -1, -1], colorSpace='rgb')  # red
-    sampleCover = visual.GratingStim(win=mywin, size=size, pos=mPos, sf=0, color=[
-                                     -1, -1, -1], colorSpace='rgb')  # check if necessary
-    nmCover = visual.GratingStim(
-        win=mywin, size=size, pos=nmPos, sf=0, color=[-1, -1, -1], colorSpace='rgb')
+    circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
+    cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
+    sampleCover = visual.GratingStim(win=mywin, size=size, pos=mPos, sf=0, color=[-1, -1, -1], colorSpace='rgb')  # check if necessary
+    nmCover = visual.GratingStim(win=mywin, size=size, pos=nmPos, sf=0, color=[-1, -1, -1], colorSpace='rgb')
 
-    mywin = visual.Window([1600, 960], monitor="testMonitor", units="deg")
+    mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix")
     mouse = event.Mouse(win=mywin)
 
     trial = 0
@@ -35,8 +31,7 @@ def execTask():
 
         # show warning
 
-        warning = visual.GratingStim(win=mywin, size=size, pos=[
-                                     0, 0], sf=0, color=[-1, -1, -1], colorSpace='rgb')
+        warning = visual.GratingStim(win=mywin, size=size, pos=[0, 0], sf=0, color=[-1, -1, -1], colorSpace='rgb')
         warning.draw()
         mywin.update()
 
@@ -58,7 +53,7 @@ def execTask():
 
         # show sample
 
-        a = random.randint(0, 1)  # perhaps try to pseudo-randomize later
+        a = random.randint(0, 1)  # try to pseudo-randomize later
         if a == 0:
         	sample = circle
         	nonmatch = cross
@@ -78,15 +73,15 @@ def execTask():
 
         c2 = False
         while c2 == False:
-			while not mouse.getPressed()[0]:
-				time.sleep(0.01)
-			else:
-				button2 = mouse.isPressedIn(sampleCover)
-			if button2 == False:
-				control.incorrectAnswer() 
-			elif button2 == True:
-				control.correctAnswer()
-				c2 = True
+		while not mouse.getPressed()[0]:
+			time.sleep(0.01)
+		else:
+			button2 = mouse.isPressedIn(sampleCover)
+		if button2 == False:
+			control.incorrectAnswer() 
+		elif button2 == True:
+			control.correctAnswer()
+			c2 = True
 
         mywin.update()
         time.sleep(delay2)
@@ -95,10 +90,10 @@ def execTask():
 
         b = random.randint(0,1)
         if b == 0:
-			nmPos = [,] #left of target - modify
-            printPos = 'left'
+	    	nmPos = [-400,0] #left of target - modify
+		printPos = 'left'
         else:
-            nmPos = [,] #right of target - modify
+            nmPos = [400,0] #right of target - modify
             printPos = 'right'
 
         sample.draw()
@@ -109,33 +104,33 @@ def execTask():
         mouse.clickReset()
 
         trial += 1
-	    t=time.time()
+	t=time.time()
 
         c3 == False
         while c3 == False:
         
             while not mouse.getPressed()[0]:
 		        time.sleep(0.01)
-	        else:
+	    else:
 		        button3 = mouse.isPressedIn(sampleCover)
-                button4 = mouse.isPressedIn(nmCover)
+                	button4 = mouse.isPressedIn(nmCover)
 
-	        if button3 == True:
-		        control.correctAnswer()
-			    xpos = mouse.getPos()[0]
-			    ypos = mouse.getPos()[1]
-                results.append([trial, xpos, ypos, time.time() - t, x, 'nmPos: ' + printPos, 'yes'])
-                mywin.update()
-                time.sleep(3) # ITI for correct
-                c3 = True 
-	        elif button4 == True:
-                control.incorrectAnswer()
-			    xpos = mouse.getPos()[0]
-			    ypos = mouse.getPos()[1]
-                results.append([trial, xpos, ypos, time.time() - t, x, 'nmPos: ' + printPos, 'no'])
-                mywin.update()
-                time.sleep(5) # ITI for incorrect
-                c3 = True
+	    if button3 == True:
+			control.correctAnswer()
+			xpos = mouse.getPos()[0]
+			ypos = mouse.getPos()[1]
+                	results.append([trial, xpos, ypos, time.time() - t, x, 'nmPos: ' + printPos, 'yes'])
+                	mywin.update()
+                	time.sleep(3) # ITI for correct
+                	c3 = True 
+	    elif button4 == True:
+                	control.incorrectAnswer()
+			xpos = mouse.getPos()[0]
+			ypos = mouse.getPos()[1]
+                	results.append([trial, xpos, ypos, time.time() - t, x, 'nmPos: ' + printPos, 'no'])
+                	mywin.update()
+                	time.sleep(5) # ITI for incorrect
+                	c3 = True
     
     return results
 
