@@ -130,22 +130,22 @@ def execTask():
 				button3 = mouse.isPressedIn(sample) #changes
 				button4 = mouse.isPressedIn(nonmatch) #changes
 
-		if button3 == True:
-			control.correctAnswer()
-			xpos = mouse.getPos()[0]
-			ypos = mouse.getPos()[1]
-			results.append([trial, xpos, ypos, time.time() - t, x, 'nmPos: ' + printPos, 'yes'])
-			mywin.update()
-			time.sleep(3) # ITI for correct
-			c3 = True 
-		elif button4 == True:
-			control.incorrectAnswer()
-			xpos = mouse.getPos()[0]
-			ypos = mouse.getPos()[1]
-			results.append([trial, xpos, ypos, time.time() - t, x, 'nmPos: ' + printPos, 'no'])
-			mywin.update()
-			time.sleep(5) # ITI for incorrect
-			c3 = True
+			if button3 == True:
+				control.correctAnswer()
+				xpos = mouse.getPos()[0]
+				ypos = mouse.getPos()[1]
+				results.append([trial, xpos, ypos, time.time() - t, x, 'nmPos: ' + printPos, 'yes'])
+				mywin.update()
+				time.sleep(3) # ITI for correct
+				c3 = True 
+			elif button4 == True:
+				control.incorrectAnswer()
+				xpos = mouse.getPos()[0]
+				ypos = mouse.getPos()[1]
+				results.append([trial, xpos, ypos, time.time() - t, x, 'nmPos: ' + printPos, 'no'])
+				mywin.update()
+				time.sleep(5) # ITI for incorrect
+				c3 = True
 	
 	return results
 
