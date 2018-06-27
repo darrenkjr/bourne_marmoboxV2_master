@@ -11,9 +11,9 @@ def execTask():
 	delay2 = 0.5
 	size = 200
 	mPos = [0,0]
-	nmPos = []
-	ciPos = []
-	crPos = []
+	nmPos = [0,0]
+	ciPos = [0,0]
+	crPos = [0,0]
 
 	mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
