@@ -48,6 +48,13 @@ def execTask():
 		mywin.update()
 		time.sleep(delay1)
 
+		# create stimuli
+		
+		circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
+		cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
+		#sampleCover = visual.GratingStim(win=mywin, size=size, pos=mPos, sf=0, color=[-1, -1, -1], colorSpace='rgb')  # check if necessary
+		#nmCover = visual.GratingStim(win=mywin, size=size, pos=nmPos, sf=0, color=[-1, -1, -1], colorSpace='rgb')
+		
 		# show sample
 
 		a = random.randint(0, 1)  # try to pseudo-randomize later
@@ -63,13 +70,6 @@ def execTask():
 			crPos = mPos
 			ciPos = nmPos
 			x = 'red cross'
-
-		# create stimuli
-		
-		circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
-		cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
-		#sampleCover = visual.GratingStim(win=mywin, size=size, pos=mPos, sf=0, color=[-1, -1, -1], colorSpace='rgb')  # check if necessary
-		#nmCover = visual.GratingStim(win=mywin, size=size, pos=nmPos, sf=0, color=[-1, -1, -1], colorSpace='rgb')
 
 		sample.draw()
 		#sampleCover.draw()  # check if necessary
