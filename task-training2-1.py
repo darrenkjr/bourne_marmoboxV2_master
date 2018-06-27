@@ -109,7 +109,7 @@ def execTask():
         trial += 1
 	t=time.time()
 
-        c3 == False
+        c3 = False
         while c3 == False:
         
             while not mouse.getPressed()[0]:
