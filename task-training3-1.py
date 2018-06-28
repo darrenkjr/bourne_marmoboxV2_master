@@ -9,7 +9,7 @@ def execTask():
 	limitTrial = 10  # modify
 	stepNumber = 5
 	mainDelay = 1
-    delay1 = 1
+	delay1 = 1
 	delay2 = 0.5
 	size = 200
 	
@@ -54,11 +54,9 @@ def execTask():
 		
 		# create stimuli
 		sPos = [0,0]
-		ciPos = [0,0]
-		crPos = [0,0]
 		
-		circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
-		cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
+		circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=sPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
+		cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=sPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
 		
 		# show sample
 
@@ -67,34 +65,22 @@ def execTask():
 			a = random.randint(0,1)
 			if a == 0:
 				sample = circle
-				nonmatch = cross
-				ciPos = sPos
-				crPos = nmPos
 				x = 'blue circle'
 				c4 += 1
 			elif a == 1:
-				sample = cross
-				nonmatch = circle
-				crPos = sPos
-				ciPos = nmPos	 	
+				sample = cross	
 				x = 'red cross'
 				c5 += 1
 
 		elif c4 < stimLimit and c5 == stimLimit:
 			a = 0
 			sample = circle
-			nonmatch = cross
-			ciPos = sPos
-			crPos = nmPos
 			x = 'blue circle'
 			c4 += 1
 
 		elif c4 == stimLimit and c5 < stimLimit:
 			a = 1
-			sample = cross
-			nonmatch = circle
-			crPos = sPos
-			ciPos = nmPos	 	
+			sample = cross 	
 			x = 'red cross'
 			c5 += 1
 
@@ -134,7 +120,7 @@ def execTask():
 		mywin.update()
 		time.sleep(delay2)
 
-        # show sample a third time
+		# show sample a third time
 
 		sample.draw()
 		mywin.update()
@@ -160,27 +146,27 @@ def execTask():
 			b = random.randint(0,1)
 			if b == 0:
 				nmPos = [-400,0]
-                mPos = [400,0]
-				printPos = 'left'
+				mPos = [400,0]
+				printPos = 'right'
 				c6 += 1
 			elif b == 1:
 				nmPos = [400,0]
-                mPos = [-400,0]
-				printPos = 'right'
+				mPos = [-400,0]
+				printPos = 'left'
 				c7 += 1
 
 		elif c6 < stimLimit and c7 == stimLimit:
 			b = 0
 			nmPos = [-400,0]
-            mPos = [400,0]
-			printPos = 'left'
+			mPos = [400,0]
+			printPos = 'right'
 			c6 += 1	
 			
 		elif c6 == stimLimit and c7 < stimLimit:
 			b = 1
 			nmPos = [400,0]
-            mPos = [-400,0]
-			printPos = 'right'
+			mPos = [-400,0]
+			printPos = 'left'
 			c7 += 1	
 
 		if a == 0:
@@ -216,7 +202,7 @@ def execTask():
 				control.correctAnswer()
 				xpos = mouse.getPos()[0]
 				ypos = mouse.getPos()[1]
-				results.append([trial, xpos, ypos, time.time() - t, x, 'nmPos: ' + printPos, 'mPos: ' + str(xtrans) + ' px', 'yes'])
+				results.append([trial, xpos, ypos, time.time() - t, x, 'mPos: ' + printPos, 'yes'])
 				mywin.update()
 				time.sleep(3) # ITI for correct
 				c3 = True 
@@ -225,7 +211,7 @@ def execTask():
 				control.incorrectAnswer()
 				xpos = mouse.getPos()[0]
 				ypos = mouse.getPos()[1]
-				results.append([trial, xpos, ypos, time.time() - t, x, 'nmPos: ' + printPos, 'mPos: ' + str(xtrans) + ' px', 'no'])
+				results.append([trial, xpos, ypos, time.time() - t, x, 'mPos: ' + printPos, 'no'])
 				mywin.update()
 				time.sleep(5) # ITI for incorrect
 				c3 = True
