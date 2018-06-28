@@ -71,7 +71,7 @@ def execTask():
 				crPos = nmPos
 				x = 'blue circle'
 				c4 += 1
-			else:
+			elif a == 1:
 				sample = cross
 				nonmatch = circle
 				crPos = mPos
@@ -123,7 +123,7 @@ def execTask():
 				nmPos = [-400,0]
 				printPos = 'left'
 				c6 += 1
-			else:
+			elif b == 1:
 				nmPos = [400,0]
 				printPos = 'right'
 				c7 += 1
