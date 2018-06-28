@@ -6,8 +6,8 @@ import marmocontrol as control
 
 def execTask():
 	
-	limitTrial = 8  # modify
-	stepNumber = 4
+	limitTrial = 10  # modify
+	stepNumber = 5
 	delay1 = 1
 	delay2 = 0.5
 	size = 200
@@ -137,7 +137,7 @@ def execTask():
 			printPos = 'left'
 			c6 += 1	
 			
-		elif c6 < stimLimit and c7 == stimLimit:
+		elif c6 == stimLimit and c7 < stimLimit:
 			b = 1
 			nmPos = [400,0]
 			printPos = 'right'
