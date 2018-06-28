@@ -150,13 +150,13 @@ def execTask():
 			xtrans *= -1
 			
 		if a == 0:
-			circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=sPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')
+			circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=mPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')
 			cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=nmPos, sf=0, color=[1, -1, -1], colorSpace='rgb')
 			nonmatch = cross		
 		
 		elif a == 1:
 			circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=nmPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')
-			cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=sPos, sf=0, color=[1, -1, -1], colorSpace='rgb')
+			cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=mPos, sf=0, color=[1, -1, -1], colorSpace='rgb')
 			nonmatch = circle
 
 		sample.draw()
