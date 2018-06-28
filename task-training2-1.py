@@ -6,7 +6,7 @@ import marmocontrol as control
 
 def execTask():
 
-	limitTrial = 3  # modify
+	limitTrial = 8  # modify
 	delay1 = 1
 	delay2 = 0.5
 	size = 200
