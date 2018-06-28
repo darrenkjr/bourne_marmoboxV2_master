@@ -1,3 +1,5 @@
+### need to make changes so that final positions are not fixed (left or right) ###
+
 from psychopy import visual, core, logging, event
 import time
 import random
