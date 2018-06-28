@@ -18,7 +18,6 @@ def execTask():
 	transFactor = limitTrial // stepNumber #number of success trials to next lateral translation
 	successCounter = 0
 	trial = 0
-	buttons = []
 	results = []
 	xpos = 0
 	ypos = 0
@@ -186,7 +185,7 @@ def execTask():
 				time.sleep(3) # ITI for correct
 				successCounter += 1
 				if successCounter > 0:
-					if successCounter % transFactor == 0 and  -400 <= xtrans >= 400: #limits of lateral translation
+					if successCounter % transFactor == 0 and -400 <= xtrans <= 400: #limits of lateral translation
 						if xtrans <= 0:
 							xtrans -= 100
 						elif xtrans >= 0:
