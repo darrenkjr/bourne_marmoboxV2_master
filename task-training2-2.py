@@ -149,6 +149,12 @@ def execTask():
 		elif a == 1:
 			crPos = mPos
 
+		if b == 0 and xtrans < 0:
+			xtrans *= -1
+
+		elif b == 1 and xtrans > 0:
+			xtrans *= -1
+		
 		circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')
 		cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')
 		
@@ -158,11 +164,7 @@ def execTask():
 		elif a == 1:
 			nonmatch = circle
 
-		if b == 0 and xtrans < 0:
-			xtrans *= -1
 
-		elif b == 1 and xtrans > 0:
-			xtrans *= -1
 		
 		sample.draw()
 		nonmatch.draw()
