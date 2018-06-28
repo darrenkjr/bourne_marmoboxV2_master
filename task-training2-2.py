@@ -116,7 +116,26 @@ def execTask():
 
 		mywin.update()
 		time.sleep(delay2)
+
+		# show sample again
+
+		sample.draw()
+		mywin.update()
+
+		c2 = False
+		while c2 == False:	
+			while not mouse.getPressed()[0]:
+				time.sleep(0.01)
+			else:
+				button2 = mouse.isPressedIn(sample)
+
+			if button2 == True:
+				control.correctAnswer(False)
+				c2 = True
 		
+		mywin.update()
+		time.sleep(delay2)
+
 		# forced choice
 		
 		if c6 < stimLimit and c7 < stimLimit:
