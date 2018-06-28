@@ -153,15 +153,15 @@ def execTask():
 			circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=mPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')
 			cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=nmPos, sf=0, color=[1, -1, -1], colorSpace='rgb')
 			nonmatch = cross
-			sample = circle		
+			match = circle		
 		
 		elif a == 1:
 			circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=nmPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')
 			cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=mPos, sf=0, color=[1, -1, -1], colorSpace='rgb')
 			nonmatch = circle
-			sample = cross
+			match = cross
 
-		sample.draw()
+		match.draw()
 		nonmatch.draw()
 		mywin.update()
 		mouse.clickReset()
@@ -175,7 +175,7 @@ def execTask():
 			while not mouse.getPressed()[0]:
 				time.sleep(0.01)
 			else:
-				button3 = mouse.isPressedIn(sample)
+				button3 = mouse.isPressedIn(match)
 				button4 = mouse.isPressedIn(nonmatch)
 
 			if button3 == True:
