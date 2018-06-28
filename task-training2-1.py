@@ -20,6 +20,13 @@ def execTask():
 	xpos = 0
 	ypos = 0
 
+	#set stimuli limit and trial counter variables
+	stimLimit = limitTrial // 2
+	c4 = 0
+	c5 = 0
+	c6 = 0
+	c7 = 0
+
 	while trial < limitTrial:
 		
 		# show warning
@@ -54,19 +61,41 @@ def execTask():
 		
 		# show sample
 
-		a = random.randint(0, 1)  # try to pseudo-randomize later
-		if a == 0:
+		if c4 < stimLimit and c5 < stimLimit:
+			
+			a = random.randint(0,1)
+			if a == 0:
+				sample = circle
+				nonmatch = cross
+				ciPos = mPos
+				crPos = nmPos
+				x = 'blue circle'
+				c4 += 1
+			else:
+				sample = cross
+				nonmatch = circle
+				crPos = mPos
+				ciPos = nmPos	 	
+				x = 'red cross'
+				c5 += 1
+
+		elif c4 < stimLimit and c5 == stimLimit:
+			a = 0
 			sample = circle
 			nonmatch = cross
 			ciPos = mPos
 			crPos = nmPos
 			x = 'blue circle'
-		elif a == 1:
+			c4 += 1
+
+		elif c4 == stimLimit and c5 < stimLimit:
+			a = 1
 			sample = cross
 			nonmatch = circle
 			crPos = mPos
-			ciPos = nmPos
+			ciPos = nmPos	 	
 			x = 'red cross'
+			c5 += 1
 
 		sample.draw()
 		mywin.update()
@@ -87,14 +116,30 @@ def execTask():
 		
 		# forced choice
 		
-		b = random.randint(0,1)
-		if b == 0:
+		if c6 < stimLimit and c7 < stimLimit:
+
+			b = random.randint(0,1)
+			if b == 0:
+				nmPos = [-400,0]
+				printPos = 'left'
+				c6 += 1
+			else:
+				nmPos = [400,0]
+				printPos = 'right'
+				c7 += 1
+
+		elif c6 < stimLimit and c7 == stimLimit:
+			b = 0
 			nmPos = [-400,0]
 			printPos = 'left'
-		else:
+			c6 += 1	
+			
+		elif c6 < stimLimit and c7 == stimLimit:
+			b = 1
 			nmPos = [400,0]
 			printPos = 'right'
-			
+			c7 += 1	
+		
 		circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=nmPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')
 		cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=nmPos, sf=0, color=[1, -1, -1], colorSpace='rgb')
 		
@@ -148,3 +193,13 @@ def execTask():
 # sample touched, delay2
 # display matching sample (centre) and nonmatching sample (left or right, pseudorandomised)
 # NB touching background does not affect task.
+
+#NOTES - for easier pseudorandom sampling?
+# limitTrial = 6
+#lowRange = limitTrial/2
+#highRange = lowRange + 1
+#stimuli = list(range(0, limitTrial))
+#cirles = list(range(0, lowRange))
+#crosses = list(range(highRange, limitTrial)
+#x = random.sample(stim,limitTrial)
+#print x
