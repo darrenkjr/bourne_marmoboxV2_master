@@ -172,14 +172,18 @@ def execTask():
 			c7 += 1	
 
 		if a == 0:
-			circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=mPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')
-			cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=nmPos, sf=0, color=[1, -1, -1], colorSpace='rgb')
+			ciPos = mPos
+			crPos = nmPos
+			circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')
+			cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')
 			nonmatch = cross
 			match = circle		
 		
 		elif a == 1:
-			circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=nmPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')
-			cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=mPos, sf=0, color=[1, -1, -1], colorSpace='rgb')
+			ciPos = nmPos
+			crPos = mPos
+			circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')
+			cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')
 			nonmatch = circle
 			match = cross
 
