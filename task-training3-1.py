@@ -3,7 +3,6 @@ import time
 import random
 import marmocontrol as control
 
-
 def execTask():
 	
 	limitTrial = 10  # modify
@@ -16,8 +15,6 @@ def execTask():
 	mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
 
-	transFactor = limitTrial // stepNumber #number of success trials to next lateral translation
-	successCounter = 0
 	trial = 0
 	results = []
 	xpos = 0
