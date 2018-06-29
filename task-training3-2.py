@@ -32,8 +32,9 @@ def execTask():
 	while trial < limitTrial:
 		
 		# show warning
-
-		warning = visual.GratingStim(win=mywin, size=size, mask='raisedCos', pos=[0, 0], sf=0, color=[-1, -1, -1], colorSpace='rgb')
+		
+		#warning = visual.GratingStim(win=mywin, size=size, pos=[0, 0], sf=0, color=[-1, -1, -1], colorSpace='rgb')
+		warning = visual.polygon(win=mywin, edges=3, size=size, pos=[0,0], sf=0, color=[-1, -1, -1], colorSpace='rgb')
 		warning.draw()
 		mywin.update()
 
@@ -56,7 +57,7 @@ def execTask():
 		
 		circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=sPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
 		cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=sPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
-		
+
 		# show sample
 
 		if c4 < stimLimit and c5 < stimLimit:
