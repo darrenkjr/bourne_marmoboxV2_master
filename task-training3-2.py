@@ -33,7 +33,7 @@ def execTask():
 		
 		# show warning
 
-		warning = visual.GratingStim(win=mywin, size=size, mask='gauss', pos=[0, 0], sf=0, color=[-1, -1, -1], colorSpace='rgb')
+		warning = visual.GratingStim(win=mywin, size=size, mask='raisedCos', pos=[0, 0], sf=0, color=[-1, -1, -1], colorSpace='rgb')
 		warning.draw()
 		mywin.update()
 
