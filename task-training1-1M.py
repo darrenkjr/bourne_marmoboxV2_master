@@ -13,7 +13,7 @@ def execTask():
 	imagefilenames = os.listdir('./images')
 	imggrating = []
 	for filename in imagefilenames:
-		imggrating.append(visual.ImageStim(win=mywin, image='./images/'+str(filename), pos=[0,0], size= [200,200]))
+		imggrating.append(visual.ImageStim(win=mywin, image='./images/'+str(filename), pos=[0,0], size= [400,400]))
 	limitTrial=20
 	trial = 0
 	buttons = []
