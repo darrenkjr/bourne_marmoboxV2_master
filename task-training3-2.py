@@ -60,7 +60,7 @@ def execTask():
 		nmPos1 = [0,0]
 		nmPos2 = [0,0]
 
-# change triangle size and index position	
+# change triangle size and index position 	
 		circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=sPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
 		cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=sPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
 		triangle = visual.Polygon(win=mywin, edges = 3, radius = 100, units = "pix", pos=sPos, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
