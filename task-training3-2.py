@@ -60,10 +60,10 @@ def execTask():
 		nmPos1 = [0,0]
 		nmPos2 = [0,0]
 
-		
+# change triangle size and index position	
 		circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=sPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
 		cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=sPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
-		triangle = visual.Polygon(win=mywin, edges = 3, pos=sPos, size=size, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
+		triangle = visual.Polygon(win=mywin, edges = 3, radius = 100, units = "pix", pos=sPos, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
 
 		# show sample
 
@@ -384,13 +384,15 @@ def execTask():
 				nmPos1 = right
 				nmPos2 = left
 
+#smooth out triangle position errors
+
 		if x == 'blue circle':
 			ciPos = mPos
 			crPos = nmPos1
 			trPos = nmPos2
 			circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
 			cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
-			triangle = visual.Polygon(win=mywin, edges = 3, pos=trPos, size=size, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
+			triangle = visual.Polygon(win=mywin, edges = 3, pos=trPos, radius = 100, units = "pix", fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
 			match = circle
 			nonmatch1 = cross
 			nonmatch2 = triangle
@@ -401,7 +403,7 @@ def execTask():
 			trPos = nmPos2
 			circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
 			cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
-			triangle = visual.Polygon(win=mywin, edges = 3, pos=trPos, size=size, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
+			triangle = visual.Polygon(win=mywin, edges = 3, pos=trPos, radius = 100, units = "pix", fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
 			match = cross
 			nonmatch1 = circle
 			nonmatch2 = triangle
@@ -412,7 +414,7 @@ def execTask():
 			crPos = nmPos2
 			circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
 			cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
-			triangle = visual.Polygon(win=mywin, edges = 3, pos=trPos, size=size, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
+			triangle = visual.Polygon(win=mywin, edges = 3, pos=trPos, radius = 100, units = "pix", fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
 			match = triangle
 			nonmatch1 = circle
 			nonmatch2 = cross
