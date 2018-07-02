@@ -6,7 +6,6 @@ import marmocontrol as control
 def execTask():
 	
 	limitTrial = 10  # modify
-	stepNumber = 5
 	mainDelay = 1
 	delay1 = 1
 	delay2 = 0.5
@@ -21,12 +20,15 @@ def execTask():
 	ypos = 0
 
 	#set stimuli limit and trial counter variables
-	stimLimit = limitTrial // 2
-	c4 = 0
-	c5 = 0
-	c6 = 0
-	c7 = 0
-	
+	stimLimit = limitTrial // 3
+	posLimit = limitTrial // 3
+	c4 = 0 #circle
+	c5 = 0 #cross
+	c6 = 0 #triangle
+	c8 = 0 #match left
+	c7 = 0 #match centre
+	c9 = 0 #match right
+
 	while trial < limitTrial:
 		
 		# show warning
@@ -51,36 +53,122 @@ def execTask():
 		
 		# create stimuli
 		sPos = [0,0]
+		ciPos = [0,0]
+		crPos = [0,0]
+		trPos = [0,0]
+		mPos = [0,0]
+		nmPos1 = [0,0]
+		nmPos2 = [0,0]
+
 		
 		circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=sPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
 		cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=sPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
-		triangle = visual.Polygon(win=mywin, edges = 3, pos=[0,0], size=200, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
+		triangle = visual.Polygon(win=mywin, edges = 3, pos=sPos, size=size, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
 
 		# show sample
 
-		if c4 < stimLimit and c5 < stimLimit:
+		if c4 < stimLimit and c5 < stimLimit and c6 < stimLimit:
 			
-			a = random.randint(0,1)
+			a = random.randint(0,2)
 			if a == 0:
 				sample = circle
+				ciPos = mPos
+				crPos = nmPos1
+				trPos = nmPos2
 				x = 'blue circle'
 				c4 += 1
 			elif a == 1:
-				sample = cross	
+				sample = cross
+				ciPos = nmPos1
+				crPos = mPos
+				trPos = nmPos2	
 				x = 'red cross'
 				c5 += 1
+			elif a == 2:
+				sample = triangle
+				ciPos = nmPos1
+				crPos = nmPos2
+				trPos = mPos	
+				x = 'yellow triangle'
+				c6 += 1
 
-		elif c4 < stimLimit and c5 == stimLimit:
-			a = 0
+		elif c4 < stimLimit and c5 == stimLimit and c6 < stimLimit:
+
+			a = random.randint(0,1)
+			if a == 0:
+				sample = circle
+				ciPos = mPos
+				crPos = nmPos1
+				trPos = nmPos2
+				x = 'blue circle'
+				c4 += 1
+			elif a == 1:
+				sample = triangle
+				ciPos = nmPos1
+				crPos = nmPos2
+				trPos = mPos	
+				x = 'yellow triangle'
+				c6 += 1			
+
+		elif c4 == stimLimit and c5 < stimLimit and c6 < stimLimit:
+
+			a = random.randint(0,1)
+			if a == 0:
+				sample = cross
+				ciPos = nmPos1
+				crPos = mPos
+				trPos = nmPos2
+				x = 'red cross'
+				c5 += 1
+			elif a == 1:
+				sample = triangle
+				ciPos = nmPos1
+				crPos = nmPos2
+				trPos = mPos	
+				x = 'yellow triangle'
+				c6 += 1		
+
+		elif c4 < stimLimit and c5 < stimLimit and c6 == stimLimit:
+
+			a = random.randint(0,1)
+			if a == 0:
+				sample = circle
+				ciPos = mPos
+				crPos = nmPos1
+				trPos = nmPos2
+				x = 'blue circle'
+				c4 += 1
+			elif a == 1:
+				sample = cross
+				ciPos = nmPos1
+				crPos = mPos
+				trPos = nmPos2
+				x = 'red cross'
+				c5 += 1		
+
+		elif c4 < stimLimit and c5 == stimLimit and c6 == stimLimit:
 			sample = circle
+			ciPos = mPos
+			crPos = nmPos1
+			trPos = nmPos2
 			x = 'blue circle'
 			c4 += 1
 
-		elif c4 == stimLimit and c5 < stimLimit:
-			a = 1
-			sample = cross 	
+		elif c4 == stimLimit and c5 < stimLimit and c6 == stimLimit:
+			sample = cross
+			ciPos = nmPos1
+			crPos = mPos
+			trPos = nmPos2
 			x = 'red cross'
 			c5 += 1
+
+		elif c4 == stimLimit and c5 == stimLimit and c6 < stimLimit:
+			sample = triangle
+			ciPos = nmPos1
+			crPos = nmPos2
+			trPos = mPos		
+			x = 'yellow triangle'
+			c6 += 1
 
 		sample.draw()
 		mywin.update()
@@ -133,58 +221,205 @@ def execTask():
 			if button2 == True:
 				control.correctAnswer(False)
 				c2 = True
-		
+				
 		mywin.update()
 		time.sleep(mainDelay)
 
 		# forced choice
 		
-		if c6 < stimLimit and c7 < stimLimit:
+		left = [-400,0]
+		centre = [0,0]
+		right = [400,0]
 
-			b = random.randint(0,1)
+		d = random.randint(0,1)
+
+		if c7 < posLimit and c8 < posLimit and c9 < posLimit:
+
+			b = random.randint(0,2)
+
 			if b == 0:
-				nmPos = [-400,0]
-				mPos = [400,0]
-				printPos = 'right'
-				c6 += 1
-			elif b == 1:
-				nmPos = [400,0]
-				mPos = [-400,0]
+				mPos = left
 				printPos = 'left'
 				c7 += 1
+				if d == 0:
+					nmPos1 = centre
+					nmPos2 = right
+				else:
+					nmPos1 = right
+					nmPos2 = centre
 
-		elif c6 < stimLimit and c7 == stimLimit:
-			b = 0
-			nmPos = [-400,0]
-			mPos = [400,0]
-			printPos = 'right'
-			c6 += 1	
+			elif b == 1:
+				mPos = centre
+				printPos = 'centre'
+				c8 += 1
+				if d == 0:
+					nmPos1 = left
+					nmPos2 = right
+				else:
+					nmPos1 = right
+					nmPos2 = left
+
+			elif b == 2:
+				mPos = right
+				printPos = 'right'
+				c9 += 1
+				if d == 0:
+					nmPos1 = left
+					nmPos2 = centre
+				else:
+					nmPos1 = centre
+					nmPos2 = right
+
+		elif c7 == stimLimit and c8 < stimLimit and c9 < stimLimit:
+
+			b = random.randint(0,1)
+
+			if b == 0:
+				mPos = centre
+				printPos = 'centre'
+				c8 += 1
+				if d == 0:
+					nmPos1 = left
+					nmPos2 = right
+				else:
+					nmPos1 = right
+					nmPos2 = left
+
+			elif b == 1:
+				mPos = right
+				printPos = 'right'
+				c9 += 1
+				if d == 0:
+					nmPos1 = left
+					nmPos2 = centre
+				else:
+					nmPos1 = centre
+					nmPos2 = right
+
+		elif c7 < stimLimit and c8 == stimLimit and c9 < stimLimit:
+
+			b = random.randint(0,1)
+
+			if b == 0:
+				mPos = left
+				printPos = 'left'
+				c7 += 1
+				if d == 0:
+					nmPos1 = centre
+					nmPos2 = right
+				else:
+					nmPos1 = right
+					nmPos2 = centre
 			
-		elif c6 == stimLimit and c7 < stimLimit:
-			b = 1
-			nmPos = [400,0]
-			mPos = [-400,0]
-			printPos = 'left'
-			c7 += 1	
+			elif b == 1:
+				mPos = right
+				printPos = 'right'
+				c9 += 1
+				if d == 0:
+					nmPos1 = left
+					nmPos2 = centre
+				else:
+					nmPos1 = centre
+					nmPos2 = right		
 
-		if a == 0:
-			ciPos = mPos
-			crPos = nmPos
-			circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')
-			cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')
-			nonmatch = cross
-			match = circle		
+		elif c7 < stimLimit and c8 < stimLimit and c9 == stimLimit:
+
+			b = random.randint(0,1)
+
+			if b == 0:
+				mPos = left
+				printPos = 'left'
+				c7 += 1
+				if d == 0:
+					nmPos1 = centre
+					nmPos2 = right
+				else:
+					nmPos1 = right
+					nmPos2 = centre
+
+			elif b == 1:
+				mPos = centre
+				printPos = 'centre'
+				c8 += 1
+				if d == 0:
+					nmPos1 = left
+					nmPos2 = right
+				else:
+					nmPos1 = right
+					nmPos2 = left
+
+		elif c7 == stimLimit and c8 == stimLimit and c9 < stimLimit:
+
+			mPos = right
+			printPos = 'right'
+			c9 += 1
+			if d == 0:
+				nmPos1 = left
+				nmPos2 = centre
+			else:
+				nmPos1 = centre
+				nmPos2 = right
+
+		elif c7 < stimLimit and c8 == stimLimit and c9 == stimLimit:
 		
-		elif a == 1:
-			ciPos = nmPos
+			mPos = left
+			printPos = 'left'
+			c7 += 1
+			if d == 0:
+				nmPos1 = centre
+				nmPos2 = right
+			else:
+				nmPos1 = right
+				nmPos2 = centre
+
+		elif c7 == stimLimit and c8 < stimLimit and c9 == stimLimit:
+
+			mPos = centre
+			printPos = 'centre'
+			c8 += 1
+			if d == 0:
+				nmPos1 = left
+				nmPos2 = right
+			else:
+				nmPos1 = right
+				nmPos2 = left
+
+		if x == 'blue circle':
+			ciPos = mPos
+			crPos = nmPos1
+			trPos = nmPos2
+			circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
+			cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
+			triangle = visual.Polygon(win=mywin, edges = 3, pos=trPos, size=size, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
+			match = circle
+			nonmatch1 = cross
+			nonmatch2 = triangle
+
+		elif x == 'red cross':
 			crPos = mPos
-			circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')
-			cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')
-			nonmatch = circle
+			ciPos = nmPos1
+			trPos = nmPos2
+			circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
+			cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
+			triangle = visual.Polygon(win=mywin, edges = 3, pos=trPos, size=size, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
 			match = cross
+			nonmatch1 = circle
+			nonmatch2 = triangle
+
+		elif x == 'yellow triangle':
+			trPos = mPos
+			ciPos = nmPos1
+			crPos = nmPos2
+			circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
+			cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
+			triangle = visual.Polygon(win=mywin, edges = 3, pos=trPos, size=size, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
+			match = triangle
+			nonmatch1 = circle
+			nonmatch2 = cross
 
 		match.draw()
-		nonmatch.draw()
+		nonmatch1.draw()
+		nonmatch2.draw()
 		mywin.update()
 		mouse.clickReset()
 
@@ -198,7 +433,8 @@ def execTask():
 				time.sleep(0.01)
 			else:
 				button3 = mouse.isPressedIn(match)
-				button4 = mouse.isPressedIn(nonmatch)
+				button4 = mouse.isPressedIn(nonmatch1)
+				button5 = mouse.isPressedIn(nonmatch2)
 
 			if button3 == True:
 				control.correctAnswer()
@@ -209,7 +445,7 @@ def execTask():
 				time.sleep(3) # ITI for correct
 				c3 = True 
 
-			elif button4 == True:
+			elif button4 == True or button5 == True:
 				control.incorrectAnswer()
 				xpos = mouse.getPos()[0]
 				ypos = mouse.getPos()[1]
