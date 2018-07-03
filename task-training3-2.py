@@ -267,7 +267,7 @@ def execTask():
 					nmPos2 = centre
 				else:
 					nmPos1 = centre
-					nmPos2 = right
+					nmPos2 = left
 
 		elif c7 == stimLimit and c8 < stimLimit and c9 < stimLimit:
 
@@ -293,7 +293,7 @@ def execTask():
 					nmPos2 = centre
 				else:
 					nmPos1 = centre
-					nmPos2 = right
+					nmPos2 = left
 
 		elif c7 < stimLimit and c8 == stimLimit and c9 < stimLimit:
 
@@ -319,7 +319,7 @@ def execTask():
 					nmPos2 = centre
 				else:
 					nmPos1 = centre
-					nmPos2 = right		
+					nmPos2 = left		
 
 		elif c7 < stimLimit and c8 < stimLimit and c9 == stimLimit:
 
@@ -357,7 +357,7 @@ def execTask():
 				nmPos2 = centre
 			else:
 				nmPos1 = centre
-				nmPos2 = right
+				nmPos2 = left
 
 		elif c7 < stimLimit and c8 == stimLimit and c9 == stimLimit:
 		
