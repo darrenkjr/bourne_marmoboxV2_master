@@ -24,7 +24,7 @@ def execTask():
 	posLimit = limitTrial // 3
 	c4 = 0 #circle
 	c5 = 0 #cross
-	c6 = 0 #triangle
+	c6 = 0 #diamond
 	c8 = 0 #match left
 	c7 = 0 #match centre
 	c9 = 0 #match right
@@ -36,7 +36,7 @@ def execTask():
 		warning = visual.GratingStim(win=mywin, size=size, pos=[0, 0], sf=0, color=[-1, -1, -1], colorSpace='rgb')
 		warning.draw()
 		mywin.update()
-
+		# Wait for mouse l
 		c1 = False
 		while c1 == False:
 			while not mouse.getPressed()[0]:
@@ -62,7 +62,7 @@ def execTask():
 	
 		circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=sPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
 		cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=sPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
-		triangle = visual.Polygon(win=mywin, edges = 3, size = size, pos=sPos, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
+		diamond = visual.Polygon(win=mywin, edges = 4, size = size, pos=sPos, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
 
 		# show sample
 
@@ -84,11 +84,11 @@ def execTask():
 				x = 'red cross'
 				c5 += 1
 			elif a == 2:
-				sample = triangle
+				sample = diamond
 				ciPos = nmPos1
 				crPos = nmPos2
 				trPos = mPos	
-				x = 'yellow triangle'
+				x = 'yellow diamond'
 				c6 += 1
 
 		elif c4 < stimLimit and c5 == stimLimit and c6 < stimLimit:
@@ -102,11 +102,11 @@ def execTask():
 				x = 'blue circle'
 				c4 += 1
 			elif a == 1:
-				sample = triangle
+				sample = diamond
 				ciPos = nmPos1
 				crPos = nmPos2
 				trPos = mPos	
-				x = 'yellow triangle'
+				x = 'yellow diamond'
 				c6 += 1			
 
 		elif c4 == stimLimit and c5 < stimLimit and c6 < stimLimit:
@@ -120,11 +120,11 @@ def execTask():
 				x = 'red cross'
 				c5 += 1
 			elif a == 1:
-				sample = triangle
+				sample = diamond
 				ciPos = nmPos1
 				crPos = nmPos2
 				trPos = mPos	
-				x = 'yellow triangle'
+				x = 'yellow diamond'
 				c6 += 1		
 
 		elif c4 < stimLimit and c5 < stimLimit and c6 == stimLimit:
@@ -162,11 +162,11 @@ def execTask():
 			c5 += 1
 
 		elif c4 == stimLimit and c5 == stimLimit and c6 < stimLimit:
-			sample = triangle
+			sample = diamond
 			ciPos = nmPos1
 			crPos = nmPos2
 			trPos = mPos		
-			x = 'yellow triangle'
+			x = 'yellow diamond'
 			c6 += 1
 
 		sample.draw()
@@ -383,7 +383,7 @@ def execTask():
 				nmPos1 = right
 				nmPos2 = left
 
-#smooth out triangle position errors
+#smooth out diamond position errors
 
 		if x == 'blue circle':
 			ciPos = mPos
@@ -392,10 +392,10 @@ def execTask():
 			#trPos[1] = -30
 			circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
 			cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
-			triangle = visual.Polygon(win=mywin, edges = 3, pos=trPos, size = size, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
+			diamond = visual.Polygon(win=mywin, edges = 4, pos=trPos, size = size, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
 			match = circle
 			nonmatch1 = cross
-			nonmatch2 = triangle
+			nonmatch2 = diamond
 
 		elif x == 'red cross':
 			crPos = mPos
@@ -404,20 +404,20 @@ def execTask():
 			#trPos[1] = -30
 			circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
 			cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
-			triangle = visual.Polygon(win=mywin, edges = 3, pos=trPos, size = size, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
+			diamond = visual.Polygon(win=mywin, edges = 4, pos=trPos, size = size, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
 			match = cross
 			nonmatch1 = circle
-			nonmatch2 = triangle
+			nonmatch2 = diamond
 
-		elif x == 'yellow triangle':
+		elif x == 'yellow diamond':
 			trPos = mPos
 			#trPos[1] = -30
 			ciPos = nmPos1
 			crPos = nmPos2
 			circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=ciPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
 			cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=crPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
-			triangle = visual.Polygon(win=mywin, edges = 3, pos=trPos, size = size, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
-			match = triangle
+			diamond = visual.Polygon(win=mywin, edges = 4, pos=trPos, size = size, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
+			match = diamond
 			nonmatch1 = circle
 			nonmatch2 = cross
 
