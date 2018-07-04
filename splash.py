@@ -11,14 +11,14 @@ while 1:
         print('Reward delivered.')
     elif r == 'n':
         taskname = raw_input('Select Task: ')
-        delay = input('Set Delay: ')
-       try:
-        marmobox.run(taskname,delay,mywin)
-       except:
+        delay = input('Set Delay: ')=
+        try:
+            marmobox.run(taskname,delay,mywin)
+        except:
            mywin.close()
            marmocontrol.force_stop()
            print 'An error occured.'
-       finally:
+        finally:
             mywin = visual.Window([1600,900], monitor="testMonitor", units="pix", pos = (0,0))
 
 	   
