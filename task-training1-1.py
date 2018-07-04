@@ -3,7 +3,7 @@ from psychopy.tools.monitorunittools import posToPix
 import time
 import marmocontrol as control
 
-def execTask():
+def execTask(mywin):
 
 	#create window
 	mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")

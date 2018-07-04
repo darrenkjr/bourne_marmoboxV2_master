@@ -28,9 +28,9 @@ def pickrand(mywin):
 		im  = visual.GratingStim(win=mywin,mask='cross', size=size,sf=0, color =[-1,1,-1] , colorSpace='rgb')
 	return im, y
 
-def execTask():
+def execTask(mywin):
 
-    mywin = visual.Window([1600,960], monitor="testMonitor", units="deg")
+#     mywin = visual.Window([1600,960], monitor="testMonitor", units="deg")
 
     #create some stimuli
     mouse = event.Mouse(win=mywin)

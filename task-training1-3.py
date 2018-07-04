@@ -2,10 +2,10 @@ from psychopy import visual, core, logging, event
 import time, random
 import marmocontrol as control
 
-def execTask():
+def execTask(mywin):
 
 	#create window
-	mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
+	# mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
         stepNumber = 5 
     	limitTrial = 15 #modify

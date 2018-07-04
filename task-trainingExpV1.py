@@ -4,9 +4,9 @@ import marmocontrol as control
 
 pause = control.getParamTrialDelay()
 
-def execTask():
+def execTask(mywin):
     #create a window
-    mywin = visual.Window([1600,960], monitor="testMonitor", units="deg")
+    # mywin = visual.Window([1600,960], monitor="testMonitor", units="deg")
     #pause = s.pauseTime()
     #create some stimuli
     mouse = event.Mouse(win=mywin)

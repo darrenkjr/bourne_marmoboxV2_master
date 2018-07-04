@@ -4,9 +4,9 @@ import time
 import marmocontrol as control
 import os
 
-def execTask():
+def execTask(mywin):
 	#create window
-	mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
+	# mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
 	#create stimulus
 	grating = visual.GratingStim(win=mywin, size=700, pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb' )

@@ -89,10 +89,10 @@ def isCorrect(y, mouse, im1, im2, im3, im4, im5):
 
 
 
-def execTask():
+def execTask(mywin):
     #create some stimuli
 
-    mywin = visual.Window([1600,960],monitor="testMonitor", units="deg")
+#     mywin = visual.Window([1600,960],monitor="testMonitor", units="deg")
     mouse = event.Mouse(win=mywin)
 
     buttons = []

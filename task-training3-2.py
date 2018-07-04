@@ -3,7 +3,7 @@ import time
 import random
 import marmocontrol as control
 
-def execTask():
+def execTask(mywin):
 	
 	limitTrial = 12  # modify
 	mainDelay = 1
@@ -11,7 +11,7 @@ def execTask():
 	delay2 = 0.5
 	size = 200
 	
-	mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix")
+	# mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
 	
 	trial = 0
@@ -22,18 +22,29 @@ def execTask():
 	#set stimuli limit and trial counter variables
 	stimLimit = limitTrial // 3
 	posLimit = limitTrial // 3
-	c4 = 0 #circle
-	c5 = 0 #cross
-	c6 = 0 #diamond
 	c8 = 0 #match left
 	c7 = 0 #match centre
 	c9 = 0 #match right
+	
+	#Sample Stimuli- Gratings
+		# create stimuli
+	sPos = [0,0]
 
+	circle_sam = visual.GratingStim(win=mywin, mask='circle', size=size, pos=sPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
+	cross_sam = visual.GratingStim(win=mywin, mask='cross', size=size, pos=sPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
+	diamond_sam = visual.Polygon(win=mywin, edges = 4, size = size, pos=sPos, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
+	stimulusNames = ['blue circle', 'red cross', 'yellow diamond']
+	stimList = [circle_sam,cross_sam,diamond_sam]
+	stimulus_list = []
+	for i in range(len(stimulusNames)):
+		for j in range(stimLimit):
+			stimulus_list.append(i)
+
+	warning = visual.GratingStim(win=mywin, size=size, pos=[0, 0], sf=0, color=[-1, -1, -1], colorSpace='rgb')
+	
 	while trial < limitTrial:
 		
 		# show warning
-		
-		warning = visual.GratingStim(win=mywin, size=size, pos=[0, 0], sf=0, color=[-1, -1, -1], colorSpace='rgb')
 		warning.draw()
 		mywin.update()
 		# Wait for mouse l
@@ -50,125 +61,11 @@ def execTask():
 
 		mywin.update()
 		time.sleep(delay1)
-		
-		# create stimuli
-		sPos = [0,0]
-		ciPos = [0,0]
-		crPos = [0,0]
-		trPos = [0,0]
-		mPos = [0,0]
-		nmPos1 = [0,0]
-		nmPos2 = [0,0]
-	
-		circle = visual.GratingStim(win=mywin, mask='circle', size=size, pos=sPos, sf=0, color=[-1, -1, 1], colorSpace='rgb')  # blue
-		cross = visual.GratingStim(win=mywin, mask='cross', size=size, pos=sPos, sf=0, color=[1, -1, -1], colorSpace='rgb')  # red
-		diamond = visual.Polygon(win=mywin, edges = 4, size = size, pos=sPos, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
 
 		# show sample
-
-		if c4 < stimLimit and c5 < stimLimit and c6 < stimLimit:
-			
-			a = random.randint(0,2)
-			if a == 0:
-				sample = circle
-				ciPos = mPos
-				crPos = nmPos1
-				trPos = nmPos2
-				x = 'blue circle'
-				c4 += 1
-			elif a == 1:
-				sample = cross
-				ciPos = nmPos1
-				crPos = mPos
-				trPos = nmPos2	
-				x = 'red cross'
-				c5 += 1
-			elif a == 2:
-				sample = diamond
-				ciPos = nmPos1
-				crPos = nmPos2
-				trPos = mPos	
-				x = 'yellow diamond'
-				c6 += 1
-
-		elif c4 < stimLimit and c5 == stimLimit and c6 < stimLimit:
-
-			a = random.randint(0,1)
-			if a == 0:
-				sample = circle
-				ciPos = mPos
-				crPos = nmPos1
-				trPos = nmPos2
-				x = 'blue circle'
-				c4 += 1
-			elif a == 1:
-				sample = diamond
-				ciPos = nmPos1
-				crPos = nmPos2
-				trPos = mPos	
-				x = 'yellow diamond'
-				c6 += 1			
-
-		elif c4 == stimLimit and c5 < stimLimit and c6 < stimLimit:
-
-			a = random.randint(0,1)
-			if a == 0:
-				sample = cross
-				ciPos = nmPos1
-				crPos = mPos
-				trPos = nmPos2
-				x = 'red cross'
-				c5 += 1
-			elif a == 1:
-				sample = diamond
-				ciPos = nmPos1
-				crPos = nmPos2
-				trPos = mPos	
-				x = 'yellow diamond'
-				c6 += 1		
-
-		elif c4 < stimLimit and c5 < stimLimit and c6 == stimLimit:
-
-			a = random.randint(0,1)
-			if a == 0:
-				sample = circle
-				ciPos = mPos
-				crPos = nmPos1
-				trPos = nmPos2
-				x = 'blue circle'
-				c4 += 1
-			elif a == 1:
-				sample = cross
-				ciPos = nmPos1
-				crPos = mPos
-				trPos = nmPos2
-				x = 'red cross'
-				c5 += 1		
-
-		elif c4 < stimLimit and c5 == stimLimit and c6 == stimLimit:
-			sample = circle
-			ciPos = mPos
-			crPos = nmPos1
-			trPos = nmPos2
-			x = 'blue circle'
-			c4 += 1
-
-		elif c4 == stimLimit and c5 < stimLimit and c6 == stimLimit:
-			sample = cross
-			ciPos = nmPos1
-			crPos = mPos
-			trPos = nmPos2
-			x = 'red cross'
-			c5 += 1
-
-		elif c4 == stimLimit and c5 == stimLimit and c6 < stimLimit:
-			sample = diamond
-			ciPos = nmPos1
-			crPos = nmPos2
-			trPos = mPos		
-			x = 'yellow diamond'
-			c6 += 1
-
+		stim_pick = stimulus_list.pop(random.randint(0,len(stimulus_list)-1))
+		sample = stimList[stim_pick]
+		x = stimulusNames[stim_pick]
 		sample.draw()
 		mywin.update()
 

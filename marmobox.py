@@ -3,11 +3,8 @@ import argparse
 import importlib
 import time
 from psychopy import visual
-def run(taskname,delay):
-
+def run(taskname,delay,mywin):
    # detect marmoset
-   mywin = visual.Window([1600,960], monitor="testMonitor", units="deg", pos = (0,0))
-   mywin.flip()
    print 'Attempting to detect marmoset...'
    beamInput = True
    while beamInput:
@@ -17,9 +14,7 @@ def run(taskname,delay):
 
    # read RFID tag
    # implement with rfid.py
-
    # launch experiment
-
    print 'Starting task: ' + str(taskname) + ' in ' + str(delay) + ' seconds...'
 
    time.sleep(float(delay))
@@ -27,8 +22,8 @@ def run(taskname,delay):
    print 'Started!'
 
    task = importlib.import_module(taskname)
-   mywin.close()
-   results = task.execTask()
+#    mywin.close()
+   results = task.execTask(mywin)
 
    print 'Done. These are the task results: \n'
 
@@ -51,4 +46,5 @@ if __name__ == '__main__':
    args = vars(ap.parse_args())
    delay = float(args['delay'])
    task = args['task']
-   run(task,delay)
+   mywin = visual.Window([1600,960], monitor="testMonitor", units="deg", pos = (0,0))
+   run(task,delay,mywin)
