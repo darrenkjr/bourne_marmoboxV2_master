@@ -11,7 +11,7 @@ while 1:
         print('Reward delivered.')
     elif r == 'n':
         taskname = raw_input('Select Task: ')
-        delay = input('Set Delay: ')=
+        delay = input('Set Delay: ')
         try:
             marmobox.run(taskname,delay,mywin)
         except:
