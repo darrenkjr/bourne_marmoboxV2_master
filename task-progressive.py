@@ -13,10 +13,10 @@ def clearscreen(mywin):
 def appendEvent(results, trial, xpos, ypos, time, reward):
     results.append([trial, xpos, ypos, time, reward])
 
-def execTask():
+def execTask(mywin):
 
     #create a window
-    mywin = visual.Window([1600,960], monitor="testMonitor", units="deg")
+#     mywin = visual.Window([1600,960], monitor="testMonitor", units="deg")
 
     #create some stimuli
     mouse = event.Mouse(win=mywin)

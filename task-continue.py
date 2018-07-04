@@ -66,9 +66,9 @@ def pickrand(mywin):
 	return correct, wrong1, wrong2, wrong3, wrong4
 
 
-def execTask():
+def execTask(mywin):
     #create a window
-    mywin = visual.Window([1600,960], monitor="testMonitor", units="deg")
+#     mywin = visual.Window([1600,960], monitor="testMonitor", units="deg")
 
     #create some stimuli
     mouse = event.Mouse(win=mywin)
