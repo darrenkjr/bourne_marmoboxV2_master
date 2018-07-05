@@ -2,11 +2,13 @@ from psychopy import visual, core, logging, event
 from psychopy.tools.monitorunittools import posToPix 
 import time
 import marmocontrol as control
+from reports import Report
 
 def execTask(mywin):
 
 	#create window
-	mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
+	# mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
+	reportobj = Report('training1-1','testanimal')
 	mouse = event.Mouse(win=mywin)
 
 	#create stimulus
@@ -22,6 +24,9 @@ def execTask(mywin):
 		trial = trial+1
 		t=time.time() #returns time in sec as float
 		
+		reportobj.addEvent('Draw Stimulus Cross. Trial: ' + str(trial))
+		reportobj.save()
+
 		grating.draw()
 		mywin.update()
 		mouse.clickReset() #resets a timer for timing button clicks
@@ -36,11 +41,14 @@ def execTask(mywin):
 		if buttons == True:
 			control.correctAnswer()
 			results.append([trial, xpos, ypos, time.time() - t, '-', 'yes'])
+			reportobj.addEvent('Mouse Correct')
 		else:
 			control.incorrectAnswer()
 			results.append([trial, xpos, ypos, time.time() - t, '-', 'no'])
 			mywin.update()
+			reportobj.addEvent('Mouse InCorrect')
 			core.wait(2) # specifies timeout period
+		reportobj.save()
    
 	return results
 	

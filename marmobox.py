@@ -46,5 +46,5 @@ if __name__ == '__main__':
    args = vars(ap.parse_args())
    delay = float(args['delay'])
    task = args['task']
-   mywin = visual.Window([1600,960], monitor="testMonitor", units="deg", pos = (0,0))
+   mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix", pos = (0,0))
    run(task,delay,mywin)

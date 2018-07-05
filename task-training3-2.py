@@ -2,10 +2,11 @@ from psychopy import visual, core, logging, event
 import time
 import random
 import marmocontrol as control
+import numpy as np
 
 def execTask(mywin):
 	
-	limitTrial = 12  # modify
+	limitTrial = 6  # modify
 	mainDelay = 1
 	delay1 = 1
 	delay2 = 0.5
@@ -22,9 +23,6 @@ def execTask(mywin):
 	#set stimuli limit and trial counter variables
 	stimLimit = limitTrial // 3
 	posLimit = limitTrial // 3
-	c8 = 0 #match left
-	c7 = 0 #match centre
-	c9 = 0 #match right
 	
 	#Sample Stimuli- Gratings
 		# create stimuli
@@ -35,10 +33,13 @@ def execTask(mywin):
 	diamond_sam = visual.Polygon(win=mywin, edges = 4, size = size, pos=sPos, fillColor = [1,1,-1], lineColor = [1,1,-1], fillColorSpace = 'rgb', lineColorSpace = 'rgb') #yellow
 	stimulusNames = ['blue circle', 'red cross', 'yellow diamond']
 	stimList = [circle_sam,cross_sam,diamond_sam]
-	stimulus_list = []
-	for i in range(len(stimulusNames)):
-		for j in range(stimLimit):
-			stimulus_list.append(i)
+	stimCount = list(np.ones(len(stimList), dtype=np.int) * stimLimit)
+
+	left = [-400,0]
+	centre = [0,0]
+	right = [400,0]
+	positions = {'left':left,'centre':centre,'right':right}
+	posCount = {'left':posLimit,'centre':posLimit,'right':posLimit}
 
 	warning = visual.GratingStim(win=mywin, size=size, pos=[0, 0], sf=0, color=[-1, -1, -1], colorSpace='rgb')
 	
@@ -62,223 +63,48 @@ def execTask(mywin):
 		mywin.update()
 		time.sleep(delay1)
 
-		# show sample
-		stim_pick = stimulus_list.pop(random.randint(0,len(stimulus_list)-1))
+		stim_pick = random.randint(0,len(stimList)-1)
+		stimCount[stim_pick] -= 1
 		sample = stimList[stim_pick]
 		x = stimulusNames[stim_pick]
-		sample.draw()
-		mywin.update()
+		if stimCount[stim_pick] <= 0:
+			stimList.pop(stim_pick)
+			stimulusNames.pop(stim_pick)
+			stimCount.pop(stim_pick)
 
-		c2 = False
-		while c2 == False:	
-			while not mouse.getPressed()[0]:
-				time.sleep(0.01)
-			else:
-				button2 = mouse.isPressedIn(sample)
+		#Show sample 3 Times
+		for _ in range(0,3):
+			sample.draw()
+			mywin.update()
 
-			if button2 == True:
-				control.correctAnswer(False)
-				c2 = True
+			c2 = False
+			while c2 == False:	
+				while not mouse.getPressed()[0]:
+					time.sleep(0.01)
+				else:
+					button2 = mouse.isPressedIn(sample)
 
-		mywin.update()
-		time.sleep(delay2)
+				if button2 == True:
+					control.correctAnswer(False)
+					c2 = True
 
-		# show sample again
-
-		sample.draw()
-		mywin.update()
-
-		c2 = False
-		while c2 == False:	
-			while not mouse.getPressed()[0]:
-				time.sleep(0.01)
-			else:
-				button2 = mouse.isPressedIn(sample)
-
-			if button2 == True:
-				control.correctAnswer(False)
-				c2 = True
+			mywin.update()
+			time.sleep(delay2)
 		
-		mywin.update()
-		time.sleep(delay2)
-
-		# show sample a third time
-
-		sample.draw()
-		mywin.update()
-
-		c2 = False
-		while c2 == False:	
-			while not mouse.getPressed()[0]:
-				time.sleep(0.01)
-			else:
-				button2 = mouse.isPressedIn(sample)
-
-			if button2 == True:
-				control.correctAnswer(False)
-				c2 = True
-				
-		mywin.update()
-		time.sleep(mainDelay)
+		time.sleep(mainDelay-delay2)
 
 		# forced choice
-		
-		left = [-400,0]
-		centre = [0,0]
-		right = [400,0]
-
-		d = random.randint(0,1)
-
-		if c7 < posLimit and c8 < posLimit and c9 < posLimit:
-
-			b = random.randint(0,2)
-
-			if b == 0:
-				mPos = left
-				printPos = 'left'
-				c7 += 1
-				if d == 0:
-					nmPos1 = centre
-					nmPos2 = right
-				else:
-					nmPos1 = right
-					nmPos2 = centre
-
-			elif b == 1:
-				mPos = centre
-				printPos = 'centre'
-				c8 += 1
-				if d == 0:
-					nmPos1 = left
-					nmPos2 = right
-				else:
-					nmPos1 = right
-					nmPos2 = left
-
-			elif b == 2:
-				mPos = right
-				printPos = 'right'
-				c9 += 1
-				if d == 0:
-					nmPos1 = left
-					nmPos2 = centre
-				else:
-					nmPos1 = centre
-					nmPos2 = left
-
-		elif c7 == stimLimit and c8 < stimLimit and c9 < stimLimit:
-
-			b = random.randint(0,1)
-
-			if b == 0:
-				mPos = centre
-				printPos = 'centre'
-				c8 += 1
-				if d == 0:
-					nmPos1 = left
-					nmPos2 = right
-				else:
-					nmPos1 = right
-					nmPos2 = left
-
-			elif b == 1:
-				mPos = right
-				printPos = 'right'
-				c9 += 1
-				if d == 0:
-					nmPos1 = left
-					nmPos2 = centre
-				else:
-					nmPos1 = centre
-					nmPos2 = left
-
-		elif c7 < stimLimit and c8 == stimLimit and c9 < stimLimit:
-
-			b = random.randint(0,1)
-
-			if b == 0:
-				mPos = left
-				printPos = 'left'
-				c7 += 1
-				if d == 0:
-					nmPos1 = centre
-					nmPos2 = right
-				else:
-					nmPos1 = right
-					nmPos2 = centre
-			
-			elif b == 1:
-				mPos = right
-				printPos = 'right'
-				c9 += 1
-				if d == 0:
-					nmPos1 = left
-					nmPos2 = centre
-				else:
-					nmPos1 = centre
-					nmPos2 = left		
-
-		elif c7 < stimLimit and c8 < stimLimit and c9 == stimLimit:
-
-			b = random.randint(0,1)
-
-			if b == 0:
-				mPos = left
-				printPos = 'left'
-				c7 += 1
-				if d == 0:
-					nmPos1 = centre
-					nmPos2 = right
-				else:
-					nmPos1 = right
-					nmPos2 = centre
-
-			elif b == 1:
-				mPos = centre
-				printPos = 'centre'
-				c8 += 1
-				if d == 0:
-					nmPos1 = left
-					nmPos2 = right
-				else:
-					nmPos1 = right
-					nmPos2 = left
-
-		elif c7 == stimLimit and c8 == stimLimit and c9 < stimLimit:
-
-			mPos = right
-			printPos = 'right'
-			c9 += 1
-			if d == 0:
-				nmPos1 = left
-				nmPos2 = centre
-			else:
-				nmPos1 = centre
-				nmPos2 = left
-
-		elif c7 < stimLimit and c8 == stimLimit and c9 == stimLimit:
-		
-			mPos = left
-			printPos = 'left'
-			c7 += 1
-			if d == 0:
-				nmPos1 = centre
-				nmPos2 = right
-			else:
-				nmPos1 = right
-				nmPos2 = centre
-
-		elif c7 == stimLimit and c8 < stimLimit and c9 == stimLimit:
-
-			mPos = centre
-			printPos = 'centre'
-			c8 += 1
-			if d == 0:
-				nmPos1 = left
-				nmPos2 = right
-			else:
-				nmPos1 = right
-				nmPos2 = left
+		# Three stimuli displayed 
+		randPos = random.choice(posCount.keys())
+		printPos = randPos
+		mPos = positions[randPos]
+		posTemp = dict(positions)
+		posTemp.pop(randPos)
+		nmPos1=posTemp.pop(random.choice(posTemp.keys()))
+		nmPos2=posTemp.pop(random.choice(posTemp.keys()))
+		posCount[randPos] -= 1
+		if posCount[randPos] <= 0:
+			posCount.pop(randPos)
 
 #smooth out diamond position errors
 

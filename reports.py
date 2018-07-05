@@ -3,36 +3,38 @@ import csv
 import datetime
 import time
 class Report:
-    def __init__(self,taskname):
+    def __init__(self,taskname,animal):
         self.startTime = self.timeStamp()
         self.Events = []
-        self.filename = './data/'+self.startTime['string'] + str(taskname) + '.csv'
+        self.filename = './data/'+str(taskname) + '/' + str(animal) + '/' + self.startTime['string'] + '.csv'
         def createStartEvent():
-            self.Events.append({'time':self.startTime,'info':'Start'})
+            self.Events.append({'time':self.startTime['time'],'info':'Start'})
         createStartEvent()
 
     def timeStamp(self):
         ts = time.time()
         st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-        return {'string':st,'seconds':ts}
+        tt = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
+        return {'string':st,'seconds':ts,'time':tt}
     def addEvent(self,eventInfo):
         time = self.timeStamp()
         info = eventInfo
-        self.Events.append({'time':time,'info':info})
+        print time['time']
+        self.Events.append({'time':str(time['time']),'info':info})
         return
     def save(self):
         with open(self.filename, 'wb') as f:
             reswrite = csv.writer(f, delimiter = ',')
             for item in self.Events:
                 if type(item['info'])==dict:
-                    info = [item['time']['string'],item['time']['seconds']]
+                    info = [item['time']]
                     for key in item['info']:
                         info.append(key)
                         print key
                         info.append(item['info'][key])
                     reswrite.writerow(info)
                 elif type(item['info'])==str:
-                    reswrite.writerow([item['time']['string'],item['time']['seconds'],item['info']])
+                    reswrite.writerow([item['time'],item['info']])
                 else:
                     raise Exception('Wrong Type... needs to be dict or string')
 
