@@ -6,10 +6,11 @@ from psychopy import visual
 def run(taskname,delay,mywin):
    # detect marmoset
    print 'Attempting to detect marmoset...'
-   beamInput = True
-   while beamInput:
-       time.sleep(0.1)
-       beamInput = control.readBeam()
+   beamInput = False
+   #beamInput = True
+   #while beamInput:
+   #    time.sleep(0.1)
+   #    beamInput = control.readBeam()
    print 'Found! Now attempting to read RFID tag...'
 
    # read RFID tag
