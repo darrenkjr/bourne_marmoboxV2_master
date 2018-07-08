@@ -21,7 +21,6 @@ class Report:
     def addEvent(self,eventInfo):
         time = self.timeStamp()
         info = eventInfo
-        print time['time']
         self.Events.append({'time':str(time['time']),'info':info})
         return
     def save(self):
@@ -38,7 +37,6 @@ class Report:
                     info = [item['time']]
                     for key in item['info']:
                         info.append(key)
-                        print key
                         info.append(item['info'][key])
                     reswrite.writerow(info)
                 elif type(item['info'])==str:

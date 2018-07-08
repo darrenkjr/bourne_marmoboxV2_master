@@ -48,14 +48,14 @@ def execTask(mywin):
 			buttons = mouse.isPressedIn(grating) #Returns True if mouse pressed in grating
 
 		if buttons == True:
-			control.correctAnswer()
-			results.append([trial, xpos, ypos, time.time() - t, '-', 'yes'])
+				control.correctAnswer()
+				results.append([trial, xpos, ypos, time.time() - t, '-', 'yes'])
 		else:
 			control.incorrectAnswer()
 			results.append([trial, xpos, ypos, time.time() - t, '-', 'no'])
 			mywin.update()
 			core.wait(2) # specifies timeout period
-   
+
 	return results
 	
 	
