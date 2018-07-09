@@ -23,16 +23,16 @@ def execTask(mywin):
     ypos = 0
     touchTimeout = False
     while trial < limitTrial:
-		trial = trial+1
-		t = time.time()  # returns time in sec as float
+        trial = trial+1
+        t = time.time()  # returns time in sec as float
 
-		reportobj.addEvent('Draw Stimulus Cross. Trial: ' + str(trial))
-		reportobj.save()
+        reportobj.addEvent('Draw Stimulus Cross. Trial: ' + str(trial))
+        reportobj.save()
 
-		grating.draw()
-		mywin.update()
-		mouse.clickReset()  # resets a timer for timing button clicks
-		checking = False
+        grating.draw()
+        mywin.update()
+        mouse.clickReset()  # resets a timer for timing button clicks
+        checking = False
         while not checking:
             while not mouse.getPressed()[0]:# checks whether mouse button (i.e. button '0') was pressed 
                 time.sleep(0.01) # Sleeps if not pressed and then checks again after 10ms
@@ -56,14 +56,12 @@ def execTask(mywin):
                 checking=True
             reportobj.save()
         
+    return results
     
-
-return results
-	
-	
-	
-	
-	
-	
+    
+    
+    
+    
+    
 
 
