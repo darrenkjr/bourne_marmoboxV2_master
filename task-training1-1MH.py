@@ -56,6 +56,8 @@ def execTask(mywin):
 					results.append([trial, xpos, ypos, time.time() - t, '-', 'yes'])
 					touchTimeout = True
 					x = False
+				else:
+					time.sleep(0.01)
 			else:
 				control.incorrectAnswer()
 				results.append([trial, xpos, ypos, time.time() - t, '-', 'no'])
@@ -64,11 +66,3 @@ def execTask(mywin):
 				x = False
    
 	return results
-	
-	
-	
-	
-	
-	
-
-

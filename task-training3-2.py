@@ -6,7 +6,7 @@ import numpy as np
 
 def execTask(mywin):
 	
-	limitTrial = 6  # modify
+	limitTrial = 12  # modify
 	mainDelay = 1
 	delay1 = 1
 	delay2 = 0.5

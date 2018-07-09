@@ -5,9 +5,9 @@ class marmoIO:
     On = True
     Off = False
     def __init__(self,PIN_LED_BLUE,PIN_LED_GREEN,PIN_BUZZER,PIN_PUMP,PIN_BEAM,BUZZER_PITCH_CORRECT,BUZZER_PITCH_INCORRECT,DEFAULT_DUTYCYCLE):
-        print 'Buzzer GPIO Pin: ' + str(PIN_BUZZER )
-        print 'Buzzer Pitch incorrect: '+str(BUZZER_PITCH_INCORRECT)
-        print 'Buzzer Pitch correct: ' + str(BUZZER_PITCH_CORRECT)
+        # print 'Buzzer GPIO Pin: ' + str(PIN_BUZZER )
+        # print 'Buzzer Pitch incorrect: '+str(BUZZER_PITCH_INCORRECT)
+        # print 'Buzzer Pitch correct: ' + str(BUZZER_PITCH_CORRECT)
         self.PIN_LED_GREEN = PIN_LED_GREEN
         self.PIN_LED_BLUE = PIN_LED_BLUE
         self.PIN_PUMP = PIN_PUMP
@@ -31,21 +31,21 @@ class marmoIO:
             print 'Pump On'
         else:
             print 'Pump Off'
-        print 'Pin: ' + str(self.PIN_PUMP)
+        # print 'Pin: ' + str(self.PIN_PUMP)
 
     def GreenLED(self,state): #State is either 1 on or 0 off
         if state:
             print 'GreenLED On' 
         else:
             print 'GreenLED Off'
-        print 'Pin: ' + str(self.PIN_PUMP)
+        # print 'Pin: ' + str(self.PIN_PUMP)
 
     def BlueLED(self,state): #State is either 1 on or 0 off
         if state:
             print 'BlueLED On' 
         else:
             print 'BlueLED Off'
-        print 'Pin: ' + str(self.PIN_PUMP)
+        # print 'Pin: ' + str(self.PIN_PUMP)
 
     def readBeam(self):
         val = raw_input('Press any key then Enter/Return to continue')
