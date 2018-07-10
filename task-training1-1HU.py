@@ -22,7 +22,7 @@ def execTask(mywin):
     touchTimeout = False
     while trial < limitTrial:
         trial = trial+1
-        t=time.time() #returns time in sec as float
+        t=time.time() #returns time in seconds as float
         
         reportobj.addEvent('Draw Stimulus Cross. Trial: ' + str(trial))
         reportobj.save()
