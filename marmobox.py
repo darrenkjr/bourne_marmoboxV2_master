@@ -32,6 +32,8 @@ def run(taskname,delay,mywin):
    for r in results:
        print ','.join(str(c) for c in r)
 
+   print 'Reward delivered: ' + hits*(0.003*control.DEFAULT_DUTYCYCLE) + 'ml.' #temporary modifications
+
     #if/elif statement which directs program to animal's csv. file (RFID dependent or otherwise)
 
  #  path = '/home/pi/marmobox/data/F1920.csv'
