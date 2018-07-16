@@ -25,14 +25,12 @@ def run(taskname,delay,mywin):
    task = importlib.import_module(taskname)
 #    mywin.close()
    results = task.execTask(mywin)
-
+    
    print 'Done. These are the task results: \n'
 
    print 'trial,xpos,ypos,time,stimulus,reward'
    for r in results:
        print ','.join(str(c) for c in r)
-
-   print 'Reward delivered: ' + hits*(0.003*control.DEFAULT_DUTYCYCLE) + 'ml.' #temporary modifications
 
     #if/elif statement which directs program to animal's csv. file (RFID dependent or otherwise)
 

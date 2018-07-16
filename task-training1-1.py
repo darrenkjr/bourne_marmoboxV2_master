@@ -13,7 +13,7 @@ def execTask(mywin):
 
 	#create stimulus
 	grating = visual.GratingStim(win=mywin, size=700, pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb' )
-	limitTrial=5
+	limitTrial=20
 	trial = 0
 	buttons = []
 	results = []
@@ -53,7 +53,7 @@ def execTask(mywin):
 		reportobj.save()
 		
 	return results
-	return hits
+	
 	
 	
 	
