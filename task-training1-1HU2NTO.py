@@ -13,7 +13,7 @@ def execTask(mywin):
 
     #create stimulus
     grating = visual.GratingStim(win=mywin, size=(700,226), pos=[0,240], sf=0, color = [-1,-1,1], colorSpace='rgb' )
-    limitTrial=40
+    limitTrial=200
     trial = 0
     buttons = []
     results = []
