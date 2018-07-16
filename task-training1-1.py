@@ -19,6 +19,7 @@ def execTask(mywin):
 	results = []
 	xpos = 0
 	ypos = 0
+	hits = 0
 
 	while trial < limitTrial:
 		trial = trial+1
@@ -42,6 +43,7 @@ def execTask(mywin):
 			control.correctAnswer()
 			results.append([trial, xpos, ypos, time.time() - t, '-', 'yes'])
 			reportobj.addEvent('Mouse Correct')
+			hits += 1
 		else:
 			control.incorrectAnswer()
 			results.append([trial, xpos, ypos, time.time() - t, '-', 'no'])
@@ -49,7 +51,8 @@ def execTask(mywin):
 			reportobj.addEvent('Mouse InCorrect')
 			core.wait(2) # specifies timeout period
 		reportobj.save()
-   
+		
+	print 'Reward delivered: ' + hits*(0.003*control.DEFAULT_DUTYCYCLE) + 'ml.' #temporary modfications
 	return results
 	
 	
