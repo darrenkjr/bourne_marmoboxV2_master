@@ -1,5 +1,3 @@
-# Settings for Touch Training Phases 3 - 5 and Tasks.
-
 LOG_FILENAME_PREFIX='log'
 RFID_READ_TIMEOUT=5
 
