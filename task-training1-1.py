@@ -52,7 +52,7 @@ def execTask(mywin):
 			core.wait(2) # specifies timeout period
 		reportobj.save()
 		
-	print 'Reward delivered: ' + hits*(0.003*control.DEFAULT_DUTYCYCLE) + 'ml.' #temporary modifications
+#	print 'Reward delivered: ' + hits*(0.003*control.DEFAULT_DUTYCYCLE) + 'ml.' #temporary modifications
 	return results
 	
 	
