@@ -11,7 +11,7 @@ def execTask(mywin):
 	reportobj = Report('training1-1','testanimal')
 	mouse = event.Mouse(win=mywin)
 
-	#create stimulus
+	#create stimulus here
 	grating = visual.GratingStim(win=mywin, size=(1280,720), pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb' )
 	limitTrial=40
 	trial = 0
