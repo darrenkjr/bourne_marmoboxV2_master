@@ -6,3 +6,5 @@ GPIO.setup(settings.PIN_PUMP, GPIO.OUT, initial=GPIO.LOW)
 time.sleep(15)
 GPIO.setup(settings.PIN_PUMP, GPIO.OUT, initial=GPIO.HIGH)
 GPIO.cleanup()
+
+#jack
