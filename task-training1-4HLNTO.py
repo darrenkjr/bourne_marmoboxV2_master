@@ -122,8 +122,9 @@ def execTask(mywin):
 				control.incorrectAnswer()
 				printPos = str(stimPosx) + ',' + str(stimPosy)
 				results.append([trial, xpos, ypos, time.time() - t, x, printPos, 'no'])
-				checking = True
 				mywin.update()
+				checking = True
+				
    
 	return results
 	
