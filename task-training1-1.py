@@ -8,7 +8,7 @@ def execTask(mywin):
 
 	#create window
 	# mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
-	reportobj = Report('training1-1','testanimal')
+#	reportobj = Report('training1-1','testanimal')
 	mouse = event.Mouse(win=mywin)
 
 	#create stimulus
@@ -25,8 +25,8 @@ def execTask(mywin):
 		trial = trial+1
 		t=time.time() #returns time in sec as float
 		
-		reportobj.addEvent('Draw Stimulus Cross. Trial: ' + str(trial))
-		reportobj.save()
+	#	reportobj.addEvent('Draw Stimulus Cross. Trial: ' + str(trial))
+	#	reportobj.save()
 
 		grating.draw()
 		mywin.update()
@@ -42,18 +42,17 @@ def execTask(mywin):
 		if buttons == True:
 			control.correctAnswer()
 			results.append([trial, xpos, ypos, time.time() - t, '-', 'yes'])
-			reportobj.addEvent('Mouse Correct')
+	#		reportobj.addEvent('Mouse Correct')
 			hits += 1
 		else:
 			control.incorrectAnswer()
 			results.append([trial, xpos, ypos, time.time() - t, '-', 'no'])
 			mywin.update()
-			reportobj.addEvent('Mouse InCorrect')
+	#		reportobj.addEvent('Mouse InCorrect')
 			core.wait(2) # specifies timeout period
-		reportobj.save()
+	#	reportobj.save()
 
-	# success = float((hits / limitTrial) * 100)
-	finalResults = 'Main Results: \n' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str(success) + '%' + ' success'
+	finalResults = 'Main Results: \n' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success'
 	print(finalResults)
 	return results
 	
