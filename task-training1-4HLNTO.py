@@ -119,12 +119,14 @@ def execTask(mywin):
 					time.sleep(0.01)
 
 			else:
-				control.incorrectAnswer()
-				printPos = str(stimPosx) + ',' + str(stimPosy)
-				results.append([trial, xpos, ypos, time.time() - t, x, printPos, 'no'])
-				mywin.update()
-				checking = True
-				
+				if not touchTimeout:
+					control.incorrectAnswer()
+					printPos = str(stimPosx) + ',' + str(stimPosy)
+					results.append([trial, xpos, ypos, time.time() - t, x, printPos, 'no'])
+					mywin.update()
+					checking = True
+				else:
+					time.sleep(0.01)
    
 	return results
 	
