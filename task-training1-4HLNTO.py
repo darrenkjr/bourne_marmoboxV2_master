@@ -114,7 +114,7 @@ def execTask(mywin):
 					results.append([trial, xpos, ypos, time.time() - t, x, printPos, 'yes'])
 					touchTimeout = True
 					checking = True
-					mywin.update()
+					#mywin.update()
 				else:
 					time.sleep(0.01)
 
