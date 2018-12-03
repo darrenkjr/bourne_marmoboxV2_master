@@ -52,7 +52,7 @@ def execTask(mywin):
 			core.wait(2) # specifies timeout period
 		reportobj.save()
 
-	success = float((hits / limitTrial) * 100)
+	# success = float((hits / limitTrial) * 100)
 	finalResults = 'Main Results: \n' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str(success) + '%' + ' success'
 	print(finalResults)
 	return results
