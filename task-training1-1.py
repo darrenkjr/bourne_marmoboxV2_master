@@ -13,7 +13,7 @@ def execTask(mywin):
 
 	#create stimulus
 	grating = visual.GratingStim(win=mywin, size=700, pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb' )
-	limitTrial=20
+	limitTrial=3
 	trial = 0
 	buttons = []
 	results = []
@@ -51,7 +51,10 @@ def execTask(mywin):
 			reportobj.addEvent('Mouse InCorrect')
 			core.wait(2) # specifies timeout period
 		reportobj.save()
-		
+
+	success = float((hits / limitTrial) * 100)
+	finalResults = 'Main Results: \n' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str(success) + '%' + ' success'
+	print(finalResults)
 	return results
 	
 	
