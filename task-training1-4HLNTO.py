@@ -97,25 +97,33 @@ def execTask(mywin):
 		mywin.update()
 		mouse.clickReset() #resets a timer for timing button clicks
 		
-		while not mouse.getPressed()[0]:# checks whether mouse button (i.e. button '0') was pressed 
-			time.sleep(0.01) # Sleeps if not pressed and then checks again after 10ms
-		else: #If pressed
-			xpos = mouse.getPos()[0] #Returns current positions of mouse during press
-			ypos = mouse.getPos()[1]
-			buttons = mouse.isPressedIn(grating) #Returns True if mouse pressed in grating
+		checking = False
+		while not checking:
+			while not mouse.getPressed()[0]:# checks whether mouse button (i.e. button '0') was pressed 
+				touchTimeout = False
+				time.sleep(0.01) # Sleeps if not pressed and then checks again after 10ms
+			else: #If pressed
+				xpos = mouse.getPos()[0] #Returns current positions of mouse during press
+				ypos = mouse.getPos()[1]
+				buttons = mouse.isPressedIn(grating) #Returns True if mouse pressed in grating
 
-		if buttons == True:
-			control.correctAnswer()
-			printPos = str(stimPosx) + ',' + str(stimPosy)
-			results.append([trial, xpos, ypos, time.time() - t, x, printPos, 'yes'])
-			mywin.update()
+			if buttons == True:
+				if not touchTimeout:
+					control.correctAnswer()
+					printPos = str(stimPosx) + ',' + str(stimPosy)
+					results.append([trial, xpos, ypos, time.time() - t, x, printPos, 'yes'])
+					touchTimeout = True
+					checking = true
+					mywin.update()
+				else:
+					time.sleep(0.01)
 
-		else:
-			control.incorrectAnswer()
-			printPos = str(stimPosx) + ',' + str(stimPosy)
-			results.append([trial, xpos, ypos, time.time() - t, x, printPos, 'no'])
-			mywin.update()
-			# core.wait(2) # specifies trial delay
+			else:
+				control.incorrectAnswer()
+				printPos = str(stimPosx) + ',' + str(stimPosy)
+				results.append([trial, xpos, ypos, time.time() - t, x, printPos, 'no'])
+				checking = True
+				mywin.update()
    
 	return results
 	
