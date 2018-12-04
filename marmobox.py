@@ -26,11 +26,12 @@ def run(taskname,delay,mywin):
 #    mywin.close()
    results = task.execTask(mywin)
     
-   print 'Detailed results: \n'
+   print 'Detailed Results: \n'
 
-   print 'trial,xpos,ypos,time,stimulus,reward'
+   print 'Trial, Touch Position (x,y), Time (sec), Stimulus (task-specific), Reward:'
    for r in results:
        print ','.join(str(c) for c in r)
+   print '\n'
        
 
     #if/elif statement which directs program to animal's csv. file (RFID dependent or otherwise)

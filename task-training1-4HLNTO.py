@@ -8,7 +8,7 @@ def execTask(mywin):
 	# mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
 	
-    	limitTrial = 100 #modify
+    	limitTrial = 3 #modify
     	trial = 0
 	buttons = []
 	results = []
@@ -22,6 +22,8 @@ def execTask(mywin):
 	c1 = 0
 	c2 = 0
 	c3 = 0
+
+	timer = time.time()
 
 	#display colours and position in pseudorandom sequence
 	while trial < limitTrial: 
@@ -92,7 +94,6 @@ def execTask(mywin):
 			c2 += 1
 		
 		trial = trial+1
-		t=time.time() #returns time in sec as float
 		
 		grating.draw()
 		mywin.update()
@@ -111,25 +112,24 @@ def execTask(mywin):
 			if buttons == True:
 				if not touchTimeout:
 					control.correctAnswer()
-					printPos = str(stimPosx) + ',' + str(stimPosy)
-					results.append([trial, xpos, ypos, time.time() - t, x, printPos, 'yes'])
+					printPos = str(round(stimPosx, 1)) + ',' + str(round(stimPosy, 1)) 
+					results.append([trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, 'yes'])
 					touchTimeout = True
 					checking = True
 					hits += 1
-					#mywin.update()
+		
 				else:
 					time.sleep(0.01)
 
 			else:
 				if not touchTimeout:
 					control.incorrectAnswer()
-					printPos = str(stimPosx) + ',' + str(stimPosy)
-					results.append([trial, xpos, ypos, time.time() - t, x, printPos, 'no'])
+					printPos = str(round(stimPosx, 1)) + ',' + str(round(stimPosy, 1))
+					results.append([trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, 'no'])
 					touchTimeout = True
 					checking = True
-					#mywin.update()
 				
-	finalResults = 'Main Results: \n' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success'
+	finalResults = '\nMain Results: \n\n' + str(round(time.time() - timer, 4)) + ' seconds, ' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success\n'
 	print(finalResults)
 	return results
 	
