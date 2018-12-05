@@ -8,7 +8,7 @@ def execTask(mywin):
 	# mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
 	
-    	limitTrial = 3 #modify
+    	limitTrial = 100 #modify
     	trial = 0
 	buttons = []
 	results = []
