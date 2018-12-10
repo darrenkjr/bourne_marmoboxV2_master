@@ -2,30 +2,34 @@ from psychopy import visual, core, logging, event
 from psychopy.tools.monitorunittools import posToPix 
 import time
 import marmocontrol as control
-from reports import Report
+#from reports import Report
 
 def execTask(mywin):
 
     #create window
     # mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
-    reportobj = Report('training1-1','testanimal')
+    #reportobj = Report('training1-1','testanimal')
     mouse = event.Mouse(win=mywin)
 
     #create stimulus
     grating = visual.GratingStim(win=mywin, size=400, pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb' )
-    limitTrial=40
+    limitTrial=3
     trial = 0
     buttons = []
     results = []
     xpos = 0
     ypos = 0
     touchTimeout = False
+    hits = 0
+
+    timer = time.time()
+
     while trial < limitTrial:
         trial = trial+1
         t=time.time() #returns time in sec as float
         
-        reportobj.addEvent('Draw Stimulus Cross. Trial: ' + str(trial))
-        reportobj.save()
+       # reportobj.addEvent('Draw Stimulus Cross. Trial: ' + str(trial))
+        #reportobj.save()
 
         grating.draw()
         mywin.update()
@@ -43,20 +47,25 @@ def execTask(mywin):
             if buttons == True:
                 if not touchTimeout:
                     control.correctAnswer()
-                    results.append([trial, xpos, ypos, time.time() - t, '-', 'yes'])
-                    reportobj.addEvent('Mouse Correct')
+                    results.append([trial, xpos, ypos, round(time.time() - timer, 4), '-', 'yes'])
+                   # reportobj.addEvent('Mouse Correct')
                     touchTimeout = True
                     checking = True
+                    hits += 1
                 else:
                     time.sleep(0.01)
             else:
                 if not touchTimeout:
                     control.incorrectAnswer()
-                    results.append([trial, xpos, ypos, time.time() - t, '-', 'no'])
+                    results.append([trial, xpos, ypos, round(time.time() - timer, 4), '-', 'no'])
                     mywin.update()
-                    reportobj.addEvent('Mouse InCorrect')
+                   # reportobj.addEvent('Mouse InCorrect')
                     core.wait(2) # specifies timeout period
+                    touchTimeout = True
                     checking = True
-            reportobj.save()
+                    
+           # reportobj.save()
    
+    finalResults = '\nMain Results: \n\n' + str(round(time.time() - timer, 4)) + ' seconds, ' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success\n'
+    print(finalResults)
     return results
