@@ -126,9 +126,9 @@ def execTask(mywin):
                     touchTimeout = True
                     checking = True
 
-        if trial % 10 == 0:
-            print('Trial ' + str(trial) + ', ' + hits + 'hits, ' + round(time.time() - timer, 4) + 'sec')            
-           # reportobj.save()
+            if trial % 10 == 0:
+                print('Trial ' + str(trial) + ', ' + hits + 'hits, ' + round(time.time() - timer, 4) + 'sec')            
+            # reportobj.save()
    
     finalResults = '\nMain Results: \n\n' + str(round(time.time() - timer, 4)) + ' seconds, ' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success\n'
     print(finalResults)
