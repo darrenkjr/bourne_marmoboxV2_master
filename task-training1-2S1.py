@@ -12,7 +12,7 @@ def execTask(mywin):
     mouse = event.Mouse(win=mywin)
 
     #create stimulus
-    limitTrial=50
+    limitTrial = 50
     trial = 0
     buttons = []
     results = []
@@ -128,7 +128,12 @@ def execTask(mywin):
                     checking = True
      
             # reportobj.save()
-   
-    finalResults = '\nMain Results: \n\n' + str(round(time.time() - timer, 4)) + ' seconds, ' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success\n'
+    
+    totalTime = time.time() - timer
+    mins = int(totalTime / 60)
+    secs = round((totalTime % 60) * 100 / 60, 1)
+    finalResults = '\nMain Results: \n\n' + str(mins) + ' mins ' + str(secs) + ' secs, ' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success\n'
     print(finalResults)
     return results
+
+#str(round(time.time() - timer, 4)) + ' seconds, '
