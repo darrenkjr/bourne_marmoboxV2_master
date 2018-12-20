@@ -28,9 +28,10 @@ def execTask(mywin):
     c3 = 0
 
     timer = time.time()
-    mask = visual.GratingStim(win=mywin, size = 400, pos=[0,0], opacity = 0.5)
+    mask = visual.GratingStim(win=mywin, size = 400, pos=[0,0], opacity = 0.0)
     
     while trial < limitTrial:
+        
         if c1 < stimLimit and c2 < stimLimit and c3 < stimLimit:
             y = random.randint(0,2)
             if y == 0:
