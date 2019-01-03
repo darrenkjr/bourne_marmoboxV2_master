@@ -8,12 +8,14 @@ def execTask(mywin):
 	# mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
 	
-    	limitTrial = 21 #modify
+    	limitTrial = 50 #modify
     	trial = 0
 	buttons = []
 	results = []
 	xpos = 0
 	ypos = 0
+	touchTimeout = False
+	hits = 0
     	size = 200
 	
 	#set stimuli limit and trial counter variables
@@ -21,7 +23,9 @@ def execTask(mywin):
 	c1 = 0
 	c2 = 0
 	c3 = 0
-
+    
+    	timer = time.time()
+	
 	#display colours and position in pseudorandom sequence
 	while trial < limitTrial: 
 
@@ -31,7 +35,7 @@ def execTask(mywin):
 		blue = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [-1,-1,1], colorSpace='rgb')
 		red = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [1,-1,-1], colorSpace='rgb')
 		yellow = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [1,1,-1], colorSpace='rgb')
-		 
+		mask = visual.GratingStim(win=mywin, size = 300, pos=[stimPosx,stimPosy], opacity = 0.0) 
 
 		if c1 < stimLimit and c2 < stimLimit and c3 < stimLimit:
 			a = random.randint(0,2)
@@ -89,34 +93,62 @@ def execTask(mywin):
 			grating = red 		
 			x = 'red' 		
 			c2 += 1
+		elif c1 == stimLimit and c2 == stimLimit and c3 == stimLimit: #if trial number is not divisible by three, select remainders at random
+			y = random.randint(0,2)
+			if y == 0:
+				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb')
+				x = 'blue'
+			elif y == 1:
+				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [1,-1,-1], colorSpace='rgb') 		
+            			x = 'red'
+			elif y == 2:
+				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [1,1,-1], colorSpace='rgb')
+				x = 'yellow'
 		
 		trial = trial+1
-		t=time.time() #returns time in sec as float
 		
+		mask.draw()
 		grating.draw()
 		mywin.update()
 		mouse.clickReset() #resets a timer for timing button clicks
-		
-		while not mouse.getPressed()[0]:# checks whether mouse button (i.e. button '0') was pressed 
-			time.sleep(0.01) # Sleeps if not pressed and then checks again after 10ms
-		else: #If pressed
-			xpos = mouse.getPos()[0] #Returns current positions of mouse during press
-			ypos = mouse.getPos()[1]
-			buttons = mouse.isPressedIn(grating) #Returns True if mouse pressed in grating
+        	checking = False
 
-		if buttons == True:
-			control.correctAnswer()
-			printPos = str(stimPosx) + ',' + str(stimPosy)
-			results.append([trial, xpos, ypos, time.time() - t, x, printPos, 'yes'])
-			mywin.update()
+        	while not checking:
+			while not mouse.getPressed()[0]:# checks whether mouse button (i.e. button '0') was pressed 
+                		touchTimeout = False
+				time.sleep(0.01) # Sleeps if not pressed and then checks again after 10ms
+			else: #If pressed
+				xpos = mouse.getPos()[0] #Returns current positions of mouse during press
+				ypos = mouse.getPos()[1]
+				buttons = mouse.isPressedIn(mask) #Returns True if mouse pressed in mask
 
-		else:
-			control.incorrectAnswer()
-			printPos = str(stimPosx) + ',' + str(stimPosy)
-			results.append([trial, xpos, ypos, time.time() - t, x, printPos, 'no'])
-			mywin.update()
-			core.wait(2) # specifies trial delay
-   
+			if buttons == True:
+            			if not touchTimeout:
+					control.correctAnswer()
+					printPos = str(stimPosx) + ',' + str(stimPosy)
+					results.append([trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, 'yes'])
+                    			touchTimeout = True
+                    			checking = True
+                    			hits += 1
+                		else:
+                    			time.sleep(0.01)
+
+			else:
+                		if not touchTimeout:
+					control.incorrectAnswer()
+					printPos = str(stimPosx) + ',' + str(stimPosy)
+					results.append([trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, 'no'])
+					mywin.update()
+					core.wait(2) # specifies trial delay
+					touchTimeout = True
+					checking = True	
+
+    	totalTime = time.time() - timer
+ 	mins = int(totalTime / 60)
+    	secs = round((totalTime % 60), 1)
+    	finalResults = '\nMain Results: \n\n' + str(mins) + ' mins ' + str(secs) + ' secs, ' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success\n'
+    	print(finalResults)
+
 	return results
 	
 	
