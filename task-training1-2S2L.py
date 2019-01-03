@@ -20,7 +20,7 @@ def execTask(mywin):
     ypos = 0
     touchTimeout = False
     hits = 0
-    size = 200
+    size = 300
 	
     stimLimit = limitTrial // 3
     c1 = 0
@@ -28,10 +28,9 @@ def execTask(mywin):
     c3 = 0
 
     timer = time.time()
-    mask = visual.GratingStim(win=mywin, size = 300, pos=[0,0], opacity = 0.0)
-    
+
     while trial < limitTrial:
-        
+	
         if c1 < stimLimit and c2 < stimLimit and c3 < stimLimit:
             y = random.randint(0,2)
             if y == 0:
@@ -88,7 +87,7 @@ def execTask(mywin):
             grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [1,-1,-1], colorSpace='rgb') 		
             x = 'red' 		
             c2 += 1
-
+        
         elif c1 == stimLimit and c2 == stimLimit and c3 == stimLimit: #if trial number is not divisible by three, select remainders at random
             y = random.randint(0,2)
             if y == 0:
@@ -106,14 +105,10 @@ def execTask(mywin):
        # reportobj.addEvent('Draw Stimulus Cross. Trial: ' + str(trial))
         #reportobj.save()
 
-        mask.draw()
         grating.draw()
-        
-        
         mywin.update()
         mouse.clickReset() #resets a timer for timing button clicks
         checking = False
-
         while not checking:
             while not mouse.getPressed()[0]:# checks whether mouse button (i.e. button '0') was pressed 
                 touchTimeout = False
@@ -121,7 +116,7 @@ def execTask(mywin):
             else: #If pressed
                 xpos = mouse.getPos()[0] #Returns current positions of mouse during press
                 ypos = mouse.getPos()[1]
-                buttons = mouse.isPressedIn(mask) #Returns True if mouse pressed in mask
+                buttons = mouse.isPressedIn(grating) #Returns True if mouse pressed in grating
 
             if buttons == True:
                 if not touchTimeout:
