@@ -2,11 +2,13 @@ from psychopy import visual, core, logging, event
 import time, random
 import marmocontrol as control
 import pandas as pd
+import os
+import numpy as np
 
 def execTask(mywin):
 
 	#create window
-	# mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
+	mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
 	
     	limitTrial = 3 #modify
@@ -150,9 +152,10 @@ def execTask(mywin):
     	finalResults = '\nMain Results: \n\n' + str(mins) + ' mins ' + str(secs) + ' secs, ' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success\n'
     	print(finalResults)
 
-	results_col = ['trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time', 'x','Stimulus Position', 'Success (Y/N)' ]
-	df = pd.DataFrame(results, columns=["results_col"])
-	df.to_csv('test.csv', index=False)
+	results_col = ['trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time', 'Stimulus type','Stimulus Position (Center)', 'Success (Y/N)' ]
+	df = pd.DataFrame(results, columns=results_col)
+	path = r'C:\Users\darre\Desktop'
+	df.to_csv(os.path.join(path,r'trial_results.csv'))
 
 	return results
 

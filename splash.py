@@ -1,4 +1,3 @@
-
 from psychopy import visual
 import marmobox
 import marmocontrol
@@ -17,7 +16,7 @@ while 1:
         except:
            mywin.close()
            marmocontrol.force_stop()
-           print 'An error occured.'
+           print('An error occured.')
         finally:
             mywin = visual.Window([1600,900], monitor="testMonitor", units="pix", pos = (0,0))
 

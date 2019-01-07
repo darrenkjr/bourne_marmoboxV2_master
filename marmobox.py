@@ -3,38 +3,39 @@ import argparse
 import importlib
 import time
 from psychopy import visual
+
 def run(taskname,delay,mywin):
    # detect marmoset
-   print 'Attempting to detect marmoset...'
+   print('Attempting to detect marmoset...')
    beamInput = False
    #beamInput = True
    #while beamInput:
    #    time.sleep(0.1)
    #    beamInput = control.readBeam()
-   print 'Found! Now attempting to read RFID tag...'
+   print('Found! Now attempting to read RFID tag...')
 
    # read RFID tag
    # implement with rfid.py
    # launch experiment
-   print 'Starting task: ' + str(taskname) + ' in ' + str(delay) + ' seconds...'
+   print('Starting task: ' + str(taskname) + ' in ' + str(delay) + ' seconds...')
 
    time.sleep(float(delay))
 
-   print 'Started!'
+   print('Started!')
 
    task = importlib.import_module(taskname)
 #    mywin.close()
    results = task.execTask(mywin)
     
-   print 'Detailed Results: \n'
+   print('Detailed Results: \n')
 
-   print 'Trial, Touch Position (x,y), Time (sec), Stimulus (task-specific), Reward:'
+   print('Trial, Touch Position (x,y), Time (sec), Stimulus (task-specific), Reward:')
    for r in results:
-       print ','.join(str(c) for c in r)
-   print '\n'
+       print(','.join(str(c) for c in r))
+   print('\n')
        
 
-    #if/elif statement which directs program to animal's csv. file (RFID dependent or otherwise)
+ #if/elif statement which directs program to animal's csv. file (RFID dependent or otherwise)
 
  #  path = '/home/pi/marmobox/data/F1920.csv'
   # file = open(path, 'a') # + args['task'] + 
