@@ -150,12 +150,15 @@ def execTask(mywin):
     	finalResults = '\nMain Results: \n\n' + str(mins) + ' mins ' + str(secs) + ' secs, ' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success\n'
     	print(finalResults)
 
-	
+	results_col = ['trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time', 'x','Stimulus Position', 'Success (Y/N)' ]
+	df = pd.DataFrame(results, columns=["results_col"])
+	df.to_csv('test.csv', index=False)
+
 	return results
-	df = pd.DataFrame(results, columns=["column"])
-	df.to_csv('C:\Users\Bournegroup\Documents\Marmobox\marmobox-code\testdata\test.csv', index=False)
-	
-	
+
+
+
+
 	
 	
 
