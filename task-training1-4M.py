@@ -1,6 +1,7 @@
 from psychopy import visual, core, logging, event
 import time, random
 import marmocontrol as control
+import pandas as pd
 
 def execTask(mywin):
 
@@ -8,7 +9,7 @@ def execTask(mywin):
 	# mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
 	
-    	limitTrial = 50 #modify
+    	limitTrial = 3 #modify
     	trial = 0
 	buttons = []
 	results = []
@@ -149,9 +150,10 @@ def execTask(mywin):
     	finalResults = '\nMain Results: \n\n' + str(mins) + ' mins ' + str(secs) + ' secs, ' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success\n'
     	print(finalResults)
 
+	
 	return results
-	
-	
+	df = pd.DataFrame(results, columns=["column"])
+	df.to_csv('C:\Users\Bournegroup\Documents\Marmobox\marmobox-code\testdata\test.csv', index=False)
 	
 	
 	
