@@ -5,11 +5,10 @@ import time, datetime
 from psychopy import visual
 import pandas as pd
 import os
-import csv
 
 def run(taskname,delay,mywin):
    # detect marmoset
-   animal_ID = 'F2133' #modify here
+   animal_ID = raw_input("Enter animal I.D") #modify here
    print('Attempting to detect marmoset...')
    beamInput = False
    #beamInput = True
