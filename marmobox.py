@@ -1,18 +1,22 @@
 import marmocontrol as control
 import argparse
 import importlib
-import time
+import time, datetime
 from psychopy import visual
+import pandas as pd
+import os
+import csv
 
 def run(taskname,delay,mywin):
    # detect marmoset
+   animal_ID = 'F2133' #modify here
    print('Attempting to detect marmoset...')
    beamInput = False
    #beamInput = True
    #while beamInput:
    #    time.sleep(0.1)
    #    beamInput = control.readBeam()
-   print('Found! Now attempting to read RFID tag...')
+   print('Animal found! Now attempting to read RFID tag...')
 
    # read RFID tag
    # implement with rfid.py
@@ -25,15 +29,33 @@ def run(taskname,delay,mywin):
 
    task = importlib.import_module(taskname)
 #    mywin.close()
-   results = task.execTask(mywin)
+   results, summary = task.execTask(mywin)
+   #note that summary is being returned as a dictionary data structure
     
    print('Detailed Results: \n')
 
    print('Trial, Touch Position (x,y), Time (sec), Stimulus (task-specific), Reward:')
+
    for r in results:
        print(','.join(str(c) for c in r))
    print('\n')
-       
+
+   # singular trial report generation
+   results_col = ['trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Stimulus type',
+                  'Stimulus Position (Center)', 'Success (Y/N)']
+   df = pd.DataFrame(results, columns=results_col)
+   path = r'C:\Users\darre\Desktop'
+   df.to_csv(os.path.join(path, animal_ID + r'_trial_results.csv'), mode='a')
+
+   print('Summary Results: \n')
+
+   #summary result report generation
+   df_summary = pd.Series(summary).to_frame()
+   df_summary = df_summary.transpose()
+   df_summary.set_index('Timestamp')
+   print(df_summary)
+   df_summary.to_csv(os.path.join(path, animal_ID + r'_summary_results.csv'), mode='a', header = None)
+
 
  #if/elif statement which directs program to animal's csv. file (RFID dependent or otherwise)
 
@@ -52,3 +74,4 @@ if __name__ == '__main__':
    task = args['task']
    mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix", pos = (0,0))
    run(task,delay,mywin)
+

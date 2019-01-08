@@ -1,9 +1,7 @@
 from psychopy import visual, core, logging, event
 import time, random
 import marmocontrol as control
-import pandas as pd
-import os
-import numpy as np
+from collections import OrderedDict
 
 def execTask(mywin):
 
@@ -13,7 +11,6 @@ def execTask(mywin):
 	
     	limitTrial = 3 #modify
     	trial = 0
-	buttons = []
 	results = []
 	xpos = 0
 	ypos = 0
@@ -28,6 +25,7 @@ def execTask(mywin):
 	c3 = 0
     
     	timer = time.time()
+	ts = time.ctime(timer)
 	
 	#display colours and position in pseudorandom sequence
 	while trial < limitTrial: 
@@ -149,15 +147,15 @@ def execTask(mywin):
     	totalTime = time.time() - timer
  	mins = int(totalTime / 60)
     	secs = round((totalTime % 60), 1)
-    	finalResults = '\nMain Results: \n\n' + str(mins) + ' mins ' + str(secs) + ' secs, ' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success\n'
-    	print(finalResults)
+	summary = [('Timestamp',ts),('Minutes',mins),('Seconds',secs), ('Trials',limitTrial), ('Hits',hits), ('Misses',(limitTrial - hits)), ('Success %',(float(hits)/float(limitTrial))*100)]
+	summary = OrderedDict(summary)
 
-	results_col = ['trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time', 'Stimulus type','Stimulus Position (Center)', 'Success (Y/N)' ]
-	df = pd.DataFrame(results, columns=results_col)
-	path = r'C:\Users\darre\Desktop'
-	df.to_csv(os.path.join(path,r'trial_results.csv'))
+	print("Summary results: ",summary)
+    	# finalResults = '\nMain Results: \n\n' + str(mins) + ' mins ' + str(secs) + ' secs, ' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success\n'
+    	# print(finalResults)
 
-	return results
+
+	return results, summary
 
 
 
