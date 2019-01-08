@@ -2,14 +2,13 @@ import marmocontrol as control
 import argparse
 import importlib
 import time, datetime
-from psychopy import visual
+from psychopy import visual, core, logging, event
 import pandas as pd
 import os
 
 def run(taskname,delay,mywin):
    # detect marmoset
-   animal_ID = raw_input("Enter animal I.D") #modify here
-   print('Attempting to detect marmoset...')
+   print('Attempting to detect ' + animal_ID)
    beamInput = False
    #beamInput = True
    #while beamInput:
@@ -55,6 +54,8 @@ def run(taskname,delay,mywin):
    print(df_summary)
    df_summary.to_csv(os.path.join(path, animal_ID + r'_summary_results.csv'), mode='a', header = None)
 
+   print(animal_id)
+
 
  #if/elif statement which directs program to animal's csv. file (RFID dependent or otherwise)
 
@@ -68,9 +69,12 @@ if __name__ == '__main__':
    ap = argparse.ArgumentParser()
    ap.add_argument('-t', '--task', help='name of the task')
    ap.add_argument('-d', '--delay', help='delay in seconds for executing tasks')
+   animal_ID = str(raw_input("Enter animal I.D: "))
+
    args = vars(ap.parse_args())
    delay = float(args['delay'])
    task = args['task']
    mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix", pos = (0,0))
+
    run(task,delay,mywin)
 
