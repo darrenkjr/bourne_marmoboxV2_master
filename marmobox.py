@@ -39,11 +39,14 @@ def run(taskname,delay,mywin):
    print('\n')
 
    # singular trial report generation
+
+
+
    results_col = ['trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Stimulus type',
                   'Stimulus Position (Center)', 'Success (Y/N)']
    df = pd.DataFrame(results, columns=results_col)
-   path = r'C:\Users\darre\Desktop'
-   df.to_csv(os.path.join(path, animal_ID + taskname + '_' + r'_trial_results.csv'), mode='a')
+   dir_path = r'C:\Users\darre\Desktop'
+   df.to_csv(os.path.join(dir_path, animal_ID + taskname + '_' + r'_trial_results.csv'), mode='a')
 
    print('Summary Results: \n')
 

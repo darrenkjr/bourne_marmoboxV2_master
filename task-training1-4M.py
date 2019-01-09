@@ -172,7 +172,6 @@ def execTask(mywin):
 	summary = OrderedDict(summary)
 
 	# print("Summary results: ",summary)
-	# print(results1)
 	return results, summary
     	# finalResults = '\nMain Results: \n\n' + str(mins) + ' mins ' + str(secs) + ' secs, ' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success\n'
     	# print(finalResults)
