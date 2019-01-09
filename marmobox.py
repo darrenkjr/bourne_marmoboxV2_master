@@ -43,7 +43,7 @@ def run(taskname,delay,mywin):
                   'Stimulus Position (Center)', 'Success (Y/N)']
    df = pd.DataFrame(results, columns=results_col)
    path = r'C:\Users\darre\Desktop'
-   df.to_csv(os.path.join(path, animal_ID + r'_trial_results.csv'), mode='a')
+   df.to_csv(os.path.join(path, animal_ID + taskname + '_' + r'_trial_results.csv'), mode='a')
 
    print('Summary Results: \n')
 
@@ -52,9 +52,8 @@ def run(taskname,delay,mywin):
    df_summary = df_summary.transpose()
    df_summary.set_index('Timestamp')
    print(df_summary)
-   df_summary.to_csv(os.path.join(path, animal_ID + r'_summary_results.csv'), mode='a', header = None)
+   df_summary.to_csv(os.path.join(path, animal_ID + taskname + '_' + r'_summary_results.csv'), mode='a', header = None)
 
-   print(animal_id)
 
 
  #if/elif statement which directs program to animal's csv. file (RFID dependent or otherwise)
@@ -69,7 +68,7 @@ if __name__ == '__main__':
    ap = argparse.ArgumentParser()
    ap.add_argument('-t', '--task', help='name of the task')
    ap.add_argument('-d', '--delay', help='delay in seconds for executing tasks')
-   animal_ID = str(raw_input("Enter animal I.D: "))
+   animal_ID = str(input("Enter animal I.D: "))
 
    args = vars(ap.parse_args())
    delay = float(args['delay'])
