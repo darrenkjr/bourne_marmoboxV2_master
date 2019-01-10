@@ -139,7 +139,7 @@ def execTask(mywin):
 					printPos = str(stimPosx) + ',' + str(stimPosy)
 					results.append([trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, 'no'])
 					mywin.update()
-					core.wait(2) # consider removing this timeout from the task
+					core.wait(5) # temporarily at 5 sec
 					touchTimeout = True
 					checking = True	
 
