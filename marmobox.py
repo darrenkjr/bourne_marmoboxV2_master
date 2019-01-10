@@ -45,7 +45,7 @@ def run(taskname,delay, limitTrials, mywin):
    results_col = ['trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Stimulus type',
                   'Stimulus Position (Center)', 'Success (Y/N)']
    df = pd.DataFrame(results, columns=results_col)
-   dir_path = r'C:\Users\darre\Desktop'
+   dir_path = r'C:\Users\darre\PycharmProjects\BOURNE_MARMOBOX\data'
    df.to_csv(os.path.join(dir_path, animal_ID + taskname + '_' + r'_trial_results.csv'), mode='a')
 
    print('Summary Results: \n')
