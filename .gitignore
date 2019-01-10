@@ -2,4 +2,4 @@
 *.save
 ./data
 data/
-idea
+.idea
