@@ -6,7 +6,7 @@ from psychopy import visual, core, logging, event
 import pandas as pd
 import os
 
-#to run, in terminal - python marmobox.py -t -taskname -d -delay amt in no. -l -amount of trials required
+#to run, in terminal: python marmobox.py -t -taskname -d -delay amt in no. -l -amount of trials required
 
 def run(taskname,delay, limitTrials, mywin):
    # detect marmoset
