@@ -8,7 +8,8 @@ def execTask(mywin, limitTrial, animal_ID):
 
 	#create window
 	# mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
-	reportobj = Report('training1-1',animal_ID)
+	results_col = ['Trial', 'xpos', 'ypos', 'Time (s)', '-', 'Success Y/N']
+	reportobj = Report('training1-1',animal_ID, results_col)
 	mouse = event.Mouse(win=mywin)
 
 	#create stimulus
@@ -24,7 +25,8 @@ def execTask(mywin, limitTrial, animal_ID):
 		trial = trial+1
 		t=time.time() #returns time in sec as float
 		
-		reportobj.addEvent('Draw Stimulus Cross. Trial: ' + str(trial))
+		# reportobj.addEvent('Draw Stimulus Cross. Trial: ' + str(trial))
+		#create directory
 		reportobj.save()
 
 		grating.draw()
@@ -41,15 +43,18 @@ def execTask(mywin, limitTrial, animal_ID):
 		if buttons == True:
 			control.correctAnswer()
 			results.append([trial, xpos, ypos, time.time() - t, '-', 'yes'])
-			reportobj.addEvent('Mouse Correct')
+			#add results to event module as a list
+			reportobj.addEvent(results)
 		else:
 			control.incorrectAnswer()
 			results.append([trial, xpos, ypos, time.time() - t, '-', 'no'])
 			mywin.update()
 			reportobj.addEvent('Mouse InCorrect')
 			core.wait(2) # specifies timeout period
+
 		reportobj.save()
    
+	print(results)
 	return results
 	
 	
