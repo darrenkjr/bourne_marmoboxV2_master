@@ -4,7 +4,7 @@ import marmocontrol as control
 from collections import OrderedDict
 import pandas as pd
 
-def execTask(mywin, limitTrials):
+def execTask(mywin, limitTrial):
 
 	#create window
 	mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
@@ -25,7 +25,7 @@ def execTask(mywin, limitTrials):
 	reward = 0
 	
 	#set stimuli limit and trial counter variables
-	stimLimit = limitTrials // 3
+	stimLimit = limitTrial // 3
 	c1 = 0
 	c2 = 0
 	c3 = 0
@@ -40,7 +40,7 @@ def execTask(mywin, limitTrials):
 	# ([trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, 'yes'])
 
 	#display colours and position in pseudorandom sequence
-	while trial < limitTrials:
+	while trial < limitTrial:
 
 		#create stimuli
 		stimPosx = random.uniform(-540,540)
@@ -168,7 +168,7 @@ def execTask(mywin, limitTrials):
 	totalTime = time.time() - timer
 	mins = int(totalTime / 60)
 	secs = round((totalTime % 60), 1)
-	summary = [('Timestamp',ts),('Minutes',mins),('Seconds',secs), ('Trials',limitTrials), ('Hits',hits), ('Misses',(limitTrials - hits)), ('Success %',(float(hits)/float(limitTrials))*100)]
+	summary = [('Timestamp',ts),('Minutes',mins),('Seconds',secs), ('Trials',limitTrial), ('Hits',hits), ('Misses',(limitTrial - hits)), ('Success %',(float(hits)/float(limitTrial))*100)]
 	summary = OrderedDict(summary)
 
 	# print("Summary results: ",summary)

@@ -4,16 +4,16 @@ import time
 import marmocontrol as control
 from reports import Report
 
-def execTask(mywin):
+def execTask(mywin, limitTrial, animal_ID):
 
 	#create window
 	# mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
-	reportobj = Report('training1-1','testanimal')
+	reportobj = Report('training1-1',animal_ID)
 	mouse = event.Mouse(win=mywin)
 
 	#create stimulus
 	grating = visual.GratingStim(win=mywin, size=(1280,720), pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb' )
-	limitTrial=40
+	#limitTrial=40
 	trial = 0
 	buttons = []
 	results = []
