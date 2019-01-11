@@ -29,33 +29,34 @@ def run(taskname,delay, limitTrial, mywin):
 
    task = importlib.import_module(taskname)
 #    mywin.close()
-   results, summary = task.execTask(mywin, limitTrial, animal_ID)
-   #note that summary is being returned as a dictionary data structure
-    
-   print('Detailed Results: \n')
+   results = task.execTask(mywin, limitTrial, animal_ID)
 
-   print('Trial, Touch Position (x,y), Time (sec), Stimulus (task-specific), Reward:')
-
-   for r in results:
-       print(','.join(str(c) for c in r))
-   print('\n')
-
-   # singular trial report generation
-
-   results_col = ['trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Stimulus type',
-                  'Stimulus Position (Center)', 'Success (Y/N)']
-   df = pd.DataFrame(results, columns=results_col)
-   dir_path = r'C:\Users\darre\PycharmProjects\BOURNE_MARMOBOX\data'
-   df.to_csv(os.path.join(dir_path, animal_ID + taskname + '_' + r'_trial_results.csv'), mode='a')
-
-   print('Summary Results: \n')
-
-   #summary result report generation
-   df_summary = pd.Series(summary).to_frame()
-   df_summary = df_summary.transpose()
-   df_summary.set_index('Timestamp')
-   print(df_summary)
-   df_summary.to_csv(os.path.join(dir_path, animal_ID + taskname + '_' + r'_summary_results.csv'), mode='a', header = None)
+   # #note that summary is being returned as a dictionary data structure
+   #
+   # print('Detailed Results: \n')
+   #
+   # print('Trial, Touch Position (x,y), Time (sec), Stimulus (task-specific), Reward:')
+   #
+   # for r in results:
+   #     print(','.join(str(c) for c in r))
+   # print('\n')
+   #
+   # # singular trial report generation
+   #
+   # results_col = ['trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Stimulus type',
+   #                'Stimulus Position (Center)', 'Success (Y/N)']
+   # df = pd.DataFrame(results, columns=results_col)
+   # dir_path = r'C:\Users\darre\PycharmProjects\BOURNE_MARMOBOX\data'
+   # df.to_csv(os.path.join(dir_path, animal_ID + taskname + '_' + r'_trial_results.csv'), mode='a')
+   #
+   # print('Summary Results: \n')
+   #
+   # #summary result report generation
+   # df_summary = pd.Series(summary).to_frame()
+   # df_summary = df_summary.transpose()
+   # df_summary.set_index('Timestamp')
+   # print(df_summary)
+   # df_summary.to_csv(os.path.join(dir_path, animal_ID + taskname + '_' + r'_summary_results.csv'), mode='a', header = None)
 
 
 
