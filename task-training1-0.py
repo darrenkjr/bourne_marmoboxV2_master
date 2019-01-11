@@ -27,7 +27,7 @@ def execTask(mywin, limitTrial, animal_ID):
 		
 		# reportobj.addEvent('Draw Stimulus Cross. Trial: ' + str(trial))
 		#create directory
-		reportobj.save()
+		reportobj.createdir()
 
 		grating.draw()
 		mywin.update()
@@ -49,10 +49,10 @@ def execTask(mywin, limitTrial, animal_ID):
 			control.incorrectAnswer()
 			results.append([trial, xpos, ypos, time.time() - t, '-', 'no'])
 			mywin.update()
-			reportobj.addEvent('Mouse InCorrect')
+			reportobj.addEvent(results)
 			core.wait(2) # specifies timeout period
 
-		reportobj.save()
+		reportobj.createdir()
    
 	print(results)
 	return results

@@ -25,16 +25,16 @@ class Report:
         tt = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
         return {'string':st,'seconds':ts,'time':tt}
 
-    #event defined as a new task result - takes empty dataframe and append
+    #generates trial result and corresponding csv
     def addEvent(self,results):
         time = self.timeStamp()
-        #appending results
+        #appending results - every trial
         self.df_info = pd.DataFrame(results, columns=self.results_col)
         print(self.df_info)
         self.df_info.to_csv(self.dir,mode = 'a')
         return
 
-    def save(self):
+    def createdir(self):
 
         #creating csv and creating directory if required.
 
