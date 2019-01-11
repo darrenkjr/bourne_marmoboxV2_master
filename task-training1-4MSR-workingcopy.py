@@ -30,8 +30,8 @@ def execTask(mywin):
 	while trial < limitTrial: 
 
 		#create stimuli
-		stimPosx = random.uniform(-270,270) # previously -540,540
-		stimPosy = random.randint(-130,130) # previously -260,260
+		stimPosx = random.uniform(-540,540) # previously -540,540
+		stimPosy = random.randint(-260,260) # previously -260,260
 		blue = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [-1,-1,1], colorSpace='rgb')
 		red = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [1,-1,-1], colorSpace='rgb')
 		yellow = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [1,1,-1], colorSpace='rgb')
@@ -139,7 +139,7 @@ def execTask(mywin):
 					printPos = str(stimPosx) + ',' + str(stimPosy)
 					results.append([trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, 'no'])
 					mywin.update()
-					core.wait(8) # temporarily at 5 sec
+					core.wait(5) # temporarily at 5 sec
 					touchTimeout = True
 					checking = True	
 
