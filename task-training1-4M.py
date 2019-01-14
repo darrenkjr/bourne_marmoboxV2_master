@@ -1,11 +1,12 @@
 from psychopy import visual, core, logging, event
 import time, random
 import marmocontrol as control
-from collections import OrderedDict
 import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
 from reports import Report
 
-def execTask(mywin, limitTrial, animal_ID):
+def execTask(taskname, mywin, limitTrial, animal_ID):
 
 	#create window
 	mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
@@ -14,8 +15,8 @@ def execTask(mywin, limitTrial, animal_ID):
 	#generating report directory
 	results_col = ['Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Stimulus type','Stimulus Position (Center)','Distance from target center (px)', 'Success (Y/N)']
 	summary_col = ['Minutes','Seconds', 'Trials', 'Hits', 'Misses', 'Average dist from center (Px)', 'Success%']
-	reportObj_trial = Report('training1-4M',animal_ID,results_col,'raw_data')
-	reportObj_summary = Report('training1-4M', animal_ID, summary_col,'summary_data')
+	reportObj_trial = Report(str(taskname),animal_ID,results_col,'raw_data')
+	reportObj_summary = Report(str(taskname), animal_ID, summary_col,'summary_data')
 	results = []
 	summary = []
 
@@ -29,6 +30,9 @@ def execTask(mywin, limitTrial, animal_ID):
 	x = 0
 	printPos = 0
 	reward = 0
+	stimx = []
+	stimy = []
+	stim_coord = []
 	
 	#set stimuli limit and trial counter variables
 	stimLimit = limitTrial // 3
@@ -145,6 +149,8 @@ def execTask(mywin, limitTrial, animal_ID):
 					#calculating center position of stimulus and distance of touch fromm stimuli center
 					printPos = str(stimPosx) + ',' + str(stimPosy)
 					dist_stim = ((stimPosx - xpos)**2 + (stimPosy - ypos)**2)**(1/2)
+					stimx.append(stimPosx)
+					stimy.append(stimPosy)
 					results.append([trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, dist_stim, 'yes'])
 					reportObj_trial.addEvent(results)
 					touchTimeout = True
@@ -157,8 +163,10 @@ def execTask(mywin, limitTrial, animal_ID):
 				if not touchTimeout:
 					control.incorrectAnswer()
 					printPos = str(stimPosx) + ',' + str(stimPosy)
+					stimx.append(stimPosx)
+					stimy.append(stimPosy)
 					dist_stim = ((stimPosx - xpos) ** 2 + (stimPosy - ypos) ** 2) ** (1 / 2)
-					results.append([trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, 'no'])
+					results.append([trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, dist_stim, 'no'])
 					reportObj_trial.addEvent(results)
 					mywin.update()
 					core.wait(2) # specifies trial delay in seconds
@@ -166,6 +174,12 @@ def execTask(mywin, limitTrial, animal_ID):
 					checking = True
 
 			df_results = pd.DataFrame(results, columns = results_col)
+			print('See here: \n',df_results)
+
+			#taking pressed data and stimulus data
+			pressed = ([df_results['X-Position (Pressed)']],[df_results['Y-Position (Pressed)']])
+
+
 
 	totalTime = time.time() - timer
 	mins = int(totalTime / 60)
@@ -174,6 +188,25 @@ def execTask(mywin, limitTrial, animal_ID):
 	summary.append([mins,secs, limitTrial,hits, (limitTrial - hits), average_dist, float(hits)/float(limitTrial)*100])
 	reportObj_summary.addEvent(summary)
 
+	# creating scatter plots
+	fig = plt.figure()
+	ax = fig.add_subplot(111)
+	ax.scatter(pressed[0], pressed[1], color='red')
+
+	stim_coord = [stimx, stimy]
+	ax.scatter(stim_coord[0], stim_coord[1], color='blue', marker='x')
+
+	# add stimulus squares
+	width = size
+	height = size
+
+	stim_zipped = zip(*stim_coord)
+	for stim_x, stim_y in stim_zipped:
+		ax.add_patch(Rectangle(xy=(stim_x - width / 2, stim_y - height / 2), width=width, height=height, linewidth=1,
+							   color='blue', fill=False))
+	ax.axis('equal')
+	fig.show()
+	plt.show()
 
 	# print("Summary results: ",summary)
 	return results, summary
