@@ -3,18 +3,24 @@ import time, random
 import marmocontrol as control
 from collections import OrderedDict
 import pandas as pd
+from reports import Report
 
-def execTask(mywin, limitTrial):
+def execTask(mywin, limitTrial, animal_ID):
 
 	#create window
 	mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
 
-	# limitTrial = int(input("Input number of trials: ")) #modify trial here
-	trial = 0
+	#generating report directory
+	results_col = ['Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Stimulus type','Stimulus Position (Center)','Distance from target center (px)', 'Success (Y/N)']
+	summary_col = ['Minutes','Seconds', 'Trials', 'Hits', 'Misses', 'Average dist from center (Px)', 'Success%']
+	reportObj_trial = Report('training1-4M',animal_ID,results_col,'raw_data')
+	reportObj_summary = Report('training1-4M', animal_ID, summary_col,'summary_data')
 	results = []
+	summary = []
 
-
+	#setting initial parameters
+	trial = 0
 	xpos = 0
 	ypos = 0
 	touchTimeout = False
@@ -32,15 +38,13 @@ def execTask(mywin, limitTrial):
 
 	timer = time.time()
 	ts = time.ctime(timer)
-	results = []
-	results1 = (('Trial', trial), ('X-Pos', xpos), ('Y-Pos', ypos), ('Time(s)',round(time.time() - timer)),('Stimulus type', x), ('Stimulus position (centre)', printPos), ('Reward', reward))
-	results1 = OrderedDict(results1)
-	# print(results1)
-
-	# ([trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, 'yes'])
 
 	#display colours and position in pseudorandom sequence
 	while trial < limitTrial:
+
+		#create report directories
+		reportObj_summary.createdir()
+		reportObj_trial.createdir()
 
 		#create stimuli
 		stimPosx = random.uniform(-540,540)
@@ -138,10 +142,11 @@ def execTask(mywin, limitTrial):
 			if buttons == True:
 				if not touchTimeout:
 					control.correctAnswer()
+					#calculating center position of stimulus and distance of touch fromm stimuli center
 					printPos = str(stimPosx) + ',' + str(stimPosy)
-					results.append([trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, 'yes'])
-					results1.update({'Trial': trial, 'X-Pos': xpos, 'Y-Pos': ypos, 'Time(s)': round(time.time() - timer),
-				'Stimulus type': x, 'Stimulus position (centre)': printPos, 'Reward': 'Yes'})
+					dist_stim = ((stimPosx - xpos)**2 + (stimPosy - ypos)**2)**(1/2)
+					results.append([trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, dist_stim, 'yes'])
+					reportObj_trial.addEvent(results)
 					touchTimeout = True
 					checking = True
 					hits += 1
@@ -152,24 +157,23 @@ def execTask(mywin, limitTrial):
 				if not touchTimeout:
 					control.incorrectAnswer()
 					printPos = str(stimPosx) + ',' + str(stimPosy)
+					dist_stim = ((stimPosx - xpos) ** 2 + (stimPosy - ypos) ** 2) ** (1 / 2)
 					results.append([trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, 'no'])
-					results1.update({'Trial': trial, 'X-Pos': xpos, 'Y-Pos': ypos,'Time(s)': round(time.time() - timer),'Stimulus type': x, 'Stimulus position (centre)': printPos, 'Reward': 'No'})
+					reportObj_trial.addEvent(results)
 					mywin.update()
-					core.wait(2) # specifies trial delay
+					core.wait(2) # specifies trial delay in seconds
 					touchTimeout = True
 					checking = True
 
-			df_results1 = pd.Series(results1).to_frame()
-			df_results1 = df_results1.transpose()
-			df_results1.set_index('Trial')
-			print(df_results1)
-			# print(results1)
+			df_results = pd.DataFrame(results, columns = results_col)
 
 	totalTime = time.time() - timer
 	mins = int(totalTime / 60)
 	secs = round((totalTime % 60), 1)
-	summary = [('Timestamp',ts),('Minutes',mins),('Seconds',secs), ('Trials',limitTrial), ('Hits',hits), ('Misses',(limitTrial - hits)), ('Success %',(float(hits)/float(limitTrial))*100)]
-	summary = OrderedDict(summary)
+	average_dist = float(df_results[['Distance from target center (px)']].mean())
+	summary.append([mins,secs, limitTrial,hits, (limitTrial - hits), average_dist, float(hits)/float(limitTrial)*100])
+	reportObj_summary.addEvent(summary)
+
 
 	# print("Summary results: ",summary)
 	return results, summary
