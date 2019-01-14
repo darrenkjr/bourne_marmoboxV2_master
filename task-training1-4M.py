@@ -13,7 +13,7 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 	mouse = event.Mouse(win=mywin)
 
 	#generating report directory
-	results_col = ['Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Stimulus type','Stimulus Position (Center)','Distance from target center (px)', 'Success (Y/N)']
+	results_col = ['Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Stimulus type','Stimulus Position (Center)','Distance from center (px)', 'Success (Y/N)']
 	summary_col = ['Minutes','Seconds', 'Trials', 'Hits', 'Misses', 'Average dist from center (Px)', 'Success%']
 	reportObj_trial = Report(str(taskname),animal_ID,results_col,'raw_data')
 	reportObj_summary = Report(str(taskname), animal_ID, summary_col,'summary_data')
@@ -177,14 +177,12 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 			print('See here: \n',df_results)
 
 			#taking pressed data and stimulus data
-			pressed = ([df_results['X-Position (Pressed)']],[df_results['Y-Position (Pressed)']])
-
-
+			pressed = ([df_results['X-Position (Pressed)']], [df_results['Y-Position (Pressed)']])
 
 	totalTime = time.time() - timer
 	mins = int(totalTime / 60)
 	secs = round((totalTime % 60), 1)
-	average_dist = float(df_results[['Distance from target center (px)']].mean())
+	average_dist = float(df_results[['Distance from center (px)']].mean())
 	summary.append([mins,secs, limitTrial,hits, (limitTrial - hits), average_dist, float(hits)/float(limitTrial)*100])
 	reportObj_summary.addEvent(summary)
 
@@ -209,12 +207,7 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 	fig.show()
 	plt.show()
 
-	# print("Summary results: ",summary)
 	return results, summary
-    	# finalResults = '\nMain Results: \n\n' + str(mins) + ' mins ' + str(secs) + ' secs, ' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success\n'
-    	# print(finalResults)
-
-	
 	
 
 
