@@ -2,10 +2,9 @@ from psychopy import visual, core, logging, event
 import time
 import marmocontrol as control
 from reports import Report
-import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle
+from heatmap import Heatmap
 import pandas as pd
-import numpy as np
+import matplotlib.pyplot as plt
 
 def execTask(taskname, mywin, limitTrial, animal_ID):
 
@@ -76,30 +75,14 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 	print('Summary Results: \n' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success')
 	print('Raw results: \n', df_results)
 
-	#creating scatter plots, taking pressed data and stimulus data
+	#organizing coordinates
 	pressed = ([df_results['xpos']], [df_results['ypos']])
-	fig = plt.figure()
-	ax = fig.add_subplot(111)
-	scatter_p = ax.scatter(pressed[0], pressed[1], color='red', label='pressed', alpha=0)
-	scatter_stim = ax.scatter(0, 0, color='blue', marker='o', label='stimulus center', alpha=0)
+	stimulus = ([stimPosx],[stimPosy])
+	#creating scatter object
+	scatter = Heatmap(stimulus,pressed,size)
+	heatmap, xedges, yedges = scatter.heatmap(limitTrial)
 
-	# add stimulus squares
-	width = size
-	height = size
-	stim_coord = [[0],[0]]
-
-	stim_zipped = zip(*stim_coord)
-	for stim_x, stim_y in stim_zipped:
-		ax.add_patch(Rectangle(xy=(stim_x - width / 2, stim_y - height / 2), width=width, height=height, linewidth=1,
-							   color='blue', fill=False))
-	ax.axis('equal')
-	fig.legend((scatter_p, scatter_stim),('Pressed','Stimulus Center'))
-	fig.show()
-	flat_pressedx = np.array(pressed[0]).ravel()
-	flat_pressedy = np.array(pressed[1]).ravel()
-
-	heatmap, xedges,yedges = np.histogram2d(flat_pressedx.ravel(),flat_pressedy.ravel(),range=[[-500,500],[-500,500]],bins=limitTrial)
-
+	#plotting heatmap
 	plt.imshow(heatmap.T, interpolation='bicubic', cmap=plt.cm.Reds, extent=[xedges[0],xedges[-1],yedges[0],yedges[-1]], origin = 'lower')
 	plt.show()
 
