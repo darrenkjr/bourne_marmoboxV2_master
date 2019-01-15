@@ -52,11 +52,11 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 
 		#create stimuli
 		stimPosx = random.uniform(-540,540)
-		stimPosy = random.randint(-260,260)
+		stimPosy = random.uniform(-260,260)
 		blue = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [-1,-1,1], colorSpace='rgb')
 		red = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [1,-1,-1], colorSpace='rgb')
 		yellow = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [1,1,-1], colorSpace='rgb')
-		mask = visual.GratingStim(win=mywin, size = 300, pos=[stimPosx,stimPosy], opacity = 0.0) 
+		# mask = visual.GratingStim(win=mywin, size = 300, pos=[stimPosx,stimPosy], opacity = 0.0)
 
 		if c1 < stimLimit and c2 < stimLimit and c3 < stimLimit:
 			a = random.randint(0,2)
@@ -185,6 +185,9 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 	average_dist = float(df_results[['Distance from center (px)']].mean())
 	summary.append([mins,secs, limitTrial,hits, (limitTrial - hits), average_dist, float(hits)/float(limitTrial)*100])
 	reportObj_summary.addEvent(summary)
+	#writing csv
+	reportObj_summary.writecsv()
+	reportObj_trial.writecsv()
 
 	# creating scatter plots
 	fig = plt.figure()

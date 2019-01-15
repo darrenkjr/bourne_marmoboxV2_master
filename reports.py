@@ -31,7 +31,6 @@ class Report:
         #appending results - every trial
         self.df_info = pd.DataFrame(events, columns=self.event_col)
         print(self.df_info)
-        self.df_info.to_csv(self.dir,mode = 'a')
         return
 
     def createdir(self):
@@ -44,6 +43,9 @@ class Report:
             except OSError as exc: #Guard against race condition
                 if exc.errno != errno.EEXIST:
                     raise
+
+    def writecsv(self):
+        self.df_info.to_csv(self.dir, mode='a')
 
 
         # with open(self.dir,'w') as f:

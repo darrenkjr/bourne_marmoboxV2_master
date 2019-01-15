@@ -66,11 +66,13 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 			core.wait(2) # specifies timeout period
 
 	df_results = pd.DataFrame(results, columns=results_col)
+	reportobj_trial.writecsv()
 	average_dist = float(df_results[['Distance from stimulus center (Px)']].mean())
 
 
 	summary.append([limitTrial, hits, limitTrial - hits, average_dist, (float(hits) / float(limitTrial)) * 100])
 	reportobj_summary.addEvent(summary)
+	reportobj_summary.writecsv()
 
 	print('Summary Results: \n' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success')
 	print('Raw results: \n', df_results)
