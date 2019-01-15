@@ -5,6 +5,7 @@ from reports import Report
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 import pandas as pd
+import numpy as np
 
 def execTask(taskname, mywin, limitTrial, animal_ID):
 
@@ -79,8 +80,8 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 	pressed = ([df_results['xpos']], [df_results['ypos']])
 	fig = plt.figure()
 	ax = fig.add_subplot(111)
-	scatter_p = ax.scatter(pressed[0], pressed[1], color='red', label='pressed', marker = 'x')
-	scatter_stim = ax.scatter(0, 0, color='blue', marker='o', label='stimulus center')
+	scatter_p = ax.scatter(pressed[0], pressed[1], color='red', label='pressed', alpha=0)
+	scatter_stim = ax.scatter(0, 0, color='blue', marker='o', label='stimulus center', alpha=0)
 
 	# add stimulus squares
 	width = size
@@ -94,9 +95,15 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 	ax.axis('equal')
 	fig.legend((scatter_p, scatter_stim),('Pressed','Stimulus Center'))
 	fig.show()
+	flat_pressedx = np.array(pressed[0]).ravel()
+	flat_pressedy = np.array(pressed[1]).ravel()
+
+	heatmap, xedges,yedges = np.histogram2d(flat_pressedx.ravel(),flat_pressedy.ravel(),range=[[-500,500],[-500,500]],bins=limitTrial)
+
+	plt.imshow(heatmap.T, interpolation='bicubic', cmap=plt.cm.Reds, extent=[xedges[0],xedges[-1],yedges[0],yedges[-1]], origin = 'lower')
 	plt.show()
 
-	print(finalResults)
+	print(summary)
 	return results
 	
 	

@@ -3,8 +3,6 @@ import argparse
 import importlib
 import time, datetime
 from psychopy import visual, core, logging, event
-import pandas as pd
-import os
 
 #to run, in terminal - python marmobox.py -t -taskname -d -delay amt in no. -l -amount of trials required
 
@@ -31,12 +29,6 @@ def run(taskname,delay, limitTrial, mywin):
 #    mywin.close()
    results = task.execTask(taskname, mywin, limitTrial, animal_ID)
 
- #if/elif statement which directs program to animal's csv. file (RFID dependent or otherwise)
-
- #  path = '/home/pi/marmobox/data/F1920.csv'
-  # file = open(path, 'a') # + args['task'] + 
-   #file.write('task, trial, xpos, ypos, stimulus, reward')
-   #file.close()
 
 if __name__ == '__main__':
    # initialise the argument parser

@@ -9,7 +9,7 @@ from reports import Report
 def execTask(taskname, mywin, limitTrial, animal_ID):
 
 	#create window
-	mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
+	# mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
 
 	#generating report directory
