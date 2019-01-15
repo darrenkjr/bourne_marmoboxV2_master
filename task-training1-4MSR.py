@@ -96,13 +96,13 @@ def execTask(mywin):
 		elif c1 == stimLimit and c2 == stimLimit and c3 == stimLimit: #if trial number is not divisible by three, select remainders at random
 			y = random.randint(0,2)
 			if y == 0:
-				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb')
+				grating = blue
 				x = 'blue'
 			elif y == 1:
-				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [1,-1,-1], colorSpace='rgb') 		
+				grating = red		
             			x = 'red'
 			elif y == 2:
-				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [1,1,-1], colorSpace='rgb')
+				grating = yellow
 				x = 'yellow'
 		
 		trial = trial+1
