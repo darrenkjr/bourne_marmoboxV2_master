@@ -66,13 +66,13 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 			core.wait(2) # specifies timeout period
 
 	df_results = pd.DataFrame(results, columns=results_col)
-	reportobj_trial.writecsv()
+	reportobj_trial.writecsv('trial')
 	average_dist = float(df_results[['Distance from stimulus center (Px)']].mean())
 
 
 	summary.append([limitTrial, hits, limitTrial - hits, average_dist, (float(hits) / float(limitTrial)) * 100])
 	reportobj_summary.addEvent(summary)
-	reportobj_summary.writecsv()
+	reportobj_summary.writecsv('summary')
 
 	print('Summary Results: \n' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success')
 	print('Raw results: \n', df_results)
@@ -82,11 +82,12 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 	stimulus = ([stimPosx],[stimPosy])
 	#creating scatter object
 	scatter = Heatmap(stimulus,pressed,size)
-	heatmap, xedges, yedges = scatter.heatmap(limitTrial)
+	scatter.heatmap_param(limitTrial)
+	scatter.savefig(taskname,animal_ID)
 
 	#plotting heatmap
-	plt.imshow(heatmap.T, interpolation='bicubic', cmap=plt.cm.Reds, extent=[xedges[0],xedges[-1],yedges[0],yedges[-1]], origin = 'lower')
-	plt.show()
+	# plt.imshow(heatmap.T, interpolation='bicubic', cmap=plt.cm.Reds, extent=[xedges[0],xedges[-1],yedges[0],yedges[-1]], origin = 'lower')
+	# plt.show()
 
 	print(summary)
 	return results
