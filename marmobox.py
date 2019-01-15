@@ -6,9 +6,7 @@ from psychopy import visual, core, logging, event
 import pandas as pd
 import os
 
-#to run, in terminal - python marmobox.py -t -taskname -d -delay amt in no. -l -amount of trials required
-
-def run(taskname,delay, limitTrials, mywin):
+def run(taskname,delay,mywin):
    # detect marmoset
    print('Attempting to detect ' + animal_ID)
    beamInput = False
@@ -29,7 +27,7 @@ def run(taskname,delay, limitTrials, mywin):
 
    task = importlib.import_module(taskname)
 #    mywin.close()
-   results, summary = task.execTask(mywin, limitTrials)
+   results, summary = task.execTask(mywin)
    #note that summary is being returned as a dictionary data structure
     
    print('Detailed Results: \n')
@@ -41,6 +39,8 @@ def run(taskname,delay, limitTrials, mywin):
    print('\n')
 
    # singular trial report generation
+
+
 
    results_col = ['trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Stimulus type',
                   'Stimulus Position (Center)', 'Success (Y/N)']
@@ -55,7 +55,7 @@ def run(taskname,delay, limitTrials, mywin):
    df_summary = df_summary.transpose()
    df_summary.set_index('Timestamp')
    print(df_summary)
-   df_summary.to_csv(os.path.join(dir_path, animal_ID + taskname + '_' + r'_summary_results.csv'), mode='a', header = None)
+   df_summary.to_csv(os.path.join(path, animal_ID + taskname + '_' + r'_summary_results.csv'), mode='a', header = None)
 
 
 
@@ -71,14 +71,12 @@ if __name__ == '__main__':
    ap = argparse.ArgumentParser()
    ap.add_argument('-t', '--task', help='name of the task')
    ap.add_argument('-d', '--delay', help='delay in seconds for executing tasks')
-   ap.add_argument('-l', '--limitTrials', help = 'input number of required trials')
    animal_ID = str(input("Enter animal I.D: "))
 
    args = vars(ap.parse_args())
    delay = float(args['delay'])
-   limitTrials = float(args['limitTrials'])
    task = args['task']
    mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix", pos = (0,0))
 
-   run(task,delay,limitTrials,mywin)
+   run(task,delay,mywin)
 
