@@ -139,7 +139,7 @@ def execTask(mywin):
 					printPos = str(stimPosx) + ',' + str(stimPosy)
 					results.append([trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, 'no'])
 					mywin.update()
-					core.wait(2) # specifies trial delay
+					core.wait(5) # specifies trial delay
 					touchTimeout = True
 					checking = True	
 
