@@ -48,17 +48,3 @@ class Report:
         self.df_info.to_csv(self.dir + report_type + '.csv', mode='a')
 
 
-        # with open(self.dir,'w') as f:
-        #     reswrite = csv.writer(f, delimiter = ',')
-        #     for item in self.Events:
-        #         if type(item['info'])==dict:
-        #             info = [item['time']]
-        #             for key in item['info']:
-        #                 info.append(key)
-        #                 info.append(item['info'][key])
-        #             reswrite.writerow(info)
-        #         elif type(item['info'])==str:
-        #             reswrite.writerow([item['time'],item['info']])
-        #         else:
-        #             raise Exception('Wrong Type... needs to be dict or string')
-

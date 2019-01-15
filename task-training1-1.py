@@ -4,20 +4,17 @@ import marmocontrol as control
 from reports import Report
 from heatmap import Heatmap
 import pandas as pd
-import matplotlib.pyplot as plt
 
 def execTask(taskname, mywin, limitTrial, animal_ID):
-
 	mouse = event.Mouse(win=mywin)
 
-	# generating report directories and object
+	# generating report directories and objects
 	results_col = ['Trial', 'xpos', 'ypos', 'Time (s)', '-', 'Distance from stimulus center (Px)', 'Success Y/N']
 	summary_col = ['Trials','Hits','Misses', 'Average distance from stimulus center (Px)', 'Sucesss %']
 	reportobj_trial = Report(str(taskname), animal_ID, results_col, 'raw_data')
 	reportobj_summary = Report(str(taskname), animal_ID, summary_col, 'summary_data')
 	reportobj_trial.createdir()
 	reportobj_summary.createdir()
-
 	results = []
 	summary = []
 
@@ -32,8 +29,6 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 	ypos = 0
 	hits = 0
 	size = 700
-
-
 
 	while trial < limitTrial:
 		trial = trial+1
@@ -69,7 +64,6 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 	reportobj_trial.writecsv('trial')
 	average_dist = float(df_results[['Distance from stimulus center (Px)']].mean())
 
-
 	summary.append([limitTrial, hits, limitTrial - hits, average_dist, (float(hits) / float(limitTrial)) * 100])
 	reportobj_summary.addEvent(summary)
 	reportobj_summary.writecsv('summary')
@@ -80,14 +74,10 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 	#organizing coordinates
 	pressed = ([df_results['xpos']], [df_results['ypos']])
 	stimulus = ([stimPosx],[stimPosy])
-	#creating scatter object
+	#creating scatter object and saving heat map plot
 	scatter = Heatmap(stimulus,pressed,size)
 	scatter.heatmap_param(limitTrial)
-	scatter.savefig(taskname,animal_ID)
-
-	#plotting heatmap
-	# plt.imshow(heatmap.T, interpolation='bicubic', cmap=plt.cm.Reds, extent=[xedges[0],xedges[-1],yedges[0],yedges[-1]], origin = 'lower')
-	# plt.show()
+	scatter.savefig(taskname,animal_ID,limitTrial)
 
 	print(summary)
 	return results

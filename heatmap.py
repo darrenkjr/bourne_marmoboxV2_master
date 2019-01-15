@@ -6,8 +6,6 @@ import datetime
 
 class Heatmap:
     def __init__(self,stimulus,pressed,size):
-
-
         self.startTime = self.timeStamp()
 
         fig = plt.figure()
@@ -26,8 +24,8 @@ class Heatmap:
                 Rectangle(xy=(stim_x - width / 2, stim_y - height / 2), width=width, height=height, linewidth=1,
                           color='blue', fill=False))
         ax.axis('equal')
-        fig.legend((scatter_p, scatter_stim), ('Pressed', 'Stimulus Center'))
-        fig.show()
+        # fig.legend((scatter_p, scatter_stim), ('Pressed', 'Stimulus Center'))
+        # fig.show()
         self.flat_pressedx = np.array(pressed[0]).ravel()
         self.flat_pressedy = np.array(pressed[1]).ravel()
 
@@ -39,12 +37,13 @@ class Heatmap:
 
     def heatmap_param(self,limitTrial):
         self.heatmap, self.xedges, self.yedges = np.histogram2d(self.flat_pressedx.ravel(), self.flat_pressedy.ravel(),
-                                                 range=[[-500, 500], [-500, 500]], bins=limitTrial)
+                                                 range=[[-1000, 1000], [-720, 720]], bins=limitTrial)
         return
 
-    def savefig(self,taskname,animal_ID):
+    def savefig(self,taskname,animal_ID,limitTrial):
+        bounds = np.linspace(0,limitTrial,limitTrial+1)
         plt.imshow(self.heatmap.T, interpolation='bicubic', cmap=plt.cm.Reds,extent=[self.xedges[0], self.xedges[-1], self.yedges[0], self.yedges[-1]], origin='lower')
+        plt.colorbar( norm='norm',ticks=bounds)
         plot_dir = r'./data/' + str(taskname) + "/" + str(animal_ID) + "/" + self.startTime['string'] + "/"
-        plt.savefig(plot_dir + self.tt + 'scatter.png')
-
+        plt.savefig(plot_dir + 'time' + self.tt + 'scatter.png')
         return
