@@ -7,13 +7,13 @@ import errno
 import pandas as pd
 
 class Report:
-    def __init__(self,taskname,animal_ID,results_col):
+    def __init__(self,taskname,animal_ID,event_col,report_type):
         self.startTime = self.timeStamp()
         self.Events = []
         #create folder directory
-        self.dir = r'./data/' +str(taskname) + "/"+ str(animal_ID) + "/" + self.startTime['string'] + '.csv'
-        #set up results_col
-        self.results_col = results_col
+        self.dir = r'./data/' +str(taskname) + "/"+ str(animal_ID) + "/" + self.startTime['string'] + "/" + report_type + '.csv'
+        #set up event_col
+        self.event_col = event_col
 
         def createStartEvent():
             self.Events.append({'time':self.startTime['time'],'info':'Start'})
@@ -26,10 +26,10 @@ class Report:
         return {'string':st,'seconds':ts,'time':tt}
 
     #generates trial result and corresponding csv
-    def addEvent(self,results):
+    def addEvent(self,events):
         time = self.timeStamp()
         #appending results - every trial
-        self.df_info = pd.DataFrame(results, columns=self.results_col)
+        self.df_info = pd.DataFrame(events, columns=self.event_col)
         print(self.df_info)
         self.df_info.to_csv(self.dir,mode = 'a')
         return

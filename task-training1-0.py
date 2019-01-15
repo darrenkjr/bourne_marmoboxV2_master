@@ -1,15 +1,17 @@
 from psychopy import visual, core, logging, event
-from psychopy.tools.monitorunittools import posToPix 
 import time
 import marmocontrol as control
 from reports import Report
 
-def execTask(mywin, limitTrial, animal_ID):
+def execTask(taskname, mywin, limitTrial, animal_ID):
 
 	#create window
 	# mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
+
+	#creating report object and directory
 	results_col = ['Trial', 'xpos', 'ypos', 'Time (s)', '-', 'Success Y/N']
-	reportobj = Report('training1-1',animal_ID, results_col)
+	reportobj = Report(str(taskname),animal_ID, results_col,'raw_data')
+	reportobj.createdir()
 	mouse = event.Mouse(win=mywin)
 
 	#create stimulus
@@ -24,10 +26,6 @@ def execTask(mywin, limitTrial, animal_ID):
 	while trial < limitTrial:
 		trial = trial+1
 		t=time.time() #returns time in sec as float
-		
-		# reportobj.addEvent('Draw Stimulus Cross. Trial: ' + str(trial))
-		#create directory
-		reportobj.createdir()
 
 		grating.draw()
 		mywin.update()
@@ -51,10 +49,6 @@ def execTask(mywin, limitTrial, animal_ID):
 			mywin.update()
 			reportobj.addEvent(results)
 			core.wait(2) # specifies timeout period
-
-		reportobj.createdir()
-   
-	print(results)
 	return results
 	
 	
