@@ -1,44 +1,34 @@
 from psychopy import visual, core, logging, event
 import time, random
 import marmocontrol as control
-from collections import OrderedDict
 import pandas as pd
+import os
+import numpy as np
 
 def execTask(mywin):
 
 	#create window
 	mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
-
-	limitTrial = 3 #modify trial here
-	trial = 0
+	
+    	limitTrial = 3 #modify
+    	trial = 0
+	buttons = []
 	results = []
-
-
 	xpos = 0
 	ypos = 0
 	touchTimeout = False
 	hits = 0
-	size = 200
-	x = 0
-	printPos = 0
-	reward = 0
+    	size = 200
 	
 	#set stimuli limit and trial counter variables
 	stimLimit = limitTrial // 3
 	c1 = 0
 	c2 = 0
 	c3 = 0
-
-	timer = time.time()
-	ts = time.ctime(timer)
-	results = []
-	results1 = (('Trial', trial), ('X-Pos', xpos), ('Y-Pos', ypos), ('Time(s)',round(time.time() - timer)),('Stimulus type', x), ('Stimulus position (centre)', printPos), ('Reward', reward))
-	results1 = OrderedDict(results1)
-	# print(results1)
-
-	# ([trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, 'yes'])
-
+    
+    	timer = time.time()
+	
 	#display colours and position in pseudorandom sequence
 	while trial < limitTrial: 
 
@@ -112,8 +102,8 @@ def execTask(mywin):
 				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb')
 				x = 'blue'
 			elif y == 1:
-				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [1,-1,-1], colorSpace='rgb')
-				x = 'red'
+				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [1,-1,-1], colorSpace='rgb') 		
+            			x = 'red'
 			elif y == 2:
 				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [1,1,-1], colorSpace='rgb')
 				x = 'yellow'
@@ -124,11 +114,11 @@ def execTask(mywin):
 		grating.draw()
 		mywin.update()
 		mouse.clickReset() #resets a timer for timing button clicks
-		checking = False
+        	checking = False
 
-		while not checking:
-			while not mouse.getPressed()[0]:# checks whether mouse button (i.e. button '0') was pressed
-				touchTimeout = False
+        	while not checking:
+			while not mouse.getPressed()[0]:# checks whether mouse button (i.e. button '0') was pressed 
+                		touchTimeout = False
 				time.sleep(0.01) # Sleeps if not pressed and then checks again after 10ms
 			else: #If pressed
 				xpos = mouse.getPos()[0] #Returns current positions of mouse during press
@@ -136,45 +126,41 @@ def execTask(mywin):
 				buttons = mouse.isPressedIn(mask) #Returns True if mouse pressed in mask
 
 			if buttons == True:
-				if not touchTimeout:
+            			if not touchTimeout:
 					control.correctAnswer()
 					printPos = str(stimPosx) + ',' + str(stimPosy)
 					results.append([trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, 'yes'])
-					results1.update({'Trial': trial, 'X-Pos': xpos, 'Y-Pos': ypos, 'Time(s)': round(time.time() - timer),
-				'Stimulus type': x, 'Stimulus position (centre)': printPos, 'Reward': 'Yes'})
-					touchTimeout = True
-					checking = True
-					hits += 1
-				else:
-					time.sleep(0.01)
+                    			touchTimeout = True
+                    			checking = True
+                    			hits += 1
+                		else:
+                    			time.sleep(0.01)
 
 			else:
-				if not touchTimeout:
+                		if not touchTimeout:
 					control.incorrectAnswer()
 					printPos = str(stimPosx) + ',' + str(stimPosy)
 					results.append([trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, 'no'])
-					results1.update({'Trial': trial, 'X-Pos': xpos, 'Y-Pos': ypos,'Time(s)': round(time.time() - timer),'Stimulus type': x, 'Stimulus position (centre)': printPos, 'Reward': 'No'})
 					mywin.update()
 					core.wait(2) # specifies trial delay
 					touchTimeout = True
-					checking = True
+					checking = True	
 
-			df_results1 = pd.Series(results1).to_frame()
-			df_results1 = df_results1.transpose()
-			df_results1.set_index('Trial')
-			print(df_results1)
-			# print(results1)
+    	totalTime = time.time() - timer
+ 	mins = int(totalTime / 60)
+    	secs = round((totalTime % 60), 1)
+    	finalResults = '\nMain Results: \n\n' + str(mins) + ' mins ' + str(secs) + ' secs, ' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success\n'
+    	print(finalResults)
 
-	totalTime = time.time() - timer
-	mins = int(totalTime / 60)
-	secs = round((totalTime % 60), 1)
-	summary = [('Timestamp',ts),('Minutes',mins),('Seconds',secs), ('Trials',limitTrial), ('Hits',hits), ('Misses',(limitTrial - hits)), ('Success %',(float(hits)/float(limitTrial))*100)]
-	summary = OrderedDict(summary)
+	results_col = ['trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time', 'Stimulus type','Stimulus Position (Center)', 'Success (Y/N)' ]
+	df = pd.DataFrame(results, columns=results_col)
+	path = r'C:\Users\darre\Desktop'
+	df.to_csv(os.path.join(path,r'trial_results.csv'))
 
-	# print("Summary results: ",summary)
-	return results, summary
-    	# finalResults = '\nMain Results: \n\n' + str(mins) + ' mins ' + str(secs) + ' secs, ' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success\n'
-    	# print(finalResults)
+	return results
+
+
+
 
 	
 	

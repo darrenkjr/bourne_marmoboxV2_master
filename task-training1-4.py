@@ -146,12 +146,10 @@ def execTask(mywin):
     	totalTime = time.time() - timer
  	mins = int(totalTime / 60)
     	secs = round((totalTime % 60), 1)
-
     	finalResults = '\nMain Results: \n\n' + str(mins) + ' mins ' + str(secs) + ' secs, ' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success\n'
     	print(finalResults)
 
 	return results
-
 	
 	
 	
