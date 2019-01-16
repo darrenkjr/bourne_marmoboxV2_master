@@ -34,8 +34,7 @@ def execTask(mywin):
 		stimPosy = random.randint(-260,260)
 		blue = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [-1,-1,1], colorSpace='rgb')
 		red = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [1,-1,-1], colorSpace='rgb')
-		yellow = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [1,1,-1], colorSpace='rgb')
-		#mask = visual.GratingStim(win=mywin, size = 300, pos=[stimPosx,stimPosy], opacity = 0.0) 
+		yellow = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [1,1,-1], colorSpace='rgb') 
 
 		if c1 < stimLimit and c2 < stimLimit and c3 < stimLimit:
 			a = random.randint(0,2)
@@ -107,7 +106,6 @@ def execTask(mywin):
 		
 		trial = trial+1
 		
-		#mask.draw()
 		grating.draw()
 		mywin.update()
 		mouse.clickReset() #resets a timer for timing button clicks
@@ -120,7 +118,7 @@ def execTask(mywin):
 			else: #If pressed
 				xpos = mouse.getPos()[0] #Returns current positions of mouse during press
 				ypos = mouse.getPos()[1]
-				buttons = mouse.isPressedIn(grating) #Returns True if mouse pressed in mask
+				buttons = mouse.isPressedIn(grating)
 
 			if buttons == True:
             			if not touchTimeout:
