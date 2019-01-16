@@ -2,7 +2,7 @@ from psychopy import visual, core, logging, event
 import time
 import marmocontrol as control
 from reports import Report
-from heatmap import Heatmap
+from heatmap import scatterplot
 import pandas as pd
 
 def execTask(taskname, mywin, limitTrial, animal_ID):
@@ -75,9 +75,9 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 	pressed = ([df_results['xpos']], [df_results['ypos']])
 	stimulus = ([stimPosx],[stimPosy])
 	#creating scatter object and saving heat map plot
-	scatter = Heatmap(stimulus,pressed,size)
+	scatter = scatterplot(stimulus,pressed,size)
 	scatter.heatmap_param(limitTrial)
-	scatter.savefig(taskname,animal_ID,limitTrial)
+	scatter.saveheatmap(taskname,animal_ID,limitTrial)
 
 	print(summary)
 	return results

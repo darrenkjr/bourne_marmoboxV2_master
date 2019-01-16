@@ -2,9 +2,8 @@ from psychopy import visual, core, logging, event
 import time, random
 import marmocontrol as control
 import pandas as pd
-import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle
 from reports import Report
+from heatmap import scatterplot
 
 def execTask(taskname, mywin, limitTrial, animal_ID):
 
@@ -56,7 +55,7 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 		blue = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [-1,-1,1], colorSpace='rgb')
 		red = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [1,-1,-1], colorSpace='rgb')
 		yellow = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [1,1,-1], colorSpace='rgb')
-		# mask = visual.GratingStim(win=mywin, size = 300, pos=[stimPosx,stimPosy], opacity = 0.0)
+		mask = visual.GratingStim(win=mywin, size = 300, pos=[stimPosx,stimPosy], opacity = 0.0)
 
 		if c1 < stimLimit and c2 < stimLimit and c3 < stimLimit:
 			a = random.randint(0,2)
@@ -117,13 +116,13 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 		elif c1 == stimLimit and c2 == stimLimit and c3 == stimLimit: #if trial number is not divisible by three, select remainders at random
 			y = random.randint(0,2)
 			if y == 0:
-				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb')
+				grating = blue
 				x = 'blue'
 			elif y == 1:
-				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [1,-1,-1], colorSpace='rgb')
+				grating = red
 				x = 'red'
 			elif y == 2:
-				grating = visual.GratingStim(win=mywin, size=size, pos=[0,0], sf=0, color = [1,1,-1], colorSpace='rgb')
+				grating = yellow
 				x = 'yellow'
 		
 		trial = trial+1
@@ -186,31 +185,37 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 	summary.append([mins,secs, limitTrial,hits, (limitTrial - hits), average_dist, float(hits)/float(limitTrial)*100])
 	reportObj_summary.addEvent(summary)
 	#writing csv
-	reportObj_summary.writecsv()
-	reportObj_trial.writecsv()
+	reportObj_summary.writecsv('summary')
+	reportObj_trial.writecsv('trial')
 
-	# creating scatter plots
-	fig = plt.figure()
-	ax = fig.add_subplot(111)
-	scatter_p = ax.scatter(pressed[0], pressed[1], color='red', label='pressed')
-
-	stim_coord = [stimx, stimy]
-	scatter_stim = ax.scatter(stim_coord[0], stim_coord[1], color='blue', marker='x', label='stimulus center')
-
-	# add stimulus squares
-	width = size
-	height = size
-
-	stim_zipped = zip(*stim_coord)
-	for stim_x, stim_y in stim_zipped:
-		ax.add_patch(Rectangle(xy=(stim_x - width / 2, stim_y - height / 2), width=width, height=height, linewidth=1,
-							   color='blue', fill=False))
-	ax.axis('equal')
-	fig.legend((scatter_p, scatter_stim),('Pressed','Stimulus Center'))
-	fig.show()
-	plt.show()
+	# creating scatter plots and saving
+	stimulus = [stimx, stimy]
+	scatter = scatterplot(stimulus, pressed, size)
+	scatter.savescatterplot(taskname, animal_ID)
 
 	return results, summary
-	
 
+	# fig = plt.figure()
+	# ax = fig.add_subplot(111)
+	# scatter_p = ax.scatter(pressed[0], pressed[1], color='red', label='pressed')
+	#
+	#
+	# scatter_stim = ax.scatter(stim_coord[0], stim_coord[1], color='blue', marker='x', label='stimulus center')
+	#
+	# # add stimulus squares
+	# width = size
+	# height = size
+	#
+	# stim_zipped = zip(*stim_coord)
+	# for stim_x, stim_y in stim_zipped:
+	# 	ax.add_patch(Rectangle(xy=(stim_x - width / 2, stim_y - height / 2), width=width, height=height, linewidth=1,
+	# 						   color='blue', fill=False))
+	# ax.axis('equal')
+	# fig.legend((scatter_p, scatter_stim),('Pressed','Stimulus Center'))
+	# fig.show()
+	# plt.show()
+	#
+	# return results, summary
+	#
+	#
 

@@ -4,14 +4,14 @@ import numpy as np
 import time
 import datetime
 
-class Heatmap:
+class scatterplot:
     def __init__(self,stimulus,pressed,size):
         self.startTime = self.timeStamp()
 
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
-        scatter_p = ax.scatter(pressed[0], pressed[1], color='red', label='pressed', alpha=0)
-        scatter_stim = ax.scatter(stimulus[0],stimulus[1], color='blue', marker='o', label='stimulus center', alpha=0)
+        self.fig = plt.figure()
+        ax = self.fig.add_subplot(111)
+        self.scatter_p = ax.scatter(pressed[0], pressed[1], color='red', label='pressed', alpha=1, marker = 'x')
+        self.scatter_stim = ax.scatter(stimulus[0],stimulus[1], color='blue', marker='o', label='stimulus center', alpha=1)
 
         # add stimulus squares
         width = size
@@ -24,8 +24,7 @@ class Heatmap:
                 Rectangle(xy=(stim_x - width / 2, stim_y - height / 2), width=width, height=height, linewidth=1,
                           color='blue', fill=False))
         ax.axis('equal')
-        # fig.legend((scatter_p, scatter_stim), ('Pressed', 'Stimulus Center'))
-        # fig.show()
+
         self.flat_pressedx = np.array(pressed[0]).ravel()
         self.flat_pressedy = np.array(pressed[1]).ravel()
 
@@ -40,10 +39,17 @@ class Heatmap:
                                                  range=[[-1000, 1000], [-720, 720]], bins=limitTrial)
         return
 
-    def savefig(self,taskname,animal_ID,limitTrial):
+    def saveheatmap(self,taskname,animal_ID,limitTrial):
         bounds = np.linspace(0,limitTrial,limitTrial+1)
         plt.imshow(self.heatmap.T, interpolation='bicubic', cmap=plt.cm.Reds,extent=[self.xedges[0], self.xedges[-1], self.yedges[0], self.yedges[-1]], origin='lower')
         plt.colorbar( norm='norm',ticks=bounds)
+        plot_dir = r'./data/' + str(taskname) + "/" + str(animal_ID) + "/" + self.startTime['string'] + "/"
+        plt.savefig(plot_dir + 'time' + self.tt + 'scatter.png')
+        return
+
+    def savescatterplot(self,taskname,animal_ID):
+        self.fig.legend((self.scatter_p, self.scatter_stim), ('Pressed', 'Stimulus Center'))
+        self.fig.show()
         plot_dir = r'./data/' + str(taskname) + "/" + str(animal_ID) + "/" + self.startTime['string'] + "/"
         plt.savefig(plot_dir + 'time' + self.tt + 'scatter.png')
         return
