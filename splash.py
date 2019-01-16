@@ -14,11 +14,11 @@ while 1:
         try:
             marmobox.run(taskname,delay,mywin)
         except:
-           mywin.close()
-           marmocontrol.force_stop()
-           print('An error occured.')
-        finally:
-            mywin = visual.Window([1600,900], monitor="testMonitor", units="pix", pos = (0,0))
+            mywin.close()
+            marmocontrol.force_stop()
+            print('An error occured.')
+    finally:
+        mywin = visual.Window([1600,900], monitor="testMonitor", units="pix", pos = (0,0))
 
 	   
 	      
