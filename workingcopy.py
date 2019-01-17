@@ -16,7 +16,7 @@ def execTask(mywin):
 	ypos = 0
 	touchTimeout = False
 	hits = 0
-    	size = 230
+    	size = 250
 	
 	#set stimuli limit and trial counter variables
 	stimLimit = limitTrial // 3
