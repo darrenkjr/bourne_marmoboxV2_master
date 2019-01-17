@@ -13,8 +13,8 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
     mouse = event.Mouse(win=mywin)
 
     #generating report directory
-    results_col = ['Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Stimulus type','Stimulus Position (Center)','Distance from center (px)', 'Success (Y/N)']
-    summary_col = ['Finished Session Time','Minutes','Seconds', 'Trials', 'Hits', 'Misses', 'Average dist from center (Px)', 'Success%']
+    results_col = ['Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Stimulus type','Stimulus Position (Center)','Distance from center (px)', 'Reaction time', 'Success (Y/N)']
+    summary_col = ['Finished Session Time','Minutes','Seconds', 'Trials', 'Hits', 'Misses', 'Average dist from center (Px)', 'Average reaction time (s)', 'Success%']
     reportObj_trial = Report(str(taskname),animal_ID,results_col,'raw_data')
     reportObj_summary = Report(str(taskname), animal_ID, summary_col,'summary_data')
     results = []
@@ -41,16 +41,15 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
     c2 = 0
     c3 = 0
 
-    timer = time.time()
-    ts = time.ctime(timer)
 
+    # ts = time.ctime(timer)
+    timer = time.time()
     #display colours and position in pseudorandom sequence
     while trial < limitTrial:
 
         #create report directories
         reportObj_summary.createdir()
         reportObj_trial.createdir()
-
         #create stimuli
         stimPosx = random.uniform(-540,540)
         stimPosy = random.uniform(-260,260)
@@ -135,6 +134,9 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
         mouse.clickReset() #resets a timer for timing button clicks
         checking = False
 
+        #start reaction timer from drawing the grating
+        reaction_start = datetime.datetime.now()
+
         while not checking:
             while not mouse.getPressed()[0]:# checks whether mouse button (i.e. button '0') was pressed
                 touchTimeout = False
@@ -143,21 +145,27 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
                 xpos = mouse.getPos()[0] #Returns current positions of mouse during press
                 ypos = mouse.getPos()[1]
                 buttons = mouse.isPressedIn(mask) #Returns True if mouse pressed in mask
+                reaction_end = datetime.datetime.now()
 
             if buttons == True:
                 if not touchTimeout:
                     control.correctAnswer()
+
                     #calculating center position of stimulus and distance of touch fromm stimuli center
                     printPos = str(stimPosx) + ',' + str(stimPosy)
                     stimx.append(stimPosx)
                     stimy.append(stimPosy)
                     session_time = datetime.datetime.now().strftime("%H:%M %p")
+
+                    reaction_time = (reaction_end - reaction_start).total_seconds()
+
                     dist_stim = ((stimPosx - xpos) ** 2 + (stimPosy - ypos) ** 2) ** (1 / 2.0)
-                    results.append([session_time,trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, dist_stim, 'yes'])
+                    results.append([session_time,trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, dist_stim, reaction_time, 'yes'])
                     reportObj_trial.addEvent(results)
                     touchTimeout = True
                     checking = True
                     hits += 1
+                    print('Reaction time (s): ', str(reaction_time))
                 else:
                     time.sleep(0.01)
 
@@ -169,7 +177,10 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
                     stimy.append(stimPosy)
                     dist_stim = ((stimPosx - xpos) ** 2 + (stimPosy - ypos) ** 2) ** (1 / 2.0)
                     session_time = datetime.datetime.now().strftime("%H:%M %p")
-                    results.append([session_time, trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, dist_stim, 'no'])
+
+                    reaction_time = (reaction_end - reaction_start).total_seconds()
+
+                    results.append([session_time, trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, dist_stim, reaction_time, 'no'])
                     reportObj_trial.addEvent(results)
                     mywin.update()
                     core.wait(2) # specifies trial delay in seconds
@@ -185,8 +196,9 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
     mins = int(totalTime / 60)
     secs = round((totalTime % 60), 1)
     average_dist = float(df_results[['Distance from center (px)']].mean())
+    average_rtime = float(df_results[['Reaction time']].mean())
     fin_session_time = datetime.datetime.now().strftime("%H:%M %p")
-    summary.append([fin_session_time,mins,secs, limitTrial,hits, (limitTrial - hits), average_dist, float(hits)/float(limitTrial)*100])
+    summary.append([fin_session_time,mins,secs, limitTrial,hits, (limitTrial - hits), average_dist, average_rtime, float(hits)/float(limitTrial)*100])
     reportObj_summary.addEvent(summary)
 
     #writing csv
