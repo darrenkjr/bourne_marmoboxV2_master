@@ -44,7 +44,7 @@ class scatterplot:
         plt.imshow(self.heatmap.T, interpolation='bicubic', cmap=plt.cm.Reds,extent=[self.xedges[0], self.xedges[-1], self.yedges[0], self.yedges[-1]], origin='lower')
         plt.colorbar( norm='norm',ticks=bounds)
         plot_dir = r'./data' + "/" + str(animal_ID) + "/" + str(taskname) + "/"
-        plt.savefig(plot_dir + self.st + self.tt + 'heatmap.png')
+        plt.savefig(plot_dir + self.st + '-' + self.tt + 'heatmap.png')
         return
 
     # def savescatterplot(self,taskname,animal_ID):
