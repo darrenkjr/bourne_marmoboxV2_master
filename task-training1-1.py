@@ -1,5 +1,5 @@
 from psychopy import visual, core, logging, event
-import time
+import time, datetime
 import marmocontrol as control
 from reports import Report
 from heatmap import scatterplot
@@ -9,8 +9,8 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 	mouse = event.Mouse(win=mywin)
 
 	# generating report directories and objects
-	results_col = ['Trial', 'xpos', 'ypos', 'Time (s)', '-', 'Distance from stimulus center (Px)', 'Success Y/N']
-	summary_col = ['Trials','Hits','Misses', 'Average distance from stimulus center (Px)', 'Sucesss %']
+	results_col = ['Timestamp','Trial', 'xpos', 'ypos', 'Time (s)', '-', 'Distance from stimulus center (Px)', 'Success Y/N']
+	summary_col = ['Finished Session Time','Trials','Hits','Misses', 'Average distance from stimulus center (Px)', 'Sucesss %']
 	reportobj_trial = Report(str(taskname), animal_ID, results_col, 'raw_data')
 	reportobj_summary = Report(str(taskname), animal_ID, summary_col, 'summary_data')
 	reportobj_trial.createdir()
@@ -49,13 +49,15 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 		if buttons == True:
 			control.correctAnswer()
 			dist_stim = ((stimPosx - xpos) ** 2 + (stimPosy - ypos) ** 2) ** (1 / 2)
-			results.append([trial, xpos, ypos, time.time() - t, '-', dist_stim, 'yes'])
+			session_time = datetime.datetime.now().strftime("%H:%M %p")
+			results.append([session_time,trial, xpos, ypos, time.time() - t, '-', dist_stim, 'yes'])
 			reportobj_trial.addEvent(results)
 			hits += 1
 		else:
 			control.incorrectAnswer()
 			dist_stim = ((stimPosx - xpos) ** 2 + (stimPosy - ypos) ** 2) ** (1 / 2)
-			results.append([trial, xpos, ypos, time.time() - t, '-', dist_stim, 'no'])
+			session_time = datetime.datetime.now().strftime("%H:%M %p")
+			results.append([session_time,trial, xpos, ypos, time.time() - t, '-', dist_stim, 'no'])
 			mywin.update()
 			reportobj_trial.addEvent(results)
 			core.wait(2) # specifies timeout period
@@ -64,7 +66,8 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 	reportobj_trial.writecsv('trial')
 	average_dist = float(df_results[['Distance from stimulus center (Px)']].mean())
 
-	summary.append([limitTrial, hits, limitTrial - hits, average_dist, (float(hits) / float(limitTrial)) * 100])
+	session_time = datetime.datetime.now().strftime("%H:%M %p")
+	summary.append([session_time,limitTrial, hits, limitTrial - hits, average_dist, (float(hits) / float(limitTrial)) * 100])
 	reportobj_summary.addEvent(summary)
 	reportobj_summary.writecsv('summary')
 
