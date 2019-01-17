@@ -214,7 +214,7 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
     stimulus = mat_stim - mat_stim
 
     scatter = scatterplot(stimulus, pressed_translated, size)
-    scatter.heatmap_param(limitTrial)
+    scatter.heatmap_param(limitTrial,size)
     scatter.saveheatmap(taskname, animal_ID,limitTrial)
     return totalTime
 

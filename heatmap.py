@@ -34,9 +34,10 @@ class scatterplot:
         self.tt = datetime.datetime.fromtimestamp(self.ts).strftime('%H-%M-%S')
         return {'string': self.st, 'seconds': self.ts, 'time': self.tt}
 
-    def heatmap_param(self,limitTrial):
+    def heatmap_param(self,limitTrial, size):
+        relative_dim = size*(1.5)
         self.heatmap, self.xedges, self.yedges = np.histogram2d(self.flat_pressedx.ravel(), self.flat_pressedy.ravel(),
-                                                 range=[[-600, 600], [-600, 600]], bins=limitTrial)
+                                                 range=[[-relative_dim , relative_dim ], [-relative_dim , relative_dim ]], bins=limitTrial)
         return
 
     def saveheatmap(self,taskname,animal_ID,limitTrial):
