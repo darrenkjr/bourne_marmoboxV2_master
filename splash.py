@@ -1,7 +1,7 @@
 from psychopy import visual
 import marmobox
 import marmocontrol
-mywin = visual.Window([800, 480], monitor="testMonitor", units="pix", pos = (0,0))
+mywin = visual.Window([1600, 900], monitor="testMonitor", units="pix", pos = (0,0))
 while 1:
     print('Background display initiated.')
     r = raw_input('Manual Reward? (y/n): ')
@@ -18,7 +18,7 @@ while 1:
             marmocontrol.force_stop()
             print('An error occured.')
         finally:
-            mywin = visual.Window([800,480], monitor="testMonitor", units="pix", pos = (0,0))
+            mywin = visual.Window([1600,900], monitor="testMonitor", units="pix", pos = (0,0))
 
 	   
 	      
