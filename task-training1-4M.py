@@ -32,6 +32,7 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
     stimx = []
     stimy = []
     stim_coord = []
+    session = 1
 
     #set stimuli limit and trial counter variables
     stimLimit = limitTrial // 3
@@ -188,8 +189,8 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
     summary.append([fin_session_time,mins,secs, limitTrial,hits, (limitTrial - hits), average_dist, float(hits)/float(limitTrial)*100])
     reportObj_summary.addEvent(summary)
     #writing csv
-    reportObj_summary.writecsv('summary')
-    reportObj_trial.writecsv('trial')
+    reportObj_summary.writecsv('summary',session)
+    reportObj_trial.writecsv('trial',session)
 
     # creating scatter plots and saving
     stimulus = [stimx, stimy]
@@ -198,27 +199,5 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
 
     return results, summary
 
-# fig = plt.figure()
-# ax = fig.add_subplot(111)
-# scatter_p = ax.scatter(pressed[0], pressed[1], color='red', label='pressed')
-#
-#
-# scatter_stim = ax.scatter(stim_coord[0], stim_coord[1], color='blue', marker='x', label='stimulus center')
-#
-# # add stimulus squares
-# width = size
-# height = size
-#
-# stim_zipped = zip(*stim_coord)
-# for stim_x, stim_y in stim_zipped:
-# 	ax.add_patch(Rectangle(xy=(stim_x - width / 2, stim_y - height / 2), width=width, height=height, linewidth=1,
-# 						   color='blue', fill=False))
-# ax.axis('equal')
-# fig.legend((scatter_p, scatter_stim),('Pressed','Stimulus Center'))
-# fig.show()
-# plt.show()
-#
-# return results, summary
-#
-#
+
 
