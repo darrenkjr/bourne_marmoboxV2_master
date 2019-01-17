@@ -10,8 +10,8 @@ class scatterplot:
 
         self.fig = plt.figure()
         ax = self.fig.add_subplot(111)
-        self.scatter_p = ax.scatter(pressed[0], pressed[1], color='red', label='pressed', alpha=1, marker = 'x')
-        self.scatter_stim = ax.scatter(stimulus[0],stimulus[1], color='blue', marker='o', label='stimulus center', alpha=1)
+        self.scatter_p = ax.scatter(pressed[0], pressed[1], color='red', label='pressed', alpha=0, marker = 'x')
+        self.scatter_stim = ax.scatter(stimulus[0],stimulus[1], color='blue', marker='o', label='stimulus center', alpha=0)
 
         # add stimulus squares
         width = size
@@ -43,13 +43,13 @@ class scatterplot:
         bounds = np.linspace(0,limitTrial,limitTrial+1)
         plt.imshow(self.heatmap.T, interpolation='bicubic', cmap=plt.cm.Reds,extent=[self.xedges[0], self.xedges[-1], self.yedges[0], self.yedges[-1]], origin='lower')
         plt.colorbar( norm='norm',ticks=bounds)
-        plot_dir = r'./data/' + str(taskname) + "/" + str(animal_ID) + "/" + self.startTime['string'] + "/"
-        plt.savefig(plot_dir + 'time' + self.tt + 'scatter.png')
+        plot_dir = r'./data' + "/" + str(animal_ID) + "/" + str(taskname) + "/"
+        plt.savefig(plot_dir + 'time' + self.tt + 'heatmap.png')
         return
 
-    def savescatterplot(self,taskname,animal_ID):
-        self.fig.legend((self.scatter_p, self.scatter_stim), ('Pressed', 'Stimulus Center'))
-        self.fig.show()
-        plot_dir = r'./data/' + str(taskname) + "/" + str(animal_ID) + "/" + self.startTime['string'] + "/"
-        plt.savefig(plot_dir + 'time' + self.tt + 'scatter.png')
-        return
+    # def savescatterplot(self,taskname,animal_ID):
+    #     self.fig.legend((self.scatter_p, self.scatter_stim), ('Pressed', 'Stimulus Center'))
+    #     self.fig.show()
+    #     plot_dir = r'./data'+ "/"+ str(animal_ID) + "/" + str(taskname) + "/"
+    #     plt.savefig(plot_dir + 'time' + self.tt + 'scatter.png')
+    #     return

@@ -23,11 +23,13 @@ def run(taskname,delay, limitTrial, mywin):
 
    time.sleep(float(delay))
 
+   code_start = datetime.datetime.now()
    print('Started!')
-
    task = importlib.import_module(taskname)
-#    mywin.close()
-   results = task.execTask(taskname, mywin, limitTrial, animal_ID)
+   totalTime = task.execTask(taskname, mywin, limitTrial, animal_ID)
+
+   code_endtime = (datetime.datetime.now() - code_start).total_seconds()
+   print('Task ended, elasped time (less time spent in testing): ' + str(code_endtime - totalTime) + 'seconds')
 
 
 if __name__ == '__main__':
@@ -44,5 +46,9 @@ if __name__ == '__main__':
    task = args['task']
    mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix", pos = (0,0))
 
+
+
    run(task,delay,limitTrial,mywin)
+
+
 

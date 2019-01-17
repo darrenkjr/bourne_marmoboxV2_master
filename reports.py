@@ -11,7 +11,7 @@ class Report:
         self.startTime = self.timeStamp()
         self.Events = []
         #create folder directory
-        self.dir = r'./data/'+ "/"+ str(animal_ID) +str(taskname) + "/"
+        self.dir = r'./data'+ "/"+ str(animal_ID) + "/" + str(taskname) + "/"
         # + self.startTime['string'] + "/"
         #set up event_col
         self.event_col = event_col

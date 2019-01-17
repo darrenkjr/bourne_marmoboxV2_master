@@ -4,6 +4,7 @@ import marmocontrol as control
 import pandas as pd
 from reports import Report
 from heatmap import scatterplot
+import numpy as np
 
 def execTask(taskname, mywin, limitTrial, animal_ID):
 
@@ -148,10 +149,10 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
                     control.correctAnswer()
                     #calculating center position of stimulus and distance of touch fromm stimuli center
                     printPos = str(stimPosx) + ',' + str(stimPosy)
-                    dist_stim = ((stimPosx - xpos)**2 + (stimPosy - ypos)**2)**(1/2)
                     stimx.append(stimPosx)
                     stimy.append(stimPosy)
                     session_time = datetime.datetime.now().strftime("%H:%M %p")
+                    dist_stim = ((stimPosx - xpos) ** 2 + (stimPosy - ypos) ** 2) ** (1 / 2.0)
                     results.append([session_time,trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, dist_stim, 'yes'])
                     reportObj_trial.addEvent(results)
                     touchTimeout = True
@@ -166,7 +167,7 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
                     printPos = str(stimPosx) + ',' + str(stimPosy)
                     stimx.append(stimPosx)
                     stimy.append(stimPosy)
-                    dist_stim = ((stimPosx - xpos) ** 2 + (stimPosy - ypos) ** 2) ** (1 / 2)
+                    dist_stim = ((stimPosx - xpos) ** 2 + (stimPosy - ypos) ** 2) ** (1 / 2.0)
                     session_time = datetime.datetime.now().strftime("%H:%M %p")
                     results.append([session_time, trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, dist_stim, 'no'])
                     reportObj_trial.addEvent(results)
@@ -176,7 +177,6 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
                     checking = True
 
             df_results = pd.DataFrame(results, columns = results_col)
-            print('See here: \n',df_results)
 
             #taking pressed data and stimulus data
             pressed = ([df_results['X-Position (Pressed)']], [df_results['Y-Position (Pressed)']])
@@ -188,16 +188,23 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
     fin_session_time = datetime.datetime.now().strftime("%H:%M %p")
     summary.append([fin_session_time,mins,secs, limitTrial,hits, (limitTrial - hits), average_dist, float(hits)/float(limitTrial)*100])
     reportObj_summary.addEvent(summary)
+
     #writing csv
     reportObj_summary.writecsv('summary',session)
     reportObj_trial.writecsv('trial',session)
 
-    # creating scatter plots and saving
-    stimulus = [stimx, stimy]
-    scatter = scatterplot(stimulus, pressed, size)
-    scatter.savescatterplot(taskname, animal_ID)
+    # creating heatmap plots and saving
+    # to ensure translaton back to 'center', stimx and stimy gives info on amount of translation needed to provide the same result
+    #hence set stimulus = [0,0] and subtract all elements within pressed coordinates by provided translation
+    #converting to matrix
+    mat_stim = np.array([stimx,stimy])
+    pressed_translated = [(np.array(pressed[0]) - mat_stim[0]), (np.array(pressed[1]) - mat_stim[1])]
+    stimulus = mat_stim - mat_stim
 
-    return results, summary
+    scatter = scatterplot(stimulus, pressed_translated, size)
+    scatter.heatmap_param(limitTrial)
+    scatter.saveheatmap(taskname, animal_ID,limitTrial)
+    return totalTime
 
 
 
