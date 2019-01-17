@@ -8,8 +8,6 @@ import numpy as np
 
 def execTask(taskname, mywin, limitTrial, animal_ID):
 
-    #create window
-    # mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
     mouse = event.Mouse(win=mywin)
 
     #generating report directory
@@ -17,6 +15,8 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
     summary_col = ['Finished Session Time','Minutes','Seconds', 'Trials', 'Hits', 'Misses', 'Average dist from center (Px)', 'Average reaction time (s)', 'Success%']
     reportObj_trial = Report(str(taskname),animal_ID,results_col,'raw_data')
     reportObj_summary = Report(str(taskname), animal_ID, summary_col,'summary_data')
+    reportObj_summary.createdir()
+    reportObj_trial.createdir()
     results = []
     summary = []
 
@@ -26,7 +26,7 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
     ypos = 0
     touchTimeout = False
     hits = 0
-    size = 200
+    stim_size = 200
     x = 0
     printPos = 0
     reward = 0
@@ -41,22 +41,17 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
     c2 = 0
     c3 = 0
 
-
-    # ts = time.ctime(timer)
     timer = time.time()
     #display colours and position in pseudorandom sequence
     while trial < limitTrial:
 
-        #create report directories
-        reportObj_summary.createdir()
-        reportObj_trial.createdir()
         #create stimuli
         stimPosx = random.uniform(-540,540)
         stimPosy = random.uniform(-260,260)
-        blue = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [-1,-1,1], colorSpace='rgb')
-        red = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [1,-1,-1], colorSpace='rgb')
-        yellow = visual.GratingStim(win=mywin, size=size, pos=[stimPosx,stimPosy], sf=0, color = [1,1,-1], colorSpace='rgb')
-        mask = visual.GratingStim(win=mywin, size = 300, pos=[stimPosx,stimPosy], opacity = 0.0)
+        blue = visual.GratingStim(win=mywin, size=stim_size, pos=[stimPosx,stimPosy], sf=0, color = [-1,-1,1], colorSpace='rgb')
+        red = visual.GratingStim(win=mywin, size=stim_size, pos=[stimPosx,stimPosy], sf=0, color = [1,-1,-1], colorSpace='rgb')
+        yellow = visual.GratingStim(win=mywin, size=stim_size, pos=[stimPosx,stimPosy], sf=0, color = [1,1,-1], colorSpace='rgb')
+        mask = visual.GratingStim(win=mywin, size = stim_size*1.5, pos=[stimPosx,stimPosy], opacity = 0.0)
 
         if c1 < stimLimit and c2 < stimLimit and c3 < stimLimit:
             a = random.randint(0,2)
@@ -155,7 +150,7 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
                     printPos = str(stimPosx) + ',' + str(stimPosy)
                     stimx.append(stimPosx)
                     stimy.append(stimPosy)
-                    session_time = datetime.datetime.now().strftime("%H:%M %p")
+                    session_time = datetime.datetime.now().strftime("%Y-%m-%d-%H:%M %p")
 
                     reaction_time = (reaction_end - reaction_start).total_seconds()
 
@@ -176,7 +171,7 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
                     stimx.append(stimPosx)
                     stimy.append(stimPosy)
                     dist_stim = ((stimPosx - xpos) ** 2 + (stimPosy - ypos) ** 2) ** (1 / 2.0)
-                    session_time = datetime.datetime.now().strftime("%H:%M %p")
+                    session_time = datetime.datetime.now().strftime("%Y-%m-%d-%H:%M %p")
 
                     reaction_time = (reaction_end - reaction_start).total_seconds()
 
@@ -193,10 +188,10 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
             pressed = ([df_results['X-Position (Pressed)']], [df_results['Y-Position (Pressed)']])
 
     totalTime = time.time() - timer
-    mins = int(totalTime / 60)
-    secs = round((totalTime % 60), 1)
     average_dist = float(df_results[['Distance from center (px)']].mean())
     average_rtime = float(df_results[['Reaction time']].mean())
+    mins = int(totalTime / 60)
+    secs = round((totalTime % 60), 1)
     fin_session_time = datetime.datetime.now().strftime("%H:%M %p")
     summary.append([fin_session_time,mins,secs, limitTrial,hits, (limitTrial - hits), average_dist, average_rtime, float(hits)/float(limitTrial)*100])
     reportObj_summary.addEvent(summary)
@@ -213,8 +208,8 @@ def execTask(taskname, mywin, limitTrial, animal_ID):
     pressed_translated = [(np.array(pressed[0]) - mat_stim[0]), (np.array(pressed[1]) - mat_stim[1])]
     stimulus = mat_stim - mat_stim
 
-    scatter = scatterplot(stimulus, pressed_translated, size)
-    scatter.heatmap_param(limitTrial,size)
+    scatter = scatterplot(stimulus, pressed_translated, stim_size)
+    scatter.heatmap_param(limitTrial,stim_size)
     scatter.saveheatmap(taskname, animal_ID,limitTrial)
     return totalTime
 
