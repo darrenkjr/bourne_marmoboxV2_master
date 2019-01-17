@@ -36,7 +36,7 @@ class scatterplot:
 
     def heatmap_param(self,limitTrial):
         self.heatmap, self.xedges, self.yedges = np.histogram2d(self.flat_pressedx.ravel(), self.flat_pressedy.ravel(),
-                                                 range=[[-1000, 1000], [-720, 720]], bins=limitTrial)
+                                                 range=[[-600, 600], [-600, 600]], bins=limitTrial)
         return
 
     def saveheatmap(self,taskname,animal_ID,limitTrial):
@@ -44,7 +44,7 @@ class scatterplot:
         plt.imshow(self.heatmap.T, interpolation='bicubic', cmap=plt.cm.Reds,extent=[self.xedges[0], self.xedges[-1], self.yedges[0], self.yedges[-1]], origin='lower')
         plt.colorbar( norm='norm',ticks=bounds)
         plot_dir = r'./data' + "/" + str(animal_ID) + "/" + str(taskname) + "/"
-        plt.savefig(plot_dir + 'time' + self.tt + 'heatmap.png')
+        plt.savefig(plot_dir + self.st + self.tt + 'heatmap.png')
         return
 
     # def savescatterplot(self,taskname,animal_ID):

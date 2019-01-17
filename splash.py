@@ -11,8 +11,9 @@ while 1:
     elif r == 'n':
         taskname = raw_input('Select Task: ')
         delay = input('Set Delay: ')
+        limitTrial = input('Set amount of trials: ')
         try:
-            marmobox.run(taskname,delay,mywin)
+            marmobox.run(taskname,delay,mywin,limitTrial)
         except:
            mywin.close()
            marmocontrol.force_stop()
