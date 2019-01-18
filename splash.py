@@ -15,21 +15,22 @@ while entry == 1:
     elif r == 'n':
         animal_ID = raw_input("Enter animal I.D: ")
         taskname = raw_input('Select Task: ')
-        delay = int(raw_input('Set Delay: '))
-        limitTrial = input('Set amount of trials: ')
+        delay = raw_input('Set Delay: ')
+        limitTrial = int(raw_input('Set amount of trials: '))
 
         try:
             marmobox.run(taskname,delay,mywin,limitTrial,animal_ID)
             mywin.close()
             new = raw_input('Start new session? (y/n): ')
             if new == 'n':
+                print('Your funeral.  ')
                 entry = 2
             else:
                 entry = 1
-        except:
-            mywin.close()
-            marmocontrol.force_stop()
-            print('An error occured.')
+        # except:
+        #     mywin.close()
+        #     marmocontrol.force_stop()
+        #     print('An error occured.')
         finally:
             mywin
 
