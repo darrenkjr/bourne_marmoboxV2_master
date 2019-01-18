@@ -26,7 +26,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID):
     ypos = 0
     touchTimeout = False
     hits = 0
-    stim_size = 200
+    stim_size = 250
     x = 0
     printPos = 0
     reward = 0
