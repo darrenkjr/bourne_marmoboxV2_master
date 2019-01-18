@@ -6,14 +6,16 @@ from psychopy import visual, core, logging, event
 
 #to run, in terminal - python marmobox.py -t -taskname -d -delay amt in no. -l -amount of trials required
 
-def run(taskname,delay, limitTrial, mywin):
+def run(taskname,delay,  mywin,limitTrial, animal_ID):
    # detect marmoset
    print('Attempting to detect ' + animal_ID)
+
    beamInput = False
    #beamInput = True
    #while beamInput:
    #    time.sleep(0.1)
    #    beamInput = control.readBeam()
+
    print('Animal found! Now attempting to read RFID tag...')
 
    # read RFID tag
@@ -26,7 +28,7 @@ def run(taskname,delay, limitTrial, mywin):
    code_start = datetime.datetime.now()
    print('Started!')
    task = importlib.import_module(taskname)
-   totalTime = task.execTask(taskname, mywin, limitTrial, animal_ID)
+   totalTime = task.execTask(taskname,limitTrial,mywin, animal_ID)
 
    code_endtime = (datetime.datetime.now() - code_start).total_seconds()
    print('Task ended, elasped time (less time spent in testing): ' + str(code_endtime - totalTime) + 'seconds')
@@ -48,7 +50,7 @@ if __name__ == '__main__':
 
 
 
-   run(task,delay,limitTrial,mywin)
+   run(task,delay,limitTrial,mywin,animal_ID)
 
 
 

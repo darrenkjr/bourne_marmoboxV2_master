@@ -6,7 +6,7 @@ from reports import Report
 from heatmap import scatterplot
 import numpy as np
 
-def execTask(taskname, mywin, limitTrial, animal_ID):
+def execTask(taskname,limitTrial,mywin, animal_ID):
 
     mouse = event.Mouse(win=mywin)
 
