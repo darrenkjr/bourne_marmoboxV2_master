@@ -21,6 +21,7 @@ while entry == 1:
         try:
             marmobox.run(taskname,delay,mywin,limitTrial,animal_ID)
             mywin.close()
+            mywin
             new = raw_input('Start new session? (y/n): ')
             if new == 'n':
                 print('Your funeral.  ')
