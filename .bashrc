@@ -113,4 +113,3 @@ if ! shopt -oq posix; then
 fi
 
 alias ini-marmobox="cd /home/pi/marmobox && export DISPLAY=:0 && ls -l task*.py && python splash.py"
-alias ini-marmobox-mac="cd /BOURNE_MARMOBOX && export DISPLAY=:0 && ls -l task*.py && python splash.py"
