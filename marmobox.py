@@ -5,6 +5,7 @@ import time, datetime
 from psychopy import visual, core, logging, event
 
 #to run, in terminal - python marmobox.py -t -taskname -d -delay amt in no. -l -amount of trials required
+#alternatively in terminal: python splash.py
 
 def run(taskname,delay,  mywin,limitTrial, animal_ID):
    # detect marmoset
@@ -21,16 +22,18 @@ def run(taskname,delay,  mywin,limitTrial, animal_ID):
    # read RFID tag
    # implement with rfid.py
    # launch experiment
-   print('Starting task: ' + str(taskname) + ' in ' + str(delay) + ' seconds...')
 
+   print('Starting task: ' + str(taskname) + ' in ' + str(delay) + ' seconds...')
    time.sleep(float(delay))
 
    code_start = datetime.datetime.now()
+
    print('Started!')
    task = importlib.import_module(taskname)
-   totalTime = task.execTask(taskname,limitTrial,mywin, animal_ID)
 
+   totalTime = task.execTask(taskname,limitTrial,mywin, animal_ID)
    code_endtime = (datetime.datetime.now() - code_start).total_seconds()
+
    print('Task ended, elasped time (less time spent in testing): ' + str(code_endtime - totalTime) + 'seconds')
 
 
@@ -47,8 +50,6 @@ if __name__ == '__main__':
    limitTrial = float(args['limitTrial'])
    task = args['task']
    mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix", pos = (0,0))
-
-
 
    run(task,delay,limitTrial,mywin,animal_ID)
 
