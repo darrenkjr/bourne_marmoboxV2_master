@@ -7,7 +7,7 @@ from psychopy import visual, core, logging, event
 #to run, in terminal - python marmobox.py -t -taskname -d -delay amt in no. -l -amount of trials required
 #alternatively in terminal: python splash.py
 
-def run(taskname,delay,  mywin,limitTrial, animal_ID):
+def run(taskname,delay, mywin,limitTrial, animal_ID):
    # detect marmoset
    print('Attempting to detect ' + animal_ID)
 
