@@ -178,7 +178,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID):
                     results.append([session_time, trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, dist_stim, reaction_time, 'no'])
                     reportObj_trial.addEvent(results)
                     mywin.update()
-                    core.wait(2) # specifies trial delay in seconds
+                    core.wait(5) # specifies trial delay in seconds
                     touchTimeout = True
                     checking = True
 
