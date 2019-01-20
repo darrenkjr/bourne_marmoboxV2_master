@@ -48,10 +48,10 @@ if __name__ == '__main__':
    args = vars(ap.parse_args())
    delay = float(args['delay'])
    limitTrial = float(args['limitTrial'])
-   task = args['task']
+   taskname = args['task']
    mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix", pos = (0,0))
 
-   run(task,delay,limitTrial,mywin,animal_ID)
+   run(taskname,delay, mywin,limitTrial, animal_ID)
 
 
 

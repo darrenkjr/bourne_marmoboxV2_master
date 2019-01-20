@@ -1,3 +1,5 @@
+#test - random displacement of stimuli, with constant size.
+
 from psychopy import visual, core, logging, event
 import time, random
 import marmocontrol as control
