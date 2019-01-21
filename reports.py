@@ -47,6 +47,8 @@ class Report:
 
     def writecsv(self,report_type,session):
 
+        print('Reporting sesson: Session',session)
+
         if session == 1:
             header_bool = 'True'
         else:
