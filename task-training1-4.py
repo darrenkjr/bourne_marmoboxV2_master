@@ -33,7 +33,9 @@ def execTask(taskname,limitTrial,mywin, animal_ID):
     stimx = []
     stimy = []
     stim_coord = []
-    session = 1
+    session =
+    rangex = 1280/2 - stim_size
+    rangey = 720/2 - stim_size 
 
     #set stimuli limit and trial counter variables
     stimLimit = limitTrial // 3
@@ -46,8 +48,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID):
     while trial < limitTrial:
 
         #create stimuli
-        stimPosx = random.uniform(-540,540)
-        stimPosy = random.uniform(-260,260)
+        stimPosx = random.uniform(-rangex,rangex)
+        stimPosy = random.uniform(-rangey,rangey)
         blue = visual.GratingStim(win=mywin, size=stim_size, pos=[stimPosx,stimPosy], sf=0, color = [-1,-1,1], colorSpace='rgb')
         red = visual.GratingStim(win=mywin, size=stim_size, pos=[stimPosx,stimPosy], sf=0, color = [1,-1,-1], colorSpace='rgb')
         yellow = visual.GratingStim(win=mywin, size=stim_size, pos=[stimPosx,stimPosy], sf=0, color = [1,1,-1], colorSpace='rgb')
