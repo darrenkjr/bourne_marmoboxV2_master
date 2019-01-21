@@ -4,10 +4,9 @@ import importlib
 import time, datetime
 from psychopy import visual, core, logging, event
 
-#to run, in terminal - python marmobox.py -t -taskname -d -delay amt in no. -l -amount of trials required
 #alternatively in terminal: python splash.py
 
-def run(taskname,delay, mywin,limitTrial, animal_ID):
+def run(taskname,delay, mywin,limitTrial, animal_ID, session):
    # detect marmoset
    print('Attempting to detect ' + animal_ID)
 
@@ -31,7 +30,7 @@ def run(taskname,delay, mywin,limitTrial, animal_ID):
    print('Started!')
    task = importlib.import_module(taskname)
 
-   totalTime = task.execTask(taskname,limitTrial,mywin, animal_ID)
+   totalTime = task.execTask(taskname,limitTrial,mywin, animal_ID,session)
    code_endtime = (datetime.datetime.now() - code_start).total_seconds()
 
    print('Task ended, elasped time (less time spent in testing): ' + str(code_endtime - totalTime) + 'seconds')

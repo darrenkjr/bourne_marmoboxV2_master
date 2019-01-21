@@ -6,12 +6,12 @@ from heatmap import scatterplot
 import pandas as pd
 
 
-def execTask(taskname,limitTrial,mywin,animal_ID):
+def execTask(taskname,limitTrial,mywin,animal_ID,session):
 	mouse = event.Mouse(win=mywin)
 
 	# generating report directories and objects
-	results_col = ['Timestamp','Trial', 'xpos', 'ypos', 'Time (s)', '-', 'Distance from stimulus center (Px)', 'Reaction time (s)', 'Success Y/N']
-	summary_col = ['Finished Session Time','Trials','Hits','Misses', 'Average distance from stimulus center (Px)', 'Avg reaction time (s)', 'Sucesss %']
+	results_col = ['Session','Timestamp','Trial', 'xpos', 'ypos', 'Time (s)', '-', 'Distance from stimulus center (Px)', 'Reaction time (s)', 'Success Y/N']
+	summary_col = ['Session','Finished Session Time','Trials','Hits','Misses', 'Average distance from stimulus center (Px)', 'Avg reaction time (s)', 'Sucesss %']
 	reportobj_trial = Report(str(taskname), animal_ID, results_col, 'raw_data')
 	reportobj_summary = Report(str(taskname), animal_ID, summary_col, 'summary_data')
 	reportobj_trial.createdir()
@@ -30,7 +30,6 @@ def execTask(taskname,limitTrial,mywin,animal_ID):
 	ypos = 0
 	hits = 0
 	size = 700
-	session = 1
 	timer = time.time()
 
 	while trial < limitTrial:
@@ -59,7 +58,7 @@ def execTask(taskname,limitTrial,mywin,animal_ID):
 			dist_stim = ((stimPosx - xpos) ** 2 + (stimPosy - ypos) ** 2) ** (1 / 2.0)
 			session_time = datetime.datetime.now().strftime("%H:%M %p")
 			reaction_time = (reaction_end - reaction_start).total_seconds()
-			results.append([session_time,trial, xpos, ypos, time.time() - t, '-', dist_stim, reaction_time, 'yes'])
+			results.append([session,session_time,trial, xpos, ypos, time.time() - t, '-', dist_stim, reaction_time, 'yes'])
 			reportobj_trial.addEvent(results)
 			hits += 1
 		else:
@@ -67,7 +66,7 @@ def execTask(taskname,limitTrial,mywin,animal_ID):
 			dist_stim = ((stimPosx - xpos) ** 2 + (stimPosy - ypos) ** 2) ** (1 / 2.0)
 			session_time = datetime.datetime.now().strftime("%H:%M %p")
 			reaction_time = (reaction_end - reaction_start).total_seconds()
-			results.append([session_time,trial, xpos, ypos, time.time() - t, '-', dist_stim, reaction_time, 'no'])
+			results.append([session,session_time,trial, xpos, ypos, time.time() - t, '-', dist_stim, reaction_time, 'no'])
 			mywin.update()
 			reportobj_trial.addEvent(results)
 			core.wait(2) # specifies timeout period
@@ -81,12 +80,9 @@ def execTask(taskname,limitTrial,mywin,animal_ID):
 	avg_reactiontime = float(df_results[['Reaction time (s)']].mean())
 
 	session_time = datetime.datetime.now().strftime("%H:%M %p")
-	summary.append([session_time,limitTrial, hits, limitTrial - hits, average_dist, avg_reactiontime, (float(hits) / float(limitTrial)) * 100])
+	summary.append([session,session_time,limitTrial, hits, limitTrial - hits, average_dist, avg_reactiontime, (float(hits) / float(limitTrial)) * 100])
 	reportobj_summary.addEvent(summary)
 	reportobj_summary.writecsv('summary',session)
-
-	# print('Summary Results: \n' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + 'Reaction time, ' + str(avg_reactiontime) + str("{:.2%}".format(float(hits)/float(limitTrial)))  + ' success')
-	# print('Raw results: \n', df_results)
 
 	#organizing coordinates
 	pressed = ([df_results['xpos']], [df_results['ypos']])
@@ -98,7 +94,6 @@ def execTask(taskname,limitTrial,mywin,animal_ID):
 
 	totalTime = time.time() - timer
 
-	print(summary)
 	return totalTime
 	
 	

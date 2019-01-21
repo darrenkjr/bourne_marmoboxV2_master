@@ -48,9 +48,9 @@ class Report:
     def writecsv(self,report_type,session):
 
         if session == 1:
-            header = 'True'
+            header_bool = 'True'
         else:
-            header = 'False'
-        self.df_info.to_csv(self.dir + report_type + '.csv', mode='a',header=header)
+            header_bool = None
+        self.df_info.to_csv(self.dir + report_type + '.csv', mode='a',header=header_bool)
 
 

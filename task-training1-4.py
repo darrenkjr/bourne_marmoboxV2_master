@@ -1,3 +1,5 @@
+#testdescription: randomly displaced stimuli with random colours
+
 from psychopy import visual, core, logging, event
 import time, random, datetime
 import marmocontrol as control
@@ -6,13 +8,13 @@ from reports import Report
 from heatmap import scatterplot
 import numpy as np
 
-def execTask(taskname,limitTrial,mywin, animal_ID):
+def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     mouse = event.Mouse(win=mywin)
 
     #generating report directory
-    results_col = ['Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Stimulus type','Stimulus Position (Center)','Distance from center (px)', 'Reaction time', 'Success (Y/N)']
-    summary_col = ['Finished Session Time','Minutes','Seconds', 'Trials', 'Hits', 'Misses', 'Average dist from center (Px)', 'Average reaction time (s)', 'Success%']
+    results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Stimulus type','Stimulus Position (Center)','Distance from center (px)', 'Reaction time', 'Success (Y/N)']
+    summary_col = ['Session','Finished Session Time','Minutes','Seconds', 'Trials', 'Hits', 'Misses', 'Average dist from center (Px)', 'Average reaction time (s)', 'Success%']
     reportObj_trial = Report(str(taskname),animal_ID,results_col,'raw_data')
     reportObj_summary = Report(str(taskname), animal_ID, summary_col,'summary_data')
     reportObj_summary.createdir()
@@ -33,7 +35,6 @@ def execTask(taskname,limitTrial,mywin, animal_ID):
     stimx = []
     stimy = []
     stim_coord = []
-    session = 1
 
     #set stimuli limit and trial counter variables
     stimLimit = limitTrial // 3
@@ -155,7 +156,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID):
                     reaction_time = (reaction_end - reaction_start).total_seconds()
 
                     dist_stim = ((stimPosx - xpos) ** 2 + (stimPosy - ypos) ** 2) ** (1 / 2.0)
-                    results.append([session_time,trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, dist_stim, reaction_time, 'yes'])
+                    results.append([session,session_time,trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, dist_stim, reaction_time, 'yes'])
                     reportObj_trial.addEvent(results)
                     touchTimeout = True
                     checking = True
@@ -175,7 +176,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID):
 
                     reaction_time = (reaction_end - reaction_start).total_seconds()
 
-                    results.append([session_time, trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, dist_stim, reaction_time, 'no'])
+                    results.append([session, session_time, trial, xpos, ypos, round(time.time() - timer, 4), x, printPos, dist_stim, reaction_time, 'no'])
                     reportObj_trial.addEvent(results)
                     mywin.update()
                     core.wait(5) # specifies trial delay in seconds
@@ -193,7 +194,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID):
     mins = int(totalTime / 60)
     secs = round((totalTime % 60), 1)
     fin_session_time = datetime.datetime.now().strftime("%H:%M %p")
-    summary.append([fin_session_time,mins,secs, limitTrial,hits, (limitTrial - hits), average_dist, average_rtime, float(hits)/float(limitTrial)*100])
+    summary.append([session,fin_session_time,mins,secs, limitTrial,hits, (limitTrial - hits), average_dist, average_rtime, float(hits)/float(limitTrial)*100])
     reportObj_summary.addEvent(summary)
 
     #writing csv

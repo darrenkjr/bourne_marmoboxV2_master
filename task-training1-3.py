@@ -1,19 +1,31 @@
 from psychopy import visual, core, logging, event
-import time, random
+import time, datetime, random
 import marmocontrol as control
+from reports import Report
+from heatmap import scatterplot
+import pandas as pd
 
-def execTask(mywin):
+
+def execTask(taskname,limitTrial,mywin,animal_ID):
 
 	#create window
-	# mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
 	mouse = event.Mouse(win=mywin)
-        stepNumber = 5 
-    	limitTrial = 15 #modify
-    	reductionFactor = limitTrial // stepNumber #number of success trials to next size decrease
-	successCounter = 0
-    	trial = 0
-	buttons = []
+
+	# generating report directories and objects
+	results_col = ['Timestamp','Trial', 'xpos', 'ypos', 'Time (s)', 'Print Size', 'Distance from stimulus center (Px)', 'Reaction time (s)', 'Success Y/N']
+	summary_col = ['Finished Session Time','Trials','Hits','Misses', 'Average distance from stimulus center (Px)', 'Avg reaction time (s)', 'Sucesss %']
+	reportobj_trial = Report(str(taskname), animal_ID, results_col, 'raw_data')
+	reportobj_summary = Report(str(taskname), animal_ID, summary_col, 'summary_data')
+	reportobj_trial.createdir()
+	reportobj_summary.createdir()
 	results = []
+	summary = []
+
+	step_number = 5
+    reductionFactor = limitTrial // step_number #number of success trials to next size decrease
+	successCounter = 0
+	trial = 0
+	buttons = []
 	xpos = 0
 	ypos = 0
 	initSize = 700

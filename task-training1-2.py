@@ -5,15 +5,16 @@ from reports import Report
 from heatmap import scatterplot
 import pandas as pd
 
-def execTask(taskname,limitTrial,mywin,animal_ID):
+def execTask(taskname,limitTrial,mywin,animal_ID,session):
 
     #create window
+    print('This is session:', session)
     mouse = event.Mouse(win=mywin)
 
     #generating report directories and objects
-    results_col = ['Timestamp', 'Trial', 'xpos', 'ypos', 'Time (s)', '-', 'Distance from stimulus center (Px)',
+    results_col = ['Session','Timestamp', 'Trial', 'xpos', 'ypos', 'Time (s)', 'Stimuli color', 'Distance from stimulus center (Px)',
                    'Reaction time (s)', 'Success Y/N']
-    summary_col = ['Finished Session Time', 'Trials', 'Hits', 'Misses', 'Average distance from stimulus center (Px)',
+    summary_col = ['Session','Finished Session Time', 'Trials', 'Hits', 'Misses', 'Average distance from stimulus center (Px)',
                    'Avg reaction time (s)', 'Sucesss %']
     reportobj_trial = Report(str(taskname), animal_ID, results_col, 'raw_data')
     reportobj_summary = Report(str(taskname), animal_ID, summary_col, 'summary_data')
@@ -32,7 +33,6 @@ def execTask(taskname,limitTrial,mywin,animal_ID):
     touchTimeout = False
     hits = 0
     size = 700
-    session = 1
     timer = time.time()
     stimLimit = limitTrial // 3
 
@@ -134,9 +134,9 @@ def execTask(taskname,limitTrial,mywin,animal_ID):
                 if not touchTimeout:
                     control.correctAnswer()
                     dist_stim = ((stimPosx - xpos) ** 2 + (stimPosy - ypos) ** 2) ** (1 / 2.0)
-                    session_time = datetime.datetime.now().strftime("%H:%M %p")
+                    session_time = datetime.datetime.now().strftime("%d-%m-%y, %H:%M %p")
                     reaction_time = (reaction_end - reaction_start).total_seconds()
-                    results.append([session_time,trial, xpos, ypos, round(time.time() - timer, 4), x, dist_stim,reaction_time, 'yes'])
+                    results.append([session,session_time,trial, xpos, ypos, round(time.time() - timer, 4), x, dist_stim,reaction_time, 'yes'])
                     reportobj_trial.addEvent(results)
 
                     touchTimeout = True
@@ -149,10 +149,10 @@ def execTask(taskname,limitTrial,mywin,animal_ID):
                     control.incorrectAnswer()
 
                     dist_stim = ((stimPosx - xpos) ** 2 + (stimPosy - ypos) ** 2) ** (1 / 2.0)
-                    session_time = datetime.datetime.now().strftime("%H:%M %p")
+                    session_time = datetime.datetime.now().strftime("%d-%m-%y, %H:%M %p")
                     reaction_time = (reaction_end - reaction_start).total_seconds()
 
-                    results.append([session_time,trial, xpos, ypos, round(time.time() - timer, 4), x, dist_stim,reaction_time, 'no'])
+                    results.append([session,session_time,trial, xpos, ypos, round(time.time() - timer, 4), x, dist_stim,reaction_time, 'no'])
                     reportobj_trial.addEvent(results)
 
                     mywin.update()
@@ -164,25 +164,25 @@ def execTask(taskname,limitTrial,mywin,animal_ID):
         ###########################################
         # below, data presenting
 
-        df_results = pd.DataFrame(results, columns=results_col)
-        reportobj_trial.writecsv('trial', session)
-        average_dist = float(df_results[['Distance from stimulus center (Px)']].mean())
-        avg_reactiontime = float(df_results[['Reaction time (s)']].mean())
+    df_results = pd.DataFrame(results, columns=results_col)
+    reportobj_trial.writecsv('trial', session)
+    average_dist = float(df_results[['Distance from stimulus center (Px)']].mean())
+    avg_reactiontime = float(df_results[['Reaction time (s)']].mean())
 
-        session_time = datetime.datetime.now().strftime("%H:%M %p")
-        summary.append([session_time, limitTrial, hits, limitTrial - hits, average_dist, avg_reactiontime,
-                        (float(hits) / float(limitTrial)) * 100])
-        reportobj_summary.addEvent(summary)
-        reportobj_summary.writecsv('summary', session)
+    session_time = datetime.datetime.now().strftime("%d-%m-%y, %H:%M %p")
+    summary.append([session,session_time, limitTrial, hits, limitTrial - hits, average_dist, avg_reactiontime,
+                    (float(hits) / float(limitTrial)) * 100])
+    reportobj_summary.addEvent(summary)
+    reportobj_summary.writecsv('summary', session)
 
-        # organizing coordinates
-        pressed = ([df_results['xpos']], [df_results['ypos']])
-        stimulus = ([stimPosx], [stimPosy])
-        # creating scatter object and saving heat map plot
-        scatter = scatterplot(stimulus, pressed, size)
-        scatter.heatmap_param(limitTrial, size)
-        scatter.saveheatmap(taskname, animal_ID, limitTrial)
+    # organizing coordinates
+    pressed = ([df_results['xpos']], [df_results['ypos']])
+    stimulus = ([stimPosx], [stimPosy])
+    # creating scatter object and saving heat map plot
+    scatter = scatterplot(stimulus, pressed, size)
+    scatter.heatmap_param(limitTrial, size)
+    scatter.saveheatmap(taskname, animal_ID, limitTrial)
 
-        totalTime = time.time() - timer
+    totalTime = time.time() - timer
 
     return totalTime
