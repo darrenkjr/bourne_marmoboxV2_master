@@ -44,7 +44,7 @@ class scatterplot:
         bounds = np.linspace(0,limitTrial,limitTrial+1)
         plt.imshow(self.heatmap.T, interpolation='bicubic', cmap=plt.cm.Reds,extent=[self.xedges[0], self.xedges[-1], self.yedges[0], self.yedges[-1]], origin='lower')
         plt.colorbar( norm='norm',ticks=bounds)
-        plot_dir = r'./data' + "/" + str(animal_ID) + "/" + str(taskname) + "/"
+        plot_dir = r'./data' + "/" + str(animal_ID) + "/" + str(taskname) + "/" + str(self.st) + "/"
         plt.savefig(plot_dir + self.st + '-' + self.tt + 'heatmap.png')
         return
 

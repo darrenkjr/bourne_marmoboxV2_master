@@ -11,8 +11,7 @@ class Report:
         self.startTime = self.timeStamp()
         self.Events = []
         #create folder directory
-        self.dir = r'./data'+ "/"+ str(animal_ID) + "/" + str(taskname) + "/"
-        # + self.startTime['string'] + "/"
+        self.dir = r'./data'+ "/"+ str(animal_ID) + "/" + str(taskname) + "/" +  str(self.st) + "/"
         #set up event_col
         self.event_col = event_col
 
@@ -22,9 +21,9 @@ class Report:
 
     def timeStamp(self):
         ts = time.time()
-        st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
+        self.st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
         tt = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
-        return {'string':st,'seconds':ts,'time':tt}
+        return {'string':self.st,'seconds':ts,'time':tt}
 
     #generates trial result and corresponding csv
     def addEvent(self,events):
