@@ -33,7 +33,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID):
     stimx = []
     stimy = []
     stim_coord = []
-    session =
+    session = 1
     rangex = 1280/2 - stim_size
     rangey = 720/2 - stim_size 
 
