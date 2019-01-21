@@ -1,36 +1,46 @@
 from psychopy import visual, core, logging, event
-from psychopy.tools.monitorunittools import posToPix 
-import time, random
+import time, random, datetime
 import marmocontrol as control
-#from reports import Report
+from reports import Report
+from heatmap import scatterplot
+import pandas as pd
 
-def execTask(mywin):
+def execTask(taskname,limitTrial,mywin,animal_ID):
 
     #create window
-    # mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
-    #reportobj = Report('training1-1','testanimal')
     mouse = event.Mouse(win=mywin)
 
+    #generating report directories and objects
+    results_col = ['Timestamp', 'Trial', 'xpos', 'ypos', 'Time (s)', '-', 'Distance from stimulus center (Px)',
+                   'Reaction time (s)', 'Success Y/N']
+    summary_col = ['Finished Session Time', 'Trials', 'Hits', 'Misses', 'Average distance from stimulus center (Px)',
+                   'Avg reaction time (s)', 'Sucesss %']
+    reportobj_trial = Report(str(taskname), animal_ID, results_col, 'raw_data')
+    reportobj_summary = Report(str(taskname), animal_ID, summary_col, 'summary_data')
+    reportobj_trial.createdir()
+    reportobj_summary.createdir()
+    results = []
+    summary = []
+
     #create stimulus
-    limitTrial=50
     trial = 0
     buttons = []
-    results = []
     xpos = 0
     ypos = 0
+    stimPosx = 0
+    stimPosy = 0
     touchTimeout = False
     hits = 0
     size = 700
-	
+    session = 1
+    timer = time.time()
     stimLimit = limitTrial // 3
+
     c1 = 0
     c2 = 0
     c3 = 0
 
-    timer = time.time()
-
     while trial < limitTrial:
-	
         if c1 < stimLimit and c2 < stimLimit and c3 < stimLimit:
             y = random.randint(0,2)
             if y == 0:
@@ -101,14 +111,15 @@ def execTask(mywin):
                 x = 'yellow' 
             
         trial = trial+1
-        
-       # reportobj.addEvent('Draw Stimulus Cross. Trial: ' + str(trial))
-        #reportobj.save()
 
         grating.draw()
         mywin.update()
+        #starting reaction time recording after grating is drawn
+        reaction_start = datetime.datetime.now()
+
         mouse.clickReset() #resets a timer for timing button clicks
         checking = False
+
         while not checking:
             while not mouse.getPressed()[0]:# checks whether mouse button (i.e. button '0') was pressed 
                 touchTimeout = False
@@ -117,12 +128,17 @@ def execTask(mywin):
                 xpos = mouse.getPos()[0] #Returns current positions of mouse during press
                 ypos = mouse.getPos()[1]
                 buttons = mouse.isPressedIn(grating) #Returns True if mouse pressed in grating
+                reaction_end = datetime.datetime.now()
 
             if buttons == True:
                 if not touchTimeout:
                     control.correctAnswer()
-                    results.append([trial, xpos, ypos, round(time.time() - timer, 4), x, 'yes'])
-                   # reportobj.addEvent('Mouse Correct')
+                    dist_stim = ((stimPosx - xpos) ** 2 + (stimPosy - ypos) ** 2) ** (1 / 2.0)
+                    session_time = datetime.datetime.now().strftime("%H:%M %p")
+                    reaction_time = (reaction_end - reaction_start).total_seconds()
+                    results.append([session_time,trial, xpos, ypos, round(time.time() - timer, 4), x, dist_stim,reaction_time, 'yes'])
+                    reportobj_trial.addEvent(results)
+
                     touchTimeout = True
                     checking = True
                     hits += 1
@@ -131,15 +147,42 @@ def execTask(mywin):
             else:
                 if not touchTimeout:
                     control.incorrectAnswer()
-                    results.append([trial, xpos, ypos, round(time.time() - timer, 4), x, 'no'])
+
+                    dist_stim = ((stimPosx - xpos) ** 2 + (stimPosy - ypos) ** 2) ** (1 / 2.0)
+                    session_time = datetime.datetime.now().strftime("%H:%M %p")
+                    reaction_time = (reaction_end - reaction_start).total_seconds()
+
+                    results.append([session_time,trial, xpos, ypos, round(time.time() - timer, 4), x, dist_stim,reaction_time, 'no'])
+                    reportobj_trial.addEvent(results)
+
                     mywin.update()
-                   # reportobj.addEvent('Mouse InCorrect')
+
                     core.wait(2) # specifies timeout period
                     touchTimeout = True
                     checking = True
-                    
-           # reportobj.save()
-   
-    finalResults = '\nMain Results: \n\n' + str(round(time.time() - timer, 4)) + ' seconds, ' + str(limitTrial) + ' trials, ' + str(hits) + ' hits, ' + str(limitTrial - hits) + ' misses, ' + str("{:.2%}".format(float(hits)/float(limitTrial))) + ' success\n'
-    print(finalResults)
-    return results
+
+        ###########################################
+        # below, data presenting
+
+        df_results = pd.DataFrame(results, columns=results_col)
+        reportobj_trial.writecsv('trial', session)
+        average_dist = float(df_results[['Distance from stimulus center (Px)']].mean())
+        avg_reactiontime = float(df_results[['Reaction time (s)']].mean())
+
+        session_time = datetime.datetime.now().strftime("%H:%M %p")
+        summary.append([session_time, limitTrial, hits, limitTrial - hits, average_dist, avg_reactiontime,
+                        (float(hits) / float(limitTrial)) * 100])
+        reportobj_summary.addEvent(summary)
+        reportobj_summary.writecsv('summary', session)
+
+        # organizing coordinates
+        pressed = ([df_results['xpos']], [df_results['ypos']])
+        stimulus = ([stimPosx], [stimPosy])
+        # creating scatter object and saving heat map plot
+        scatter = scatterplot(stimulus, pressed, size)
+        scatter.heatmap_param(limitTrial, size)
+        scatter.saveheatmap(taskname, animal_ID, limitTrial)
+
+        totalTime = time.time() - timer
+
+    return totalTime
