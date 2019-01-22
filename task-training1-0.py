@@ -1,19 +1,22 @@
 from psychopy import visual, core, logging, event
-from psychopy.tools.monitorunittools import posToPix 
 import time
 import marmocontrol as control
 from reports import Report
 
-def execTask(mywin):
+def execTask(taskname, mywin, limitTrial, animal_ID):
 
 	#create window
 	# mywin = visual.Window([1280,720], monitor="testMonitor", units="pix")
-	reportobj = Report('training1-1','testanimal')
+
+	#creating report object and directory
+	results_col = ['Trial', 'xpos', 'ypos', 'Time (s)', '-', 'Success Y/N']
+	reportobj = Report(str(taskname),animal_ID, results_col,'raw_data')
+	reportobj.createdir()
 	mouse = event.Mouse(win=mywin)
 
 	#create stimulus
 	grating = visual.GratingStim(win=mywin, size=(1280,720), pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb' )
-	limitTrial=40
+	#limitTrial=40
 	trial = 0
 	buttons = []
 	results = []
@@ -23,9 +26,6 @@ def execTask(mywin):
 	while trial < limitTrial:
 		trial = trial+1
 		t=time.time() #returns time in sec as float
-		
-		reportobj.addEvent('Draw Stimulus Cross. Trial: ' + str(trial))
-		reportobj.save()
 
 		grating.draw()
 		mywin.update()
@@ -41,15 +41,14 @@ def execTask(mywin):
 		if buttons == True:
 			control.correctAnswer()
 			results.append([trial, xpos, ypos, time.time() - t, '-', 'yes'])
-			reportobj.addEvent('Mouse Correct')
+			#add results to event module as a list
+			reportobj.addEvent(results)
 		else:
 			control.incorrectAnswer()
 			results.append([trial, xpos, ypos, time.time() - t, '-', 'no'])
 			mywin.update()
-			reportobj.addEvent('Mouse InCorrect')
+			reportobj.addEvent(results)
 			core.wait(2) # specifies timeout period
-		reportobj.save()
-   
 	return results
 	
 	

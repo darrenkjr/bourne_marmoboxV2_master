@@ -16,35 +16,35 @@ class marmoIO:
         
     def BuzzerCorrect(self,state):
         if state:
-	        print 'Correct Buzzer On with Duty Cycle: ' + str(self.DEFAULT_DUTYCYCLE)
+	        print('Correct Buzzer On with Duty Cycle: ' + str(self.DEFAULT_DUTYCYCLE))
         else:
-            print 'Correct Buzzer Off'
+            print('Correct Buzzer Off')
         
     def BuzzerIncorrect(self,state):
         if state:
-            print 'Incorrect Buzzer On with Duty Cycle: ' + str(self.DEFAULT_DUTYCYCLE)
+            print('Incorrect Buzzer On with Duty Cycle: ' + str(self.DEFAULT_DUTYCYCLE))
         else:
-            print 'Incorrect Buzzer Off'
+            print('Incorrect Buzzer Off')
         
     def Pump(self,state):
         if state:
-            print 'Pump On'
+            print('Pump On')
         else:
-            print 'Pump Off'
+            print('Pump Off')
         # print 'Pin: ' + str(self.PIN_PUMP)
 
     def GreenLED(self,state): #State is either 1 on or 0 off
         if state:
-            print 'GreenLED On' 
+            print('GreenLED On')
         else:
-            print 'GreenLED Off'
+            print('GreenLED Off')
         # print 'Pin: ' + str(self.PIN_PUMP)
 
     def BlueLED(self,state): #State is either 1 on or 0 off
         if state:
-            print 'BlueLED On' 
+            print('BlueLED On')
         else:
-            print 'BlueLED Off'
+            print('BlueLED Off')
         # print 'Pin: ' + str(self.PIN_PUMP)
 
     def readBeam(self):
@@ -52,10 +52,10 @@ class marmoIO:
         return False if str(val) else True
 
     def finish(self):
-        print 'Clean GPIO State'
+        print('Clean GPIO State')
 
 def forceStop():
-    print 'Force Pump Stop'
+    print('Force Pump Stop')
 
 def manual_reward():
-    print 'Delivered manual reward'
+    print('Delivered manual reward')

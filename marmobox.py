@@ -1,54 +1,56 @@
 import marmocontrol as control
 import argparse
 import importlib
-import time
-from psychopy import visual
+import time, datetime
+from psychopy import visual, core, logging, event
 
-def run(taskname,delay,mywin):
+#alternatively in terminal: python splash.py
+
+def run(taskname,delay, mywin,limitTrial, animal_ID, session):
    # detect marmoset
-   print('Attempting to detect marmoset...')
+   print('Attempting to detect ' + animal_ID)
+
    beamInput = False
    #beamInput = True
    #while beamInput:
    #    time.sleep(0.1)
    #    beamInput = control.readBeam()
-   print('Found! Now attempting to read RFID tag...')
+
+   print('Animal found! Now attempting to read RFID tag...')
 
    # read RFID tag
    # implement with rfid.py
    # launch experiment
-   print('Starting task: ' + str(taskname) + ' in ' + str(delay) + ' seconds...')
 
+   print('Starting task: ' + str(taskname) + ' in ' + str(delay) + ' seconds...')
    time.sleep(float(delay))
 
+   code_start = datetime.datetime.now()
+
    print('Started!')
-
    task = importlib.import_module(taskname)
-#    mywin.close()
-   results = task.execTask(mywin)
-    
-   print('Detailed Results: \n')
 
-   print('Trial, Touch Position (x,y), Time (sec), Stimulus (task-specific), Reward:')
-   for r in results:
-       print(','.join(str(c) for c in r))
-   print('\n')
-       
+   totalTime = task.execTask(taskname,limitTrial,mywin, animal_ID,session)
+   code_endtime = (datetime.datetime.now() - code_start).total_seconds()
 
- #if/elif statement which directs program to animal's csv. file (RFID dependent or otherwise)
+   print('Task ended, elasped time (less time spent in testing): ' + str(code_endtime - totalTime) + 'seconds')
 
- #  path = '/home/pi/marmobox/data/F1920.csv'
-  # file = open(path, 'a') # + args['task'] + 
-   #file.write('task, trial, xpos, ypos, stimulus, reward')
-   #file.close()
 
 if __name__ == '__main__':
    # initialise the argument parser
    ap = argparse.ArgumentParser()
    ap.add_argument('-t', '--task', help='name of the task')
    ap.add_argument('-d', '--delay', help='delay in seconds for executing tasks')
+   ap.add_argument('-l', '--limitTrial', help = 'input number of required trials')
+   animal_ID = raw_input("Enter animal I.D: ")
+
    args = vars(ap.parse_args())
    delay = float(args['delay'])
-   task = args['task']
+   limitTrial = float(args['limitTrial'])
+   taskname = args['task']
    mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix", pos = (0,0))
-   run(task,delay,mywin)
+
+   run(taskname,delay, mywin,limitTrial, animal_ID)
+
+
+
