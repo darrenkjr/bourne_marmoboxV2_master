@@ -10,14 +10,21 @@ class Report:
     def __init__(self,taskname,animal_ID,event_col,report_type):
         self.startTime = self.timeStamp()
         self.Events = []
+        self.dir = 'a'
         #create folder directory
-        self.dir = r'./data'+ "/"+ str(animal_ID) + "/" + str(taskname) + "/" +  str(self.st) + "/"
+        if report_type == "summary_data":
+            self.dir = r'./data' + "/" + str(animal_ID) + "/" + str(taskname) + "/"
+        elif report_type == "raw_data":
+            self.dir = r'./data'+ "/"+ str(animal_ID) + "/" + str(taskname) + "/" + str(self.st) + "/"
+
         #set up event_col
         self.event_col = event_col
 
-        def createStartEvent():
-            self.Events.append({'time':self.startTime['time'],'info':'Start'})
-        createStartEvent()
+        return
+        # def createStartEvent():
+        #
+        #     self.Events.append({'time':self.startTime['time'],'info':'Start'})
+        # createStartEvent()
 
     def timeStamp(self):
         ts = time.time()

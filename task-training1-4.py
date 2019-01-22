@@ -14,7 +14,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     #generating report directory
     results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Stimulus type','Stimulus Position (Center)','Distance from center (px)', 'Reaction time', 'Success (Y/N)']
-    summary_col = ['Session','Finished Session Time','Minutes','Seconds', 'Trials', 'Hits', 'Misses', 'Average dist from center (Px)', 'Average reaction time (s)', 'Success%']
+    summary_col = ['Session','Timestamp (End)','Minutes','Seconds', 'Trials', 'Hits', 'Misses', 'Average dist from center (Px)', 'Average reaction time (s)', 'Success%']
     reportObj_trial = Report(str(taskname),animal_ID,results_col,'raw_data')
     reportObj_summary = Report(str(taskname), animal_ID, summary_col,'summary_data')
     reportObj_summary.createdir()
@@ -195,7 +195,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     average_rtime = float(df_results[['Reaction time']].mean())
     mins = int(totalTime / 60)
     secs = round((totalTime % 60), 1)
-    fin_session_time = datetime.datetime.now().strftime("%H:%M %p")
+    fin_session_time = datetime.datetime.now().strftime("%Y-%m-%d-%H:%M %p")
     summary.append([session,fin_session_time,mins,secs, limitTrial,hits, (limitTrial - hits), average_dist, average_rtime, float(hits)/float(limitTrial)*100])
     reportObj_summary.addEvent(summary)
 

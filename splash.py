@@ -41,10 +41,10 @@ while entry == 1:
                 #check task name
                 entry = 1
 
-        except:
-            mywin.close()
-            marmocontrol.force_stop()
-            print('An error occured.')
+        # except:
+        #     mywin.close()
+        #     marmocontrol.force_stop()
+        #     print('An error occured.')
 
         finally:
             mywin
