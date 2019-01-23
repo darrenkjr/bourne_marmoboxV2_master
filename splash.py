@@ -50,5 +50,4 @@ while entry == 1:
             mywin
 
 
-	   
-	    0
+
