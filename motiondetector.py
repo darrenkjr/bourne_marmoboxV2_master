@@ -18,6 +18,7 @@ args = vars(ap.parse_args())
 #if video argument is none, then we take webcam live stream source
 if args.get('video', None) is None:
     vs = VideoStream(src=0).start()
+    fps = 60
     time.sleep(2.0)
 
 #otherwise, read in actual video file or ip source
@@ -102,7 +103,7 @@ while True:
         break
 
 print('Total occupied frames: ', occupy_frame)
-print('Total time interaction with test(s): ', occupy_frame / fps)
+print('Total time interaction with test(s): ', (occupy_frame / fps))
 vs.stop() if args.get("video",None) is None else vs.release()
 cv2.destroyAllWindows()
 
