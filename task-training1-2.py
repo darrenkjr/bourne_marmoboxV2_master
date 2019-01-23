@@ -177,7 +177,8 @@ def execTask(taskname,limitTrial,mywin,animal_ID,session):
 
     # organizing coordinates
     pressed = ([df_results['xpos']], [df_results['ypos']])
-    stimulus = ([stimPosx], [stimPosy])
+    stimulus = ([stimPosx
+                 ], [stimPosy])
     # creating scatter object and saving heat map plot
     scatter = scatterplot(stimulus, pressed, size)
     scatter.heatmap_param(limitTrial, size)
