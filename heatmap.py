@@ -37,7 +37,7 @@ class scatterplot:
     def heatmap_param(self,limitTrial, size):
         relative_dim = size*(1.5)
         self.heatmap, self.xedges, self.yedges = np.histogram2d(self.flat_pressedx.ravel(), self.flat_pressedy.ravel(),
-                                                 range=[[-relative_dim , relative_dim ], [-relative_dim , relative_dim ]], bins=limitTrial)
+                                                 range=[[-1280/2, 1280/2 ], [-720/2 , 720/2 ]], bins=limitTrial)
         return
 
     def saveheatmap(self,taskname,animal_ID,limitTrial):
