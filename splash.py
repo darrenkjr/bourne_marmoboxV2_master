@@ -29,7 +29,6 @@ while entry == 1:
 
     try:
         print('Starting session' + str(session) + ' ...')
-        mywin.close()
         marmobox.run(taskname,mywin,limitTrial,animal_ID,session) #removed delay param
         new = raw_input('Start new session? (y/n): ')
 
@@ -40,6 +39,7 @@ while entry == 1:
         else:
             #check task name
             entry = 1
+            mywin.close()
 
     # except:
     #     mywin.close()
