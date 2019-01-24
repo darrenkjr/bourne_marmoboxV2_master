@@ -11,6 +11,7 @@ import numpy as np
 def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     mouse = event.Mouse(win=mywin)
+    mywin
 
     #generating report directory
     results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Reward Stimulus Position','Distance from reward center (px)', 'Reaction time (s)', 'Success (Y/N)']
