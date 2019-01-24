@@ -20,7 +20,7 @@ def execTask(mywin):
     ypos = 0
     touchTimeout = False
     hits = 0
-    size = 200
+    size = 250
 	
     stimLimit = limitTrial // 3
     c1 = 0
