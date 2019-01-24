@@ -13,7 +13,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     mouse = event.Mouse(win=mywin)
 
     #generating report directory
-    results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Reward Stimulus','Distance from reward center (px)', 'Reaction time (s)', 'Success (Y/N)']
+    results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Reward Stimulus Position','Distance from reward center (px)', 'Reaction time (s)', 'Success (Y/N)']
     summary_col = ['Session','Finished Session Time','Trials', 'Hits', 'Misses', 'Average dist from center (Px)', 'Average reaction time (s)', 'Reward Stimulus - Red', 'Success%']
     reportObj_trial = Report(str(taskname),animal_ID,results_col,'raw_data')
     reportObj_summary = Report(str(taskname), animal_ID, summary_col,'summary_data')
@@ -49,8 +49,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     yellow = [1,1,-1]
     red = [1,-1,-1]
 
-    reward_color = yellow
-    penalty_color = red
+    reward_color = red
+    penalty_color = yellow
 
     left_color = [1,1,1]
     right_color = [1,1,1]
