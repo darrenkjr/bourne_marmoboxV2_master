@@ -134,7 +134,6 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                     elif correct == True:
                         if not touchTimeout:
-                            control.correctAnswer()
                             
                             mywin.flip()
 
@@ -142,7 +141,9 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             if rand_stim == 0:
                                 left_grating.draw(mywin)
                             else:
-                                right_grating.draw(mywin)
+                                right_grating.draw(mywin)                            
+                            
+                            control.correctAnswer()
 
                             mywin.flip()
                             core.wait(1)
@@ -165,8 +166,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                     elif wrong == True:
                         if not touchTimeout:
-                            control.incorrectAnswer()
-
+                            
                             mywin.flip()
                             
                             #present penalty stim for initial duration of timeout
@@ -174,9 +174,12 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                                 right_grating.draw(mywin)
                             else:
                                 left_grating.draw(mywin)
+                            
+                            control.incorrectAnswer()
 
                             core.wait(1)
                             mywin.flip()
+                            
                             dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
                             session_time = datetime.datetime.now().strftime("%H:%M %p")
                             reaction_time = (reaction_end - reaction_start).total_seconds()
