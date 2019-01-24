@@ -142,10 +142,10 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                                 left_grating.draw(mywin)
                             else:
                                 right_grating.draw(mywin)                            
-                            
+
+                            mywin.flip()                            
                             control.correctAnswer()
 
-                            mywin.flip()
                             core.wait(1)
                             mywin.flip()                            
                             
@@ -175,6 +175,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             else:
                                 left_grating.draw(mywin)
                             
+                            mywin.flip()
                             control.incorrectAnswer()
 
                             core.wait(1)
