@@ -44,8 +44,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     #creating left and right boxes
 
-    left_grating = visual.GratingStim(win=mywin, size=stim_size, pos=left_box_coord, sf=0, color=[-1, -1, 1], colorSpace='rgb')
-    right_grating = visual.GratingStim(win=mywin, size=stim_size, pos=right_box_coord, sf=0, color = [1,1,-1], colorSpace='rgb')
+    left_grating = visual.ImageStim(win=mywin, image = 'images/composite1-1.jpg', size=stim_size, pos=left_box_coord)
+    right_grating = visual.ImageStim(win=mywin, image = 'images/composite1-2.jpg', size=stim_size, pos=right_box_coord)
     #begin trial
 
     while trial < limitTrial:
