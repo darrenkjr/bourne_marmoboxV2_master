@@ -146,7 +146,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             mywin.flip()                            
                             control.correctAnswer()
 
-                            core.wait(1)
+                            core.wait(0.5)
                             mywin.flip()                            
                             
                             dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
@@ -178,7 +178,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             mywin.flip()
                             control.incorrectAnswer()
 
-                            core.wait(1)
+                            core.wait(0.5)
                             mywin.flip()
                             
                             dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
