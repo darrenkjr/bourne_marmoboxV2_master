@@ -6,7 +6,6 @@ from reports import Report
 from heatmap import scatterplot
 import numpy as np
 
-#reward color = yellow
 
 def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
@@ -46,15 +45,10 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     right_box_coord = [1280/4, 0]
 
 
-    #set reward parameters, reward stimuli / variable = color
-    yellow = [1,1,-1]
-    red = [1,-1,-1]
+    #set reward parameters, reward stimuli / variable = image
 
-    reward_color = red
-    penalty_color = yellow
-
-    left_color = [1,1,1]
-    right_color = [1,1,1]
+    reward_image = 'images/composite1-1.jpg'
+    penalty_image = 'images/composite1-2.jpg'
 
     #pseudo-rng
     #if not wholly divisble by 2, will round to nearest integer.
@@ -69,32 +63,25 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
             # creating left and right boxes
 
-            left_grating = visual.GratingStim(win=mywin, size=stim_size, pos=left_box_coord, sf=0, color=left_color,
-                                              colorSpace='rgb')
-            right_grating = visual.GratingStim(win=mywin, size=stim_size, pos=right_box_coord, sf=0, color=right_color,
-                                               colorSpace='rgb')
-
             if rand_stim == 0:
-                left_color = reward_color
+                left_image = reward_image
                 reward_stim = left_grating
                 reward_coord = left_box_coord
                 penalty_coord = right_box_coord
                 penalty_stim = right_grating
-                right_color = penalty_color
+                right_image = penalty_image
                 reward = 'left'
             elif rand_stim == 1:
-                right_color = reward_color
+                right_image = reward_image
                 reward_stim = right_grating
                 reward_coord = right_box_coord
                 penalty_coord = left_box_coord
                 penalty_stim = left_grating
-                left_color = penalty_color
+                left_image = penalty_image
                 reward = 'right'
 
-            left_grating = visual.GratingStim(win=mywin, size=stim_size, pos=left_box_coord, sf=0, color=left_color,
-                                              colorSpace='rgb')
-            right_grating = visual.GratingStim(win=mywin, size=stim_size, pos=right_box_coord, sf=0, color=right_color,
-                                               colorSpace='rgb')
+            left_grating = visual.ImageStim(win=mywin, size=stim_size, pos=left_box_coord, image = left_image)
+            right_grating = visual.ImageStim(win=mywin, size=stim_size, pos=right_box_coord, image = right_image)
 
             # drawing gratings
             right_grating.draw(mywin)
@@ -103,7 +90,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
             mywin.update()
 
             print('Current reward position: ', reward)
-            print('Current reward color', reward_color)
+            print('Current reward image: ', reward_image)
             reaction_start = datetime.datetime.now()
             # start reaction timer from drawing the grating
 
@@ -191,7 +178,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     avg_reactiontime = float(df_results[['Reaction time (s)']].mean())
 
     session_time = datetime.datetime.now().strftime("%H:%M %p")
-    summary.append([session, session_time, limitTrial, hits, limitTrial - hits, average_dist, avg_reactiontime, reward_color,
+    summary.append([session, session_time, limitTrial, hits, limitTrial - hits, average_dist, avg_reactiontime, reward_image,
                     (float(hits) / float(limitTrial)) * 100])
     reportObj_summary.addEvent(summary)
     reportObj_summary.writecsv('summary', session)
