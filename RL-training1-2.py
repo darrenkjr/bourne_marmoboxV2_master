@@ -140,7 +140,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             reaction_time = (reaction_end - reaction_start).total_seconds()
                             results.append([session, session_time, trial, xpos, ypos, time.time() - t, reward, dist_stim, reaction_time, 'yes'])
 
-                            mywin.update()
+                            mywin.flip()
 
                             #present reward stim for duration of reward
                             if rand_stim == 0:
@@ -148,9 +148,9 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             else:
                                 right_grating.draw(mywin)
 
-                            mywin.update()
-                            core.wait(2)
-                            mywin.update()
+                            mywin.flip()
+                            core.wait(1)
+                            mywin.flip()
 
                             reportObj_trial.addEvent(results)
                             hits += 1
@@ -173,7 +173,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             results.append([session,session_time,trial, xpos, ypos, time.time() - t, reward, dist_stim, reaction_time, 'no'])
                             reportObj_trial.addEvent(results)
                             
-                            mywin.update()
+                            mywin.flip()
                             
                             #present penalty stim for initial duration of timeout
                             if rand_stim == 0:
@@ -181,8 +181,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             else:
                                 left_grating.draw(mywin)
 
-                            core.wait(2)
-                            mywin.update()
+                            core.wait(1)
+                            mywin.flip()
 
                             trial += 1
                             core.wait(2)
