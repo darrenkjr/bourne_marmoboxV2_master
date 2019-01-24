@@ -146,8 +146,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             mywin.flip()                            
                             control.correctAnswer()
 
-                            core.wait(0.5)
-                            mywin.flip()                            
+                            core.wait(0.5)                         
                             
                             dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
                             session_time = datetime.datetime.now().strftime("%H:%M %p")
@@ -156,7 +155,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                             reportObj_trial.addEvent(results)
                             hits += 1
-
+                            
+                            mywin.flip()   
                             trial += 1
 
                             checking = True
@@ -176,10 +176,10 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                                 left_grating.draw(mywin)
                             
                             mywin.flip()
+                            
                             control.incorrectAnswer()
 
                             core.wait(0.5)
-                            mywin.flip()
                             
                             dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
                             session_time = datetime.datetime.now().strftime("%H:%M %p")
@@ -187,6 +187,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             results.append([session,session_time,trial, xpos, ypos, time.time() - t, reward, dist_stim, reaction_time, 'no'])
                             reportObj_trial.addEvent(results)
 
+                            mywin.flip()
                             trial += 1
                             core.wait(2)
 
