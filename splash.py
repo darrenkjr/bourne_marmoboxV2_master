@@ -31,7 +31,6 @@ while entry == 1:
         print('Starting session' + str(session) + ' ...')
         mywin.update()
         marmobox.run(taskname,mywin,limitTrial,animal_ID,session) #removed delay param
-        mywin
         new = raw_input('Start new session? (y/n): ')
 
         if new == 'n':
