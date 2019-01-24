@@ -49,6 +49,3 @@ while entry == 1:
 
     # finally:
     #     mywin
-
-
-
