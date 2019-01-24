@@ -6,7 +6,7 @@ from psychopy import visual, core, logging, event
 
 #alternatively in terminal: python splash.py
 
-def run(taskname,delay, mywin,limitTrial, animal_ID, session):
+def run(taskname, mywin,limitTrial, animal_ID, session):
    # detect marmoset
    print('Attempting to detect ' + animal_ID)
 
@@ -22,8 +22,8 @@ def run(taskname,delay, mywin,limitTrial, animal_ID, session):
    # implement with rfid.py
    # launch experiment
 
-   print('Starting task: ' + str(taskname) + ' in ' + str(delay) + ' seconds...')
-   time.sleep(float(delay))
+   print('Starting task: ' + str(taskname))
+   #time.sleep(float(delay))
 
    code_start = datetime.datetime.now()
 
@@ -40,17 +40,17 @@ if __name__ == '__main__':
    # initialise the argument parser
    ap = argparse.ArgumentParser()
    ap.add_argument('-t', '--task', help='name of the task')
-   ap.add_argument('-d', '--delay', help='delay in seconds for executing tasks')
+   #ap.add_argument('-d', '--delay', help='delay in seconds for executing tasks')
    ap.add_argument('-l', '--limitTrial', help = 'input number of required trials')
    animal_ID = raw_input("Enter animal I.D: ")
 
    args = vars(ap.parse_args())
-   delay = float(args['delay'])
+   #delay = float(args['delay'])
    limitTrial = float(args['limitTrial'])
    taskname = args['task']
    mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix", pos = (0,0))
 
-   run(taskname,delay, mywin,limitTrial, animal_ID)
+   run(taskname, mywin,limitTrial, animal_ID) #removed delay param
 
 
 
