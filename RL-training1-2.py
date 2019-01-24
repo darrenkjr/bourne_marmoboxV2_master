@@ -141,7 +141,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             results.append([session, session_time, trial, xpos, ypos, time.time() - t, reward, dist_stim, reaction_time, 'yes'])
 
                             mywin.update()
-                            reward_stim(draw)
+                            reward_stim.draw(mywin)
                             core.wait(2)
 
                             reportObj_trial.addEvent(results)
@@ -166,10 +166,10 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             reportObj_trial.addEvent(results)
                             
                             mywin.update()
-                            reward_stim(draw)
+                            reward_stim.draw(mywin)
                             core.wait(2)
                             mywin.update()
-                            
+
                             trial += 1
                             core.wait(2)
 
