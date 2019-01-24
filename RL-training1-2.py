@@ -63,27 +63,33 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
             # creating left and right boxes
 
+            left_mask = visual.GratingStim(win=mywin, size=stim_size, pos=left_box_coord, opacity = 0.0)
+            right_mask = visual.GratingStim(win=mywin, size=stim_size, pos=right_box_coord, opacity = 0.0)
+
             if rand_stim == 0:
                 left_image = reward_image
-                reward_stim = left_grating
+                reward_stim = left_mask
                 reward_coord = left_box_coord
                 penalty_coord = right_box_coord
-                penalty_stim = right_grating
+                penalty_stim = right_mask
                 right_image = penalty_image
                 reward = 'left'
             elif rand_stim == 1:
                 right_image = reward_image
-                reward_stim = right_grating
+                reward_stim = right_mask
                 reward_coord = right_box_coord
                 penalty_coord = left_box_coord
-                penalty_stim = left_grating
+                penalty_stim = left_mask
                 left_image = penalty_image
                 reward = 'right'
 
             left_grating = visual.ImageStim(win=mywin, size=stim_size, pos=left_box_coord, image = left_image)
             right_grating = visual.ImageStim(win=mywin, size=stim_size, pos=right_box_coord, image = right_image)
 
+
             # drawing gratings
+            reward_stim.draw(mywin)
+            penalty_stim.draw(mywin)           
             right_grating.draw(mywin)
             left_grating.draw(mywin)
 
