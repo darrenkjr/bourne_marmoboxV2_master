@@ -142,7 +142,9 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                             mywin.update()
                             reward_stim.draw(mywin)
+                            mywin.update()
                             core.wait(2)
+                            mywin.update()
 
                             reportObj_trial.addEvent(results)
                             hits += 1
