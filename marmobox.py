@@ -28,6 +28,7 @@ def run(taskname, mywin,limitTrial, animal_ID, session):
    code_start = datetime.datetime.now()
 
    print('Started!')
+   mywin
    task = importlib.import_module(taskname)
 
    totalTime = task.execTask(taskname,limitTrial,mywin, animal_ID,session)
