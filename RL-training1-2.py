@@ -141,7 +141,13 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             results.append([session, session_time, trial, xpos, ypos, time.time() - t, reward, dist_stim, reaction_time, 'yes'])
 
                             mywin.update()
-                            reward_stim.draw(mywin)
+
+                            #present reward stim for duration of reward
+                            if rand_stim == 0:
+                                left_grating.draw(mywin)
+                            else:
+                                right_grating.draw(mywin)
+
                             mywin.update()
                             core.wait(2)
                             mywin.update()
@@ -168,7 +174,13 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             reportObj_trial.addEvent(results)
                             
                             mywin.update()
-                            reward_stim.draw(mywin)
+                            
+                            #present penalty stim for initial duration of timeout
+                            if rand_stim == 0:
+                                right_grating.draw(mywin)
+                            else:
+                                left_grating.draw(mywin)
+
                             core.wait(2)
                             mywin.update()
 
