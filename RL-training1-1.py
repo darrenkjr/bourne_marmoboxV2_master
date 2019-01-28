@@ -14,7 +14,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     #generating report directory
     results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Reward Stimulus Position','Distance from reward center (px)', 'Reaction time (s)', 'Success (Y/N)']
-    summary_col = ['Session','Finished Session Time','Trials', 'Hits', 'Misses', 'Average dist from center (Px)', 'Average reaction time (s)', 'Reward Stimulus - Red', 'Success%']
+    summary_col = ['Session','Finished Session Time','Trials', 'Hits', 'Misses', 'Nulls', 'Average dist from center (Px)', 'Average reaction time (s)', 'Reward Stimulus - Red', 'Success%']
     reportObj_trial = Report(str(taskname),animal_ID,results_col,'raw_data')
     reportObj_summary = Report(str(taskname), animal_ID, summary_col,'summary_data')
     reportObj_summary.createdir()
@@ -26,6 +26,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     #dummy trial counter and trial limits
     trial = 1
+    nulls = 0
     timer = time.time()
     stimLimit = limitTrial // 3
 
@@ -129,6 +130,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             reportObj_trial.addEvent(results)
 
                             core.wait(1)
+                            nulls += 1
                             print('Trial: ',trial)
 
 
@@ -207,7 +209,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     avg_reactiontime = float(df_results[['Reaction time (s)']].mean())
 
     session_time = datetime.datetime.now().strftime("%H:%M %p")
-    summary.append([session, session_time, limitTrial, hits, limitTrial - hits, average_dist, avg_reactiontime, reward_image,
+    summary.append([session, session_time, limitTrial, hits, limitTrial - hits, nulls, average_dist, avg_reactiontime, reward_image,
                     (float(hits) / float(limitTrial)) * 100])
     reportObj_summary.addEvent(summary)
     reportObj_summary.writecsv('summary', session)
