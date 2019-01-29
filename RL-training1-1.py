@@ -25,7 +25,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     #setting initial parameters
 
     #dummy trial counter and trial limits
-    trial = 1
+    trial = 0
     nulls = 0
     timer = time.time()
     stimLimit = limitTrial // 3
