@@ -14,7 +14,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     #generating report directory
     results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Reward Stimulus Position','Distance from reward center (px)', 'Reaction time (s)', 'Success (Y/N)']
-    summary_col = ['Session','Finished Session Time','Trials', 'Hits', 'Misses', 'Nulls', 'Average dist from center (Px)', 'Average reaction time (s)', 'Reward Stimulus - Red', 'Success%']
+    summary_col = ['Session','Finished Session Time', 'Total Time', 'Trials', 'Hits', 'Misses', 'Nulls', 'Average dist from center (Px)', 'Average reaction time (s)', 'Reward Stimulus - Red', 'Success%']
     reportObj_trial = Report(str(taskname),animal_ID,results_col,'raw_data')
     reportObj_summary = Report(str(taskname), animal_ID, summary_col,'summary_data')
     reportObj_summary.createdir()
@@ -200,8 +200,14 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
 
         ###########################################
+    
+    # Timer variables
+    totalTime = time.time() - timer
+    mins = int(totalTime / 60)
+    secs = round((totalTime % 60), 1)
+    timeLog = str(mins) + 'min' + str(secs) + 'sec'
+    
     # below, data presenting
-
     df_results = pd.DataFrame(results, columns=results_col)
     print(df_results)
     reportObj_trial.writecsv('trial', session)
@@ -209,7 +215,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     avg_reactiontime = float(df_results[['Reaction time (s)']].mean())
 
     session_time = datetime.datetime.now().strftime("%H:%M %p")
-    summary.append([session, session_time, limitTrial, hits, limitTrial - hits, nulls, average_dist, avg_reactiontime, reward_image,
+    summary.append([session, session_time, timeLog, limitTrial, hits, limitTrial - hits, nulls, average_dist, avg_reactiontime, reward_image,
                     (float(hits) / float(limitTrial)) * 100])
     reportObj_summary.addEvent(summary)
     reportObj_summary.writecsv('summary', session)
@@ -222,8 +228,6 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     scatter = scatterplot(stimulus, pressed, stim_size)
     scatter.heatmap_param(limitTrial, stim_size)
     scatter.saveheatmap(taskname, animal_ID, limitTrial)
-
-    totalTime = time.time() - timer
 
     return totalTime
 
