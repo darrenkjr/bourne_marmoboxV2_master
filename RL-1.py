@@ -6,15 +6,15 @@ from reports import Report
 from heatmap import scatterplot
 import numpy as np
 
+#reward color = yellow
 
 def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     mouse = event.Mouse(win=mywin)
-   
 
     #generating report directory
     results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Reward Stimulus Position','Distance from reward center (px)', 'Reaction time (s)', 'Success (Y/N)']
-    summary_col = ['Session','Finished Session Time', 'Total Time', 'Trials', 'Hits', 'Misses', 'Nulls', 'Average dist from center (Px)', 'Average reaction time (s)', 'Reward Stimulus - Red', 'Success%']
+    summary_col = ['Session','Finished Session Time','Trials', 'Hits', 'Misses', 'Average dist from center (Px)', 'Average reaction time (s)', 'Reward Stimulus - Red', 'Success%']
     reportObj_trial = Report(str(taskname),animal_ID,results_col,'raw_data')
     reportObj_summary = Report(str(taskname), animal_ID, summary_col,'summary_data')
     reportObj_summary.createdir()
@@ -26,7 +26,6 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     #dummy trial counter and trial limits
     trial = 1
-    nulls = 0
     timer = time.time()
     stimLimit = limitTrial // 3
 
@@ -46,10 +45,17 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     right_box_coord = [1280/4, 0]
 
 
-    #set reward parameters, reward stimuli / variable = image
+    #set reward parameters, reward stimuli / variable = face
+    yellow = [1,1,-1]
+    red = [1,-1,-1]
 
-    reward_image = 'images/composite1-1.jpg'
-    penalty_image = 'images/composite1-2.jpg'
+    reward_face = 'circle'
+    penalty_face = 'cross'
+
+    left_face = 'circle'
+    right_face = 'cross'
+
+
 
     #pseudo-rng
     #if not wholly divisble by 2, will round to nearest integer.
@@ -64,40 +70,39 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
             # creating left and right boxes
 
-            left_mask = visual.GratingStim(win=mywin, size=stim_size, pos=left_box_coord, opacity = 0.0)
-            right_mask = visual.GratingStim(win=mywin, size=stim_size, pos=right_box_coord, opacity = 0.0)
+            left_grating = visual.GratingStim(win=mywin, size=stim_size, pos=left_box_coord, sf=20/stim_size, mask = left_face)
+            right_grating = visual.GratingStim(win=mywin, size=stim_size, pos=right_box_coord, sf=20/stim_size, mask = right_face)
 
             if rand_stim == 0:
-                left_image = reward_image
-                reward_stim = left_mask
+                reward_stim = left_grating
                 reward_coord = left_box_coord
                 penalty_coord = right_box_coord
-                penalty_stim = right_mask
-                right_image = penalty_image
+                penalty_stim = right_grating
+                left_face = reward_face
+                right_face = penalty_face
                 reward = 'left'
             elif rand_stim == 1:
-                right_image = reward_image
-                reward_stim = right_mask
+
+                reward_stim = right_grating
                 reward_coord = right_box_coord
                 penalty_coord = left_box_coord
-                penalty_stim = left_mask
-                left_image = penalty_image
+                penalty_stim = left_grating
+                left_face = penalty_face
+                right_face = reward_face
                 reward = 'right'
 
-            left_grating = visual.ImageStim(win=mywin, size=stim_size, pos=left_box_coord, image = left_image)
-            right_grating = visual.ImageStim(win=mywin, size=stim_size, pos=right_box_coord, image = right_image)
-
+            left_grating = visual.GratingStim(win=mywin, size=stim_size, pos=left_box_coord, sf=10 / 80, mask=left_face)
+            right_grating = visual.GratingStim(win=mywin, size=stim_size, pos=right_box_coord, sf=20 / 80,
+                                               mask=right_face)
 
             # drawing gratings
-            reward_stim.draw(mywin)
-            penalty_stim.draw(mywin)           
             right_grating.draw(mywin)
             left_grating.draw(mywin)
 
             mywin.update()
 
             print('Current reward position: ', reward)
-            print('Current reward image: ', reward_image)
+            print('Current reward face', reward_face)
             reaction_start = datetime.datetime.now()
             # start reaction timer from drawing the grating
 
@@ -130,38 +135,22 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             reportObj_trial.addEvent(results)
 
                             core.wait(1)
-                            nulls += 1
                             print('Trial: ',trial)
 
 
                     elif correct == True:
                         if not touchTimeout:
-                            
-                            mywin.flip()
-
-                            #present reward stim for duration of reward
-                            if rand_stim == 0:
-                                left_grating.draw(mywin)
-                            else:
-                                right_grating.draw(mywin)                            
-
-                            mywin.flip()                            
                             control.correctAnswer()
-
-                            core.wait(0.5)                         
-                            
                             dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
                             session_time = datetime.datetime.now().strftime("%H:%M %p")
                             reaction_time = (reaction_end - reaction_start).total_seconds()
                             results.append([session, session_time, trial, xpos, ypos, time.time() - t, reward, dist_stim, reaction_time, 'yes'])
-                            hits += 1
-                            trial += 1
+
 
                             reportObj_trial.addEvent(results)
+                            hits += 1
 
-                            
-                            mywin.flip()   
-
+                            trial += 1
 
                             checking = True
 
@@ -170,28 +159,18 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                     elif wrong == True:
                         if not touchTimeout:
-                            
-                            mywin.flip()
-                            
-                            #present penalty stim for initial duration of timeout
-                            if rand_stim == 0:
-                                right_grating.draw(mywin)
-                            else:
-                                left_grating.draw(mywin)
-                            
-                            mywin.flip()
-                            
                             control.incorrectAnswer()
 
-                            core.wait(0.5)
-                            
+
                             dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
                             session_time = datetime.datetime.now().strftime("%H:%M %p")
                             reaction_time = (reaction_end - reaction_start).total_seconds()
+
+
                             results.append([session,session_time,trial, xpos, ypos, time.time() - t, reward, dist_stim, reaction_time, 'no'])
                             reportObj_trial.addEvent(results)
+                            mywin.update()
 
-                            mywin.flip()
                             trial += 1
                             core.wait(2)
 
@@ -202,14 +181,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
 
         ###########################################
-    
-    # Timer variables
-    totalTime = time.time() - timer
-    mins = int(totalTime / 60)
-    secs = round((totalTime % 60), 1)
-    timeLog = str(mins) + ' min' + str(secs) + ' sec'
-    
     # below, data presenting
+
     df_results = pd.DataFrame(results, columns=results_col)
     print(df_results)
     reportObj_trial.writecsv('trial', session)
@@ -217,9 +190,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     avg_reactiontime = float(df_results[['Reaction time (s)']].mean())
 
     session_time = datetime.datetime.now().strftime("%H:%M %p")
-    summary.append([session, session_time, timeLog, limitTrial, hits, limitTrial - hits, nulls, average_dist, avg_reactiontime, reward_image,
+    summary.append([session, session_time, limitTrial, hits, limitTrial - hits, average_dist, avg_reactiontime, reward_face,
                     (float(hits) / float(limitTrial)) * 100])
-    sucess = (float(hits) / float(limitTrial)) * 100
     reportObj_summary.addEvent(summary)
     reportObj_summary.writecsv('summary', session)
 
@@ -232,7 +204,9 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     scatter.heatmap_param(limitTrial, stim_size)
     scatter.saveheatmap(taskname, animal_ID, limitTrial)
 
-    return totalTime, sucess
+    totalTime = time.time() - timer
+
+    return totalTime
 
 
 

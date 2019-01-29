@@ -27,7 +27,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     #dummy trial counter and trial limits
     trial = 1
     timer = time.time()
-    stimLimit = limitTrial // 3
+
 
     #dummy mouse position
     xpos = 0
@@ -47,8 +47,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     #set reward parameters, reward stimuli / variable = image
 
-    reward_image = 'images/composite1-1.jpg'
-    penalty_image = 'images/composite1-2.jpg'
+    reward_image = 'images/composite1-2.jpg'
+    penalty_image = 'images/composite1-1.jpg'
 
     #pseudo-rng
     #if not wholly divisble by 2, will round to nearest integer.
@@ -134,27 +134,29 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                     elif correct == True:
                         if not touchTimeout:
-                            control.correctAnswer()
-                            dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
-                            session_time = datetime.datetime.now().strftime("%H:%M %p")
-                            reaction_time = (reaction_end - reaction_start).total_seconds()
-                            results.append([session, session_time, trial, xpos, ypos, time.time() - t, reward, dist_stim, reaction_time, 'yes'])
-
-                            mywin.update()
+                            
+                            mywin.flip()
 
                             #present reward stim for duration of reward
                             if rand_stim == 0:
                                 left_grating.draw(mywin)
                             else:
-                                right_grating.draw(mywin)
+                                right_grating.draw(mywin)                            
 
-                            mywin.update()
-                            core.wait(2)
-                            mywin.update()
+                            mywin.flip()                            
+                            control.correctAnswer()
+
+                            core.wait(0.5)                         
+                            
+                            dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
+                            session_time = datetime.datetime.now().strftime("%H:%M %p")
+                            reaction_time = (reaction_end - reaction_start).total_seconds()
+                            results.append([session, session_time, trial, xpos, ypos, time.time() - t, reward, dist_stim, reaction_time, 'yes'])
 
                             reportObj_trial.addEvent(results)
                             hits += 1
-
+                            
+                            mywin.flip()   
                             trial += 1
 
                             checking = True
@@ -164,26 +166,28 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                     elif wrong == True:
                         if not touchTimeout:
-                            control.incorrectAnswer()
-
-
-                            dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
-                            session_time = datetime.datetime.now().strftime("%H:%M %p")
-                            reaction_time = (reaction_end - reaction_start).total_seconds()
-                            results.append([session,session_time,trial, xpos, ypos, time.time() - t, reward, dist_stim, reaction_time, 'no'])
-                            reportObj_trial.addEvent(results)
                             
-                            mywin.update()
+                            mywin.flip()
                             
                             #present penalty stim for initial duration of timeout
                             if rand_stim == 0:
                                 right_grating.draw(mywin)
                             else:
                                 left_grating.draw(mywin)
+                            
+                            mywin.flip()
+                            
+                            control.incorrectAnswer()
 
-                            core.wait(2)
-                            mywin.update()
+                            core.wait(0.5)
+                            
+                            dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
+                            session_time = datetime.datetime.now().strftime("%H:%M %p")
+                            reaction_time = (reaction_end - reaction_start).total_seconds()
+                            results.append([session,session_time,trial, xpos, ypos, time.time() - t, reward, dist_stim, reaction_time, 'no'])
+                            reportObj_trial.addEvent(results)
 
+                            mywin.flip()
                             trial += 1
                             core.wait(2)
 

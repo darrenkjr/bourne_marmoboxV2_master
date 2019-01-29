@@ -30,10 +30,11 @@ def run(taskname, mywin,limitTrial, animal_ID, session):
    print('Started!')
    task = importlib.import_module(taskname)
 
-   totalTime = task.execTask(taskname,limitTrial,mywin, animal_ID,session)
+   totalTime, sucess = task.execTask(taskname,limitTrial,mywin, animal_ID,session)
    code_endtime = (datetime.datetime.now() - code_start).total_seconds()
 
    print('Task ended, elasped time (less time spent in testing): ' + str(code_endtime - totalTime) + 'seconds')
+   return sucess
 
 
 if __name__ == '__main__':

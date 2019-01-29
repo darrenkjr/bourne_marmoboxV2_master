@@ -185,5 +185,6 @@ def execTask(taskname,limitTrial,mywin,animal_ID,session):
     scatter.saveheatmap(taskname, animal_ID, limitTrial)
 
     totalTime = time.time() - timer
+    sucess = (float(hits) / float(limitTrial)) * 100
 
-    return totalTime
+    return totalTime, sucess

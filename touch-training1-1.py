@@ -81,6 +81,7 @@ def execTask(taskname,limitTrial,mywin,animal_ID,session):
 
 	session_time = datetime.datetime.now().strftime("%H:%M %p")
 	summary.append([session,session_time,limitTrial, hits, limitTrial - hits, average_dist, avg_reactiontime, (float(hits) / float(limitTrial)) * 100])
+	sucess = (float(hits) / float(limitTrial)) * 100
 	reportobj_summary.addEvent(summary)
 	reportobj_summary.writecsv('summary',session)
 
@@ -94,7 +95,7 @@ def execTask(taskname,limitTrial,mywin,animal_ID,session):
 
 	totalTime = time.time() - timer
 
-	return totalTime
+	return totalTime, sucess
 	
 	
 	

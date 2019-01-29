@@ -191,6 +191,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
             pressed = ([df_results['X-Position (Pressed)']], [df_results['Y-Position (Pressed)']])
 
     totalTime = time.time() - timer
+    sucess = (float(hits) / float(limitTrial)) * 100
     average_dist = float(df_results[['Distance from center (px)']].mean())
     average_rtime = float(df_results[['Reaction time']].mean())
     mins = int(totalTime / 60)
@@ -214,7 +215,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     scatter = scatterplot(stimulus, pressed_translated, stim_size)
     scatter.heatmap_param(limitTrial,stim_size)
     scatter.saveheatmap(taskname, animal_ID,limitTrial)
-    return totalTime
+    return totalTime,sucess
 
 
 
