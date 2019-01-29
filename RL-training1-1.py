@@ -162,6 +162,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             
                             mywin.flip()   
 
+                        else:
+                            time.sleep(0.01)
 
                             checking = True
 
