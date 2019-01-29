@@ -105,6 +105,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
             checking = False
 
             print(limitTrial)
+            print(trial)
 
             while not checking:
                 while not mouse.getPressed()[0]:  # checks whether mouse button (i.e. button '0') was pressed
