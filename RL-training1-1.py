@@ -58,7 +58,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     np.random.shuffle(choice)
     print(choice)
 
-    while trial <= limitTrial:
+    while trial < limitTrial:
         for rand_stim in choice:
             t = time.time()  # returns time in sec as float
 
@@ -103,6 +103,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
             mouse.clickReset()  # resets a timer for timing button clicks
             checking = False
+
+            print(limitTrial)
 
             while not checking:
                 while not mouse.getPressed()[0]:  # checks whether mouse button (i.e. button '0') was pressed
