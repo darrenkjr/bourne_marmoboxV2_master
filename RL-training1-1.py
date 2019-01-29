@@ -205,7 +205,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     totalTime = time.time() - timer
     mins = int(totalTime / 60)
     secs = round((totalTime % 60), 1)
-    timeLog = str(mins) + 'min' + str(secs) + 'sec'
+    timeLog = str(mins) + ' min' + str(secs) + ' sec'
     
     # below, data presenting
     df_results = pd.DataFrame(results, columns=results_col)
