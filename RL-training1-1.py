@@ -5,6 +5,7 @@ import pandas as pd
 from reports import Report
 from heatmap import scatterplot
 import numpy as np
+import math
 
 
 def execTask(taskname,limitTrial,mywin, animal_ID,session):
@@ -25,10 +26,9 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     #setting initial parameters
 
     #dummy trial counter and trial limits
-    trial = 0
+    trial = 1
     nulls = 0
     timer = time.time()
-    stimLimit = limitTrial // 3
 
     #dummy mouse position
     xpos = 0
@@ -53,12 +53,16 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     #pseudo-rng
     #if not wholly divisble by 2, will round to nearest integer.
-    choice = np.repeat([0,1],limitTrial/2)
+    choice = np.repeat([0,1],math.floor(limitTrial/2))
+
+    if math.floor(limitTrial%2) >0:
+        choice = np.append(choice,random.randint(0,1))
+    
     print(choice)
     np.random.shuffle(choice)
     print(choice)
 
-    while trial < limitTrial:
+    while trial <= limitTrial:
         for rand_stim in choice:
             t = time.time()  # returns time in sec as float
 
@@ -103,9 +107,6 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
             mouse.clickReset()  # resets a timer for timing button clicks
             checking = False
-
-            print(limitTrial)
-            print(trial)
 
             while not checking:
                 while not mouse.getPressed()[0]:  # checks whether mouse button (i.e. button '0') was pressed
