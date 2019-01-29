@@ -18,8 +18,19 @@ animal_ID = raw_input("Enter animal I.D, press enter/return for 'test' : ") or '
 #check animal_ID
 state_obj = state(animal_ID)
 
-#setting default arguments
-if not state_obj:
+try:
+    #unloading states
+    tasklist = state_obj['tasklist'].values[0]
+    index = state_obj['taskindex'].values[0]
+    taskname = state_obj['taskname'].values[0]
+    progression = state_obj['progression'].values[0]
+    limitTrial = state_obj['LimitTrial'].values[0]
+
+    prev_state = True
+
+
+except:
+    print('No previous save state detected.')
 
     sucess_criterion = raw_input('Set your success criterion, press enter/return for 80%:  ') or 80
     progression_num = raw_input('Set amount of sucessive sucesses required, 3 = default:  ') or 3
@@ -44,26 +55,31 @@ if not state_obj:
     #dummy sucess variable to initiate while loop
     sucess_list = [0,0,0] #enter loop later
     progression = [sucess_criterion]*progression_num
+    prev_state = False
 
-else:
-    #unpack everything and continue from before, first unpack taskname index and tasklist
-    tasklist = state_obj['tasklist'].values[0]
-    index = state_obj['taskindex'].values[0]
-    taskname = state_obj['taskname'].values[0]
 
 for index, taskname in enumerate(tasklist):
     # reset sucess
-        session = 0
-        sucess_list = [0,0,0]
+
 
     print('Running task: ', taskname)
 
-    try:
-        session = state_obj['session'].values[0]
-        sucess_list = state_obj['sucess state'].values[0]
+    if prev_state == True:
+        try:
+            session = state_obj['session'].values[0]
+            sucess_list = state_obj['sucess state'].values[0]
 
-    except:
-        pass
+        except:
+            print('No previous saved state detected.')
+            pass
+
+        else:
+            session = 0
+            sucess_list = [0, 0, 0]
+
+    else:
+        session = 0
+        sucess_list = [0,0,0]
 
 
     while sum(sucess_list) < sum(progression):
@@ -77,5 +93,5 @@ for index, taskname in enumerate(tasklist):
         time.sleep(1)
 
         #save current state: tasklist, taskname, session, animal_ID. limitTrial, sucess list, progression
-        state_df
+        state_df = pd.DataFrame([tasklist,index,taskname,progression,limitTrial,session,sucess_list]
         current_state = state.savestate(state_df)

@@ -7,11 +7,11 @@ import os
 
 
 class state:
-    def __init_(self,animal_ID):
-        self.animal_ID = animal_ID
+    def __init__(self,animal_ID):
+        self.animalID = animal_ID
         # navigate into data folder and search for matching animal_ID
-        self.savefile = self.animal_ID + '.p'
-        self.savepath = r'./data' + '/' + self.animal_ID + '/' + self.filename
+        self.savefile = self.animalID + '.p'
+        self.savepath = r'./data' + '/' + self.animalID + '/' + self.savefile
 
         #if file == false, then break, else: read in state and display
         if os.path.isfile(self.savepath) == True:
@@ -27,6 +27,8 @@ class state:
 
         else:
             #else, continue with default arguments
+            print('No previous session found')
+            time.sleep(1.0)
             return
 
     def savestate(self, state_df):
