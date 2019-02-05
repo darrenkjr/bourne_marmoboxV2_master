@@ -12,7 +12,7 @@ def deliver():
     BUZZER_PITCH_CORRECT=800
 
     DEFAULT_FREQUENCY = 100		# In Hz
-    DEFAULT_DUTYCYCLE = 50	# in percentage
+    DEFAULT_DUTYCYCLE = 5	# in percentage
 
 
     GPIO.setmode(GPIO.BOARD)
