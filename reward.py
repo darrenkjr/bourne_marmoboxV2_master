@@ -14,8 +14,7 @@ def deliver():
     BUZZER_PITCH_CORRECT=800
 
     DEFAULT_FREQUENCY = 100		# In Hz
-    PUMP_DUTYCYCLE = 25	# in percentage
-    REINFORCER_DUTYCYCLE = 25
+    DEFAULT_DUTYCYCLE = 25	# in percentage
 
     GPIO.setmode(GPIO.BOARD)
     GPIO.setwarnings(False)
@@ -24,15 +23,15 @@ def deliver():
     GPIO.setup(PIN_PUMP, GPIO.OUT, initial=GPIO.LOW)
 
     buzzer = GPIO.PWM(PIN_BUZZER, BUZZER_PITCH_CORRECT)
-    buzzer.start(REINFORCER_DUTYCYCLE)
+    buzzer.start(DEFAULT_DUTYCYCLE)
     blueLED = GPIO.PWM(PIN_LED_BLUE, DEFAULT_FREQUENCY)
-    blueLED.start(REINFORCER_DUTYCYCLE)
+    blueLED.start(DEFAULT_DUTYCYCLE)
     time.sleep(BUZZER_LED_TIME)
     blueLED.stop()
     buzzer.stop()
 
     pump = GPIO.PWM(PIN_PUMP, DEFAULT_FREQUENCY)
-    pump.start(PUMP_DUTYCYCLE)
+    pump.start(DEFAULT_DUTYCYCLE)
     time.sleep(REWARD_VOLUME * REWARD_VOL_FACTOR)
     pump.stop()
     GPIO.cleanup()
