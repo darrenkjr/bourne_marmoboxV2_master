@@ -12,7 +12,7 @@ def deliver():
     BUZZER_PITCH_CORRECT=800
 
     DEFAULT_FREQUENCY = 100		# In Hz
-    DEFAULT_DUTYCYCLE = 5	# in percentage
+    DEFAULT_DUTYCYCLE = 50	# in percentage
 
 
     GPIO.setmode(GPIO.BOARD)
@@ -30,7 +30,7 @@ def deliver():
     buzzer.stop()
 
     pump = GPIO.PWM(PIN_PUMP, DEFAULT_FREQUENCY)
-    pump.start(25)
+    pump.start(5)
    # time.sleep(REWARD_VOLUME * REWARD_VOL_FACTOR)
     pump.stop()
     GPIO.cleanup()
