@@ -9,12 +9,13 @@ def deliver():
     PIN_LED_BLUE=16
 
     REWARD_VOLUME=500 #may require modification
-    REWARD_VOL_FACTOR=0.001 / 6
+    REWARD_VOL_FACTOR=0.001 / 3
     BUZZER_LED_TIME=2.0
     BUZZER_PITCH_CORRECT=800
 
     DEFAULT_FREQUENCY = 100		# In Hz
-    DEFAULT_DUTYCYCLE = 50		# In percentage
+    PUMP_DUTYCYCLE = 25	# in percentage
+    REINFORCER_DUTYCYCLE = 50
 
     GPIO.setmode(GPIO.BOARD)
     GPIO.setwarnings(False)
@@ -23,15 +24,15 @@ def deliver():
     GPIO.setup(PIN_PUMP, GPIO.OUT, initial=GPIO.LOW)
 
     buzzer = GPIO.PWM(PIN_BUZZER, BUZZER_PITCH_CORRECT)
-    buzzer.start(DEFAULT_DUTYCYCLE)
+    buzzer.start(REINFORCER_DUTYCYCLE)
     blueLED = GPIO.PWM(PIN_LED_BLUE, DEFAULT_FREQUENCY)
-    blueLED.start(DEFAULT_DUTYCYCLE)
+    blueLED.start(REINFORCER_DUTYCYCLE)
     time.sleep(BUZZER_LED_TIME)
     blueLED.stop()
     buzzer.stop()
 
     pump = GPIO.PWM(PIN_PUMP, DEFAULT_FREQUENCY)
-    pump.start(DEFAULT_DUTYCYCLE)
+    pump.start(PUMP_DUTYCYCLE)
     time.sleep(REWARD_VOLUME * REWARD_VOL_FACTOR)
     pump.stop()
     GPIO.cleanup()
