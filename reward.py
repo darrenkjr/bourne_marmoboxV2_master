@@ -21,7 +21,7 @@ def deliver():
     GPIO.setup(PIN_PUMP, GPIO.OUT, initial=GPIO.LOW)
 
     pump = GPIO.PWM(PIN_PUMP, DEFAULT_FREQUENCY)
-    pump.start(DEFAULT_DUTYCYCLE)
+    pump.start(75)
    # time.sleep(REWARD_VOLUME * REWARD_VOL_FACTOR)
     #pump.stop()
 
