@@ -14,8 +14,8 @@ def deliver():
     BUZZER_PITCH_CORRECT=800
 
     DEFAULT_FREQUENCY = 100		# In Hz
-    PUMP_DUTYCYCLE = 5	# in percentage
-    REINFORCER_DUTYCYCLE = 50
+    PUMP_DUTYCYCLE = 25	# in percentage
+    REINFORCER_DUTYCYCLE = 25
 
     GPIO.setmode(GPIO.BOARD)
     GPIO.setwarnings(False)
