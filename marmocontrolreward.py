@@ -28,10 +28,10 @@ def correctAnswer(*args):
 		reward = True
 
 	instance = marmoIO(settings.PIN_LED_BLUE,settings.PIN_LED_GREEN,settings.PIN_BUZZER,settings.PIN_PUMP,settings.PIN_BEAM,settings.BUZZER_PITCH_CORRECT,settings.BUZZER_PITCH_INCORRECT,DEFAULT_DUTYCYCLE)
-	
-    if reward:
-		instance.Pump(True)
-    instance.BuzzerCorrect(True)
+    
+   	if reward:
+        	instance.Pump(True)
+   	instance.BuzzerCorrect(True)
 	instance.BlueLED(True)
 
 	time.sleep(settings.BUZZER_LED_TIME)
