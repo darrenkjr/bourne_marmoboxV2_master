@@ -8,7 +8,7 @@ def deliver():
     PIN_BUZZER=10
     PIN_LED_BLUE=16
 
-    REWARD_VOLUME=500 #may require modification
+    REWARD_VOLUME=100 #may require modification
     REWARD_VOL_FACTOR=0.001 / 3
     BUZZER_LED_TIME=2.0
     BUZZER_PITCH_CORRECT=800
