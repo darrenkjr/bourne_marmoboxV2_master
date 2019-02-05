@@ -23,7 +23,7 @@ def deliver():
     pump = GPIO.PWM(PIN_PUMP, DEFAULT_FREQUENCY)
     pump.start()
    # time.sleep(REWARD_VOLUME * REWARD_VOL_FACTOR)
-    pump.stop()
+    #pump.stop()
 
     buzzer = GPIO.PWM(PIN_BUZZER, BUZZER_PITCH_CORRECT)
     buzzer.start(DEFAULT_DUTYCYCLE)
