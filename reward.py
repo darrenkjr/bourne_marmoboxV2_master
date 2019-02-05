@@ -15,6 +15,11 @@ def deliver():
     DEFAULT_DUTYCYCLE = 50	# in percentage
 
 
+    pump = GPIO.PWM(PIN_PUMP, DEFAULT_FREQUENCY)
+    pump.start(20)
+   # time.sleep(REWARD_VOLUME * REWARD_VOL_FACTOR)
+    pump.stop()
+
     GPIO.setmode(GPIO.BOARD)
     GPIO.setwarnings(False)
     GPIO.setup(PIN_LED_BLUE, GPIO.OUT, initial=GPIO.LOW)
@@ -29,10 +34,6 @@ def deliver():
     blueLED.stop()
     buzzer.stop()
 
-    pump = GPIO.PWM(PIN_PUMP, DEFAULT_FREQUENCY)
-    pump.start(1)
-   # time.sleep(REWARD_VOLUME * REWARD_VOL_FACTOR)
-    pump.stop()
     GPIO.cleanup()
 
 
