@@ -19,16 +19,16 @@ def deliver():
 
         GPIO.setmode(GPIO.BOARD)
         GPIO.setwarnings(False)
-       # GPIO.setup(PIN_LED_GREEN, GPIO.OUT, initial=GPIO.LOW)
+        GPIO.setup(PIN_LED_GREEN, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(PIN_LED_BLUE, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(PIN_BUZZER, GPIO.OUT, initial=GPIO.LOW)
 
         buzzer = GPIO.PWM(PIN_BUZZER, BUZZER_PITCH_CORRECT)
         buzzer.start(DEFAULT_DUTYCYCLE)
-       # greenLED = GPIO.PWM(PIN_LED_GREEN, DEFAULT_FREQUENCY)
+        greenLED = GPIO.PWM(PIN_LED_GREEN, DEFAULT_FREQUENCY)
         blueLED = GPIO.PWM(PIN_LED_BLUE, DEFAULT_FREQUENCY)
         blueLED.start(DEFAULT_DUTYCYCLE)
-      #  greenLED.start(DEFAULT_DUTYCYCLE)
+        greenLED.start(DEFAULT_DUTYCYCLE)
         time.sleep(BUZZER_LED_TIME)
 
         GPIO.cleanup()
