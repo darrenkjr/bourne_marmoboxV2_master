@@ -4,6 +4,7 @@ import RPi.GPIO as GPIO
 import time
 
 def deliver():
+    time.sleep(15)
     PIN_PUMP=13
     PIN_BUZZER=10
     PIN_LED_BLUE=16
