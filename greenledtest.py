@@ -30,6 +30,7 @@ def deliver():
         buzzer.stop()
 
         GPIO.cleanup()
+        time.sleep(15)
         iterations +=1
 
 
