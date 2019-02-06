@@ -29,8 +29,8 @@ def deliver():
         greenLED.stop()
         buzzer.stop()
 
-    GPIO.cleanup()
-    iterations +=1
+        GPIO.cleanup()
+        iterations +=1
 
 
 if __name__ == '__main__':
