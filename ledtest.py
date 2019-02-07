@@ -1,5 +1,5 @@
-#This script tests LED function. If working, LEDs will flash every 15 seconds over 5 iterations. The buzzer will sound when the LEDs are meant to activate.
-
+# This module tests LED function. If working, LEDs will flash every 15 seconds over 5 iterations. The buzzer will sound when the LEDs are meant to activate.
+# Do not import this module into any scripts.
 import RPi.GPIO as GPIO
 import time
 
