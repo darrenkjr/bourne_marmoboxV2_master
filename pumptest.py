@@ -13,6 +13,7 @@ def deliver():
 
     DEFAULT_FREQUENCY = 100		# In Hz
     DEFAULT_DUTYCYCLE = 50		# In percentage
+    PUMP_FREQUENCY = 10000
     PUMP_DUTYCYCLE = 5
 
     GPIO.setmode(GPIO.BOARD)
