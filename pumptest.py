@@ -13,7 +13,7 @@ def deliver():
 
     DEFAULT_FREQUENCY = 100		# In Hz
     DEFAULT_DUTYCYCLE = 50		# In percentage
-    PUMP_DUTYCYCLE = 10
+    PUMP_DUTYCYCLE = 1
 
     GPIO.setmode(GPIO.BOARD)
     GPIO.setwarnings(False)
@@ -26,7 +26,7 @@ def deliver():
     blueLED = GPIO.PWM(PIN_LED_BLUE, DEFAULT_FREQUENCY)
     blueLED.start(DEFAULT_DUTYCYCLE)
 
-    pump = GPIO.PWM(PIN_PUMP, 20)
+    pump = GPIO.PWM(PIN_PUMP, DEFAULT_FREQUENCY)
     pump.start(PUMP_DUTYCYCLE)
    
     time.sleep(2)
