@@ -1,6 +1,6 @@
 from psychopy import visual, core, logging, event
 import time, random, datetime
-import marmocontrolreward as control
+import marmocontrol as control
 import pandas as pd
 from reports import Report
 from heatmap import scatterplot
@@ -12,6 +12,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     mouse = event.Mouse(win=mywin)
    
+    global slow_pump_down = True
 
     #generating report directory
     results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Reward Stimulus Position','Distance from reward center (px)', 'Reaction time (s)', 'Success (Y/N)']
@@ -205,7 +206,9 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
 
         ###########################################
-    
+
+    global slow_pump_down = False
+
     # Timer variables
     totalTime = time.time() - timer
     mins = int(totalTime / 60)

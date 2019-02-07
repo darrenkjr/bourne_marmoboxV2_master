@@ -37,6 +37,13 @@ class marmoIO:
     def Pump(self,state):
         GPIO.output(self.PIN_PUMP,GPIO.LOW if state else GPIO.HIGH)
 
+    def slowPump(self,state):
+        if state:
+            self.slowPump = GPIO.PWM(self.PIN_PUMP, self.10000)
+            self.slowPump.start(self.5)
+        else:
+            self.slowPump.stop()
+
     def GreenLED(self,state): #State is either 1 on or 0 off
             GPIO.output(self.PIN_LED_GREEN,GPIO.HIGH if state else GPIO.LOW)
 
