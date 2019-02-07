@@ -26,7 +26,7 @@ def deliver():
     blueLED = GPIO.PWM(PIN_LED_BLUE, DEFAULT_FREQUENCY)
     blueLED.start(DEFAULT_DUTYCYCLE)
 
-    pump = GPIO.PWM(PIN_PUMP, 1000)
+    pump = GPIO.PWM(PIN_PUMP, 3000)
     pump.start(PUMP_DUTYCYCLE)
    
     time.sleep(2)
