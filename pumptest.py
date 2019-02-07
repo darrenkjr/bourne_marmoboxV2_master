@@ -9,9 +9,6 @@ def deliver():
     PIN_BUZZER=10
     PIN_LED_BLUE=16
 
-    REWARD_VOLUME=500 #may require modification
-    REWARD_VOL_FACTOR=0.001 / 3
-
     BUZZER_PITCH_CORRECT=800
 
     DEFAULT_FREQUENCY = 100		# In Hz
