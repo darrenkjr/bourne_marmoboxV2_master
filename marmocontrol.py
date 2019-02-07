@@ -31,10 +31,7 @@ def correctAnswer(*args):
 	instance.BuzzerCorrect(True)
 	instance.BlueLED(True)
 	if reward:
-		if global slow_pump_down = True:
-			instance.slowPump(True)
-		else:
-			instance.Pump(True)
+		instance.Pump(True)
 
 	time.sleep(settings.BUZZER_LED_TIME)
 	instance.BuzzerCorrect(False)
