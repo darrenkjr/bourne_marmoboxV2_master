@@ -26,10 +26,7 @@ def deliver():
     buzzer.start(DEFAULT_DUTYCYCLE)
     blueLED = GPIO.PWM(PIN_LED_BLUE, DEFAULT_FREQUENCY)
     blueLED.start(DEFAULT_DUTYCYCLE)
-    time.sleep(2)
-
-   
-
+    
     pump = GPIO.PWM(PIN_PUMP, PUMP_FREQUENCY)
     pump.start(PUMP_DUTYCYCLE)
     print('pump start:', time.ctime())
