@@ -5,9 +5,9 @@ import time
 
 def deliver():
 
-    PIN_PUMP=16
+    PIN_PUMP=13
     PIN_BUZZER=10
-    PIN_LED_BLUE=13
+    PIN_LED_BLUE=16
 
     BUZZER_PITCH_CORRECT=800
 
