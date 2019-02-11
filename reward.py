@@ -21,7 +21,7 @@ def deliver():
     GPIO.setwarnings(False)
     GPIO.setup(PIN_LED_BLUE, GPIO.OUT, initial=GPIO.LOW)
     GPIO.setup(PIN_BUZZER, GPIO.OUT, initial=GPIO.LOW)
-    GPIO.setup(PIN_PUMP, GPIO.OUT, initial=GPIO.LOW)
+    
 
     buzzer = GPIO.PWM(PIN_BUZZER, BUZZER_PITCH_CORRECT)
     buzzer.start(DEFAULT_DUTYCYCLE)
@@ -33,6 +33,7 @@ def deliver():
     buzzer.stop()
     print(time.ctime())
     
+    GPIO.setup(PIN_PUMP, GPIO.OUT, initial=GPIO.LOW)
     pump = GPIO.PWM(PIN_PUMP, DEFAULT_FREQUENCY)
     pump.start(DEFAULT_DUTYCYCLE)
     print(time.ctime())
