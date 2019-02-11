@@ -11,7 +11,7 @@ def deliver():
 
     REWARD_VOLUME=500 #may require modification
     REWARD_VOL_FACTOR=0.001 / 3
-    BUZZER_LED_TIME=2.0
+    BUZZER_LED_TIME=4
     BUZZER_PITCH_CORRECT=800
 
     DEFAULT_FREQUENCY = 100		# In Hz
@@ -21,7 +21,14 @@ def deliver():
     GPIO.setwarnings(False)
     GPIO.setup(PIN_LED_BLUE, GPIO.OUT, initial=GPIO.LOW)
     GPIO.setup(PIN_BUZZER, GPIO.OUT, initial=GPIO.LOW)
-    
+
+    GPIO.setup(PIN_PUMP, GPIO.OUT, initial=GPIO.LOW)
+    pump = GPIO.PWM(PIN_PUMP, DEFAULT_FREQUENCY)
+    pump.start(DEFAULT_DUTYCYCLE)
+    print(time.ctime())
+    time.sleep(3)
+    print(time.ctime())
+    pump.stop()
 
     buzzer = GPIO.PWM(PIN_BUZZER, BUZZER_PITCH_CORRECT)
     buzzer.start(DEFAULT_DUTYCYCLE)
@@ -33,13 +40,8 @@ def deliver():
     buzzer.stop()
     print(time.ctime())
     
-    GPIO.setup(PIN_PUMP, GPIO.OUT, initial=GPIO.LOW)
-    pump = GPIO.PWM(PIN_PUMP, DEFAULT_FREQUENCY)
-    pump.start(DEFAULT_DUTYCYCLE)
-    print(time.ctime())
-    time.sleep(1)
-    print(time.ctime())
-    pump.stop()
+   
+    
     GPIO.cleanup()
 
 
