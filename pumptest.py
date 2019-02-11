@@ -13,8 +13,8 @@ def deliver():
 
     DEFAULT_FREQUENCY = 100		# In Hz
     DEFAULT_DUTYCYCLE = 50		# In percentage
-    PUMP_FREQUENCY = 10000
-    PUMP_DUTYCYCLE = 5
+    PUMP_FREQUENCY = 100
+    PUMP_DUTYCYCLE = 100
 
     GPIO.setmode(GPIO.BOARD)
     GPIO.setwarnings(False)
@@ -29,7 +29,7 @@ def deliver():
 
     pump = GPIO.PWM(PIN_PUMP, PUMP_FREQUENCY)
     pump.start(PUMP_DUTYCYCLE)
-   
+   s
     time.sleep(2)
 
     GPIO.cleanup()
