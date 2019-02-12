@@ -35,15 +35,7 @@ class marmoIO:
             self.buzzIncorrect.stop()
         
     def Pump(self,state):
-        GPIO.setmode(GPIO.BOARD)
-        GPIO.setwarnings(False)
-        GPIO.setup(13, GPIO.OUT, initial = GPIO.LOW)
-        #GPIO.output(self.PIN_PUMP,GPIO.LOW if state else GPIO.HIGH)
-        pumpa = GPIO.PWM(self.PIN_PUMP, 10000)
-        pumpa.start(5)
-        time.sleep(2)
-        GPIO.cleanup()
-
+        GPIO.output(self.PIN_PUMP,GPIO.LOW if state else GPIO.HIGH)
 
     def GreenLED(self,state): #State is either 1 on or 0 off
             GPIO.output(self.PIN_LED_GREEN,GPIO.HIGH if state else GPIO.LOW)
