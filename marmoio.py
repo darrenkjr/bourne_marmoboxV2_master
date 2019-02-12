@@ -37,7 +37,7 @@ class marmoIO:
     def Pump(self,state):
         GPIO.output(self.PIN_PUMP,GPIO.LOW if state else GPIO.HIGH)
         pumpa = GPIO.PWM(self.PIN_PUMP, 10000)
-        pumpa.start()
+        pumpa.start(5)
         time.sleep(2)
         GPIO.cleanup()
 
