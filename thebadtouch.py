@@ -3,13 +3,13 @@
 #require setting of protocol of investigator. Loop through task list whilst sucess criterion is not met.
 #this will replace splash.py
 
-import marmobox
-import marmocontrol
-from psychopy import visual
+
 from watcher import mor_drakka
 from splash_slave import slave
 import time
 from savestate import state
+import pandas as pd
+import numpy as np
 
 #if statement to check for previous session.
 
@@ -17,19 +17,25 @@ animal_ID = raw_input("Enter animal I.D, press enter/return for 'test' : ") or '
 
 #check animal_ID
 state_obj = state(animal_ID)
+prev_state = 0
+confirm = 'n'
+unpacked, prev_state = state_obj.loadstate()
 
-try:
+if prev_state[0] == 1:
     #unloading states
-    tasklist = state_obj['tasklist'].values[0]
-    index = state_obj['taskindex'].values[0]
-    taskname = state_obj['taskname'].values[0]
-    progression = state_obj['progression'].values[0]
-    limitTrial = state_obj['LimitTrial'].values[0]
+    tasklist = unpacked.iloc[0]['tasklist']
+    current_task_index = unpacked.iloc[0]['task number']
+    current_taskname = unpacked.iloc[0]['current task']
+    progression = unpacked.iloc[0]['progression criteria']
+    limitTrial = unpacked.iloc[0]['set trials']
+    prev_sucess_list = unpacked.iloc[0]['sucess state']
+    prev_session = unpacked.iloc[0]['current session']
 
-    prev_state = True
+    confirm = raw_input('Continue from previous session? Y/N: ')
 
-
-except:
+elif prev_state == 0 or confirm == 'n' or 'N':
+    print('cleaning up previous saves..')
+    state_obj.cleanup()
     print('No previous save state detected.')
 
     sucess_criterion = raw_input('Set your success criterion, press enter/return for 80%:  ') or 80
@@ -53,45 +59,93 @@ except:
     print('Starting task suite...  ')
 
     #dummy sucess variable to initiate while loop
-    sucess_list = [0,0,0] #enter loop later
+
     progression = [sucess_criterion]*progression_num
+    current_task_index = 0
+    current_taskname = 0
     prev_state = False
 
+sucess_list = [0,0,0] #enter loop later
+session = 0
+load = 1
 
-for index, taskname in enumerate(tasklist):
-    # reset sucess
+print(current_task_index, current_taskname)
 
+try:
+    tasklist = tasklist[current_task_index:]
+    print(tasklist)
+    count = 1
+    pass_check_sucess = mor_drakka(count)
+    for index,taskname in enumerate(tasklist):
 
-    print('Running task: ', taskname)
-
-    if prev_state == True:
-        try:
-            session = state_obj['session'].values[0]
-            sucess_list = state_obj['sucess state'].values[0]
-
-        except:
-            print('No previous saved state detected.')
-            pass
-
-        else:
-            session = 0
-            sucess_list = [0, 0, 0]
-
-    else:
-        session = 0
-        sucess_list = [0,0,0]
+        print('Running saved task: ', taskname)
+        sucess_list = [0]
 
 
-    while sum(sucess_list) < sum(progression):
-        # session counter
-        entry = 1
-        sucess, session = slave(entry, taskname, session, animal_ID, limitTrial)
-        sucess_list.insert(0,sucess)
-        del sucess_list[-1]
-        print('Sucess rate reached % : ',sucess)
-        print('Last 3 sucess rates: ', sucess_list)
-        time.sleep(1)
 
-        #save current state: tasklist, taskname, session, animal_ID. limitTrial, sucess list, progression
-        state_df = pd.DataFrame([tasklist,index,taskname,progression,limitTrial,session,sucess_list]
-        current_state = state.savestate(state_df)
+        while np.all(np.array(sucess_list[0:3]) >= progression[0]) == False:
+            # session counter
+            entry = 1
+
+            #start tracking first pass
+
+            sucess_list = pass_check_sucess.set_pass(count,sucess_list,prev_sucess_list)
+            session = pass_check_sucess.set_pass(count,session,prev_session)
+            count += 1
+
+
+            print('current state: ',sucess_list)
+
+            sucess, session = slave(entry, taskname, session, animal_ID, limitTrial)
+            session_num = [session]
+
+            print(sucess_list)
+            sucess_list.insert(0,sucess)
+
+            print('Sucess rate reached % : ',sucess)
+            print('Last 3 sucess rates: ', sucess_list[0:3])
+            print('Pass or fail: ', np.all(sucess_list >= progression))
+
+            #save current state: tasklist, taskname, session, animal_ID. limitTrial, sucess list, progression
+            saved_dict = {
+                'tasklist':[tasklist], 'task number': index, 'current task': taskname, 'progression criteria': [progression], 'set trials': limitTrial, 'current session': session, 'sucess state' :[sucess_list]
+            }
+            state_df = pd.DataFrame.from_dict(saved_dict)
+            current_state = state_obj.savestate(state_df)
+            print('current state:' ,state_df)
+        count += 1
+
+
+
+except:
+    for index, taskname in enumerate(tasklist):
+        print('Running task: ', taskname)
+        sucess_list = [0]
+
+        while np.all(np.array(sucess_list[0:3]) >= progression[0])==False:
+            # session counter
+            entry = 1
+            sucess, session = slave(entry, taskname, session, animal_ID, limitTrial)
+            session_num = [session]
+
+            sucess_list.insert(0, sucess)
+
+            print(sucess_list)
+            print('Sucess rate reached % : ', sucess)
+            print('Last 3 sucess rates: ', sucess_list[0:3])
+
+            # save current state: tasklist, taskname, session, animal_ID. limitTrial, sucess list, progression
+            saved_dict = {
+                'tasklist': [tasklist], 'task number': index, 'current task': taskname,
+                'progression criteria': [progression], 'set trials': limitTrial, 'current session': session,
+                'sucess state': [sucess_list]
+            }
+            state_df = pd.DataFrame.from_dict(saved_dict)
+            current_state = state_obj.savestate(state_df)
+            print('current state:', state_df)
+            print('Pass or fail: ', np.all(sucess_list >= progression))
+
+
+
+
+
