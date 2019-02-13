@@ -33,10 +33,14 @@ if prev_state[0] == 1:
 
     confirm = raw_input('Continue from previous session? Y/N: ')
 
-elif prev_state == 0 or confirm == 'n' or 'N':
-    print('cleaning up previous saves..')
-    state_obj.cleanup()
-    print('No previous save state detected.')
+if prev_state == 0 or confirm == 'n' or 'N':
+    try:
+        print('cleaning up previous saves..')
+        state_obj.cleanup()
+
+    except:
+        print('no previous saves detected. Moving on.')
+        pass
 
     sucess_criterion = raw_input('Set your success criterion, press enter/return for 80%:  ') or 80
     progression_num = raw_input('Set amount of sucessive sucesses required, 3 = default:  ') or 3
