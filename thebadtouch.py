@@ -6,7 +6,6 @@
 
 from watcher import mor_drakka
 from splash_slave import slave
-import time
 from savestate import state
 import pandas as pd
 import numpy as np
@@ -17,9 +16,8 @@ animal_ID = raw_input("Enter animal I.D, press enter/return for 'test' : ") or '
 
 #check animal_ID
 state_obj = state(animal_ID)
-prev_state = 0
-confirm = 'n'
 unpacked, prev_state = state_obj.loadstate()
+confirm = []
 
 if prev_state[0] == 1:
     #unloading states
@@ -33,23 +31,23 @@ if prev_state[0] == 1:
 
     confirm = raw_input('Continue from previous session? Y/N: ')
 
-if prev_state == 0 or confirm == 'n' or 'N':
+elif prev_state == 0 or confirm == 'n' or 'N':
     try:
-        print('cleaning up previous saves..')
         state_obj.cleanup()
+        print('cleaning up previous saves..')
 
     except:
         print('no previous saves detected. Moving on.')
         pass
 
     sucess_criterion = raw_input('Set your success criterion, press enter/return for 80%:  ') or 80
-    progression_num = raw_input('Set amount of sucessive sucesses required, 3 = default:  ') or 3
+    progression_num = raw_input('Set amount of sucessive sucesses required, press enter/return for 3  ') or 3
 
     task_number = raw_input('How many tasks would you like to run? Press enter/return for 3') or 3
     task_count = int(task_number)
     tasklist = []
 
-    limitTrial = raw_input('How many trials per task would you like to run, press enter/return for 50: ') or 5
+    limitTrial = raw_input('How many trials per task would you like to run, press enter/return for 50: ') or 50
 
     while task_number > 0:
         task_suite = raw_input('Input your suite of tasks: ')
@@ -69,6 +67,12 @@ if prev_state == 0 or confirm == 'n' or 'N':
     current_taskname = 0
     prev_state = False
 
+elif confirm == 'y' or 'Y':
+    pass
+
+else:
+    pass
+
 sucess_list = [0,0,0] #enter loop later
 session = 0
 load = 1
@@ -87,7 +91,7 @@ try:
 
 
 
-        while np.all(np.array(sucess_list[0:3]) >= progression[0]) == False:
+        while np.all(np.array(sucess_list[0:progression_num]) >= progression[0]) == False:
             # session counter
             entry = 1
 
@@ -126,7 +130,7 @@ except:
         print('Running task: ', taskname)
         sucess_list = [0]
 
-        while np.all(np.array(sucess_list[0:3]) >= progression[0])==False:
+        while np.all(np.array(sucess_list[0:progression_num]) >= progression[0])==False:
             # session counter
             entry = 1
             sucess, session = slave(entry, taskname, session, animal_ID, limitTrial)
