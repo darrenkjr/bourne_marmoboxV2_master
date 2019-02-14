@@ -10,15 +10,15 @@ from savestate import state
 import pandas as pd
 import numpy as np
 
-#if statement to check for previous session.
 
 animal_ID = raw_input("Enter animal I.D, press enter/return for 'test' : ") or 'test'
 
-#check animal_ID
+#check animal_ID and previous save states
 state_obj = state(animal_ID)
 unpacked, prev_state = state_obj.loadstate()
-confirm = []
+confirm = 'n'
 
+#if save file is detected, unpack
 if prev_state[0] == 1:
     #unloading states
     tasklist = unpacked.iloc[0]['tasklist']
@@ -28,10 +28,13 @@ if prev_state[0] == 1:
     limitTrial = unpacked.iloc[0]['set trials']
     prev_sucess_list = unpacked.iloc[0]['sucess state']
     prev_session = unpacked.iloc[0]['current session']
+    progression_num = unpacked.iloc[0]['progression number']
 
     confirm = raw_input('Continue from previous session? Y/N: ')
 
-elif prev_state == 0 or confirm == 'n' or 'N':
+#if no save file is detected, or new session to be started, delete any previous save files, and start filling in
+if prev_state == 0 or confirm == 'n' or 'N':
+    #change defult values in exception handlers
     try:
         state_obj.cleanup()
         print('cleaning up previous saves..')
@@ -40,24 +43,45 @@ elif prev_state == 0 or confirm == 'n' or 'N':
         print('no previous saves detected. Moving on.')
         pass
 
-    sucess_criterion = raw_input('Set your success criterion, press enter/return for 80%:  ') or 80
-    progression_num = raw_input('Set amount of sucessive sucesses required, press enter/return for 3  ') or 3
+    try:
+        sucess_criterion = int(raw_input('Set your success criterion, press enter/return for 80%:  '))
+    except:
+        sucess_criterion = 80
 
-    task_number = raw_input('How many tasks would you like to run? Press enter/return for 3') or 3
+    try:
+        progression_num = int(raw_input('Set amount of sucessive sucesses required, press enter/return for 3  '))
+    except:
+        progression_num = 3
+
+    try:
+        task_number = int(raw_input('How many tasks would you like to run? Press enter/return for 3 '))
+    except:
+        task_number = 3
+
+    try:
+        limitTrial = int(raw_input('How many trials per task would you like to run, press enter/return for 50: '))
+    except:
+        limitTrial = 50
+
     task_count = int(task_number)
     tasklist = []
-
-    limitTrial = raw_input('How many trials per task would you like to run, press enter/return for 50: ') or 50
 
     while task_number > 0:
         task_suite = raw_input('Input your suite of tasks: ')
         task_number -= 1
         tasklist.append(task_suite)
 
+    #checking existence of scripts
+    
+
+
     print('Confirming test parameters... ')
     print('Global sucess criterion (%): ',sucess_criterion)
     print('Amount of trials per task: ', limitTrial)
     print('Confirming tasks to be run: ', tasklist)
+
+    raw_input("Press Enter to continue...")
+
     print('Starting task suite...  ')
 
     #dummy sucess variable to initiate while loop
@@ -116,11 +140,14 @@ try:
 
             #save current state: tasklist, taskname, session, animal_ID. limitTrial, sucess list, progression
             saved_dict = {
-                'tasklist':[tasklist], 'task number': index, 'current task': taskname, 'progression criteria': [progression], 'set trials': limitTrial, 'current session': session, 'sucess state' :[sucess_list]
+                'tasklist': [tasklist], 'task number': index, 'current task': taskname,
+                'progression criteria': [progression], 'set trials': limitTrial, 'current session': session,
+                'sucess state': [sucess_list], 'progression number': progression_num
             }
             state_df = pd.DataFrame.from_dict(saved_dict)
             current_state = state_obj.savestate(state_df)
             print('current state:' ,state_df)
+            print('Pass or fail: ', np.all(sucess_list >= progression))
         count += 1
 
 
@@ -146,7 +173,7 @@ except:
             saved_dict = {
                 'tasklist': [tasklist], 'task number': index, 'current task': taskname,
                 'progression criteria': [progression], 'set trials': limitTrial, 'current session': session,
-                'sucess state': [sucess_list]
+                'sucess state': [sucess_list], 'progression number': progression_num
             }
             state_df = pd.DataFrame.from_dict(saved_dict)
             current_state = state_obj.savestate(state_df)
