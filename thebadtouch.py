@@ -9,6 +9,8 @@ from splash_slave import slave
 from savestate import state
 import pandas as pd
 import numpy as np
+import os
+import sys
 
 
 animal_ID = raw_input("Enter animal I.D, press enter/return for 'test' : ") or 'test'
@@ -32,7 +34,7 @@ if prev_state[0] == 1:
 
     confirm = raw_input('Continue from previous session? Y/N: ')
 
-#if no save file is detected, or new session to be started, delete any previous save files, and start filling in
+#if no save file is detected, or new session to be started, delete any previous save files, and start filling in test parameters
 if prev_state == 0 or confirm == 'n' or 'N':
     #change defult values in exception handlers
     try:
@@ -42,6 +44,25 @@ if prev_state == 0 or confirm == 'n' or 'N':
     except:
         print('no previous saves detected. Moving on.')
         pass
+
+    try:
+        task_number = int(raw_input('How many tasks would you like to run? Press enter/return for 3 '))
+    except:
+        task_number = 3
+
+    while task_number > 0:
+        task_suite = raw_input('Input your suite of tasks: ')
+        task_number -= 1
+        tasklist.append(task_suite)
+
+    #checking existence of scripts
+    for tasks in tasklist:
+        task_check = os.path.isfile('./' + tasks + '.py')
+        if task_check == False:
+            print(tasks, ' doesn''t seem to exist. Please check spelling! Exiting now...')
+            sys.exit()
+        else:
+            continue
 
     try:
         sucess_criterion = int(raw_input('Set your success criterion, press enter/return for 80%:  '))
@@ -54,26 +75,12 @@ if prev_state == 0 or confirm == 'n' or 'N':
         progression_num = 3
 
     try:
-        task_number = int(raw_input('How many tasks would you like to run? Press enter/return for 3 '))
-    except:
-        task_number = 3
-
-    try:
         limitTrial = int(raw_input('How many trials per task would you like to run, press enter/return for 50: '))
     except:
         limitTrial = 50
 
     task_count = int(task_number)
     tasklist = []
-
-    while task_number > 0:
-        task_suite = raw_input('Input your suite of tasks: ')
-        task_number -= 1
-        tasklist.append(task_suite)
-
-    #checking existence of scripts
-    
-
 
     print('Confirming test parameters... ')
     print('Global sucess criterion (%): ',sucess_criterion)
