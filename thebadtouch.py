@@ -38,7 +38,7 @@ if confirm == 'y' or 'Y':
     pass
 
 #if no save file is detected, or new session to be started, delete any previous save files, and start filling in test parameters
-elif prev_state == 0 or confirm == 'n' or 'N':
+if prev_state == 0 or confirm == 'n' or 'N':
     #change defult values in exception handlers
     try:
         state_obj.cleanup()
