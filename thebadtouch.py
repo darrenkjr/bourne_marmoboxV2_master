@@ -32,7 +32,6 @@ if prev_state[0] == 1:
     prev_sucess_list = unpacked.iloc[0]['sucess state']
     prev_session = unpacked.iloc[0]['current session']
     progression_num = unpacked.iloc[0]['progression number']
-
     confirm = raw_input('Continue from previous session? Y/N: ')
 
 if confirm == 'y' or 'Y':
