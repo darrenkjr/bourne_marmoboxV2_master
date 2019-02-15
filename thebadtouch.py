@@ -18,7 +18,7 @@ animal_ID = raw_input("Enter animal I.D, press enter/return for 'test' : ") or '
 #check animal_ID and previous save states
 state_obj = state(animal_ID)
 unpacked, prev_state = state_obj.loadstate()
-confirm = 'n'
+confirm = 0
 tasklist = []
 
 #if save file is detected, unpack
@@ -35,8 +35,8 @@ if prev_state[0] == 1:
 
     confirm = raw_input('Continue from previous session? Y/N: ')
 
-print(confirm)
-
+if confirm == 'y' or 'Y':
+    pass
 
 #if no save file is detected, or new session to be started, delete any previous save files, and start filling in test parameters
 elif prev_state == 0 or confirm == 'n' or 'N':
@@ -101,18 +101,9 @@ elif prev_state == 0 or confirm == 'n' or 'N':
     current_taskname = 0
     prev_state = False
 
-
-if confirm == 'y' or 'Y':
-    pass
-    
-else:
-    pass
-
 sucess_list = [0,0,0] #enter loop later
 session = 0
 load = 1
-
-print(current_task_index, current_taskname)
 
 try:
     tasklist = tasklist[current_task_index:]
