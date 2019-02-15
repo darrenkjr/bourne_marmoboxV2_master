@@ -13,26 +13,30 @@ class state:
         self.savefile = self.animalID + '.p'
         self.savepath = r'./data' + '/' + self.animalID + '/' + self.savefile
 
+
+    def loadstate(self):
         #if file == false, then break, else: read in state and display
         if os.path.isfile(self.savepath) == True:
-            print('Previous session detected. ')
             with open(self.savepath, 'rb') as handle:
                 unpacked = pickle.load(handle)
                 print('Previous savestate: ', unpacked)
-                confirm = raw_input('Continue from last session? Y/N')
-                if confirm == 'y' or 'Y':
-                    return unpacked
-                else:
-                    return
+                prev_state = [1]
+                return unpacked, prev_state
 
         else:
             #else, continue with default arguments
             print('No previous session found')
             time.sleep(1.0)
-            return
+            prev_state = [0]
+            unpacked = [0]
+            return unpacked, prev_state
 
     def savestate(self, state_df):
         with open(self.savepath, 'wb') as handle:
             print('saving current state..')
             #reads in current state as dataframe.
             pickle.dump(state_df, handle, protocol = pickle.HIGHEST_PROTOCOL)
+
+
+    def cleanup(self):
+        os.remove(self.savepath)

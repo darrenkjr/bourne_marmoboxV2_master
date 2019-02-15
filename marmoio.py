@@ -10,7 +10,7 @@ class marmoIO:
         GPIO.setup(PIN_LED_GREEN, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(PIN_BUZZER, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(PIN_PUMP, GPIO.OUT, initial=GPIO.HIGH)
-        GPIO.setup(PIN_BEAM, GPIO.IN)
+        # GPIO.setup(PIN_BEAM, GPIO.IN)
         self.PIN_BUZZER = PIN_BUZZER
         self.BUZZER_PITCH_CORRECT = BUZZER_PITCH_CORRECT
         self.BUZZER_PITCH_INCORRECT = BUZZER_PITCH_INCORRECT
