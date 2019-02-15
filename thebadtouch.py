@@ -18,7 +18,7 @@ animal_ID = raw_input("Enter animal I.D, press enter/return for 'test' : ") or '
 #check animal_ID and previous save states
 state_obj = state(animal_ID)
 unpacked, prev_state = state_obj.loadstate()
-confirm = 0
+confirm = 'n'
 tasklist = []
 
 #if save file is detected, unpack
