@@ -19,6 +19,7 @@ animal_ID = raw_input("Enter animal I.D, press enter/return for 'test' : ") or '
 state_obj = state(animal_ID)
 unpacked, prev_state = state_obj.loadstate()
 confirm = 'n'
+tasklist = []
 
 #if save file is detected, unpack
 if prev_state[0] == 1:
@@ -53,7 +54,6 @@ if prev_state == 0 or confirm == 'n' or 'N':
     while task_number > 0:
         task_suite = raw_input('Input your suite of tasks: ')
         task_number -= 1
-        tasklist = []
         tasklist.append(task_suite)
 
     #checking existence of scripts
