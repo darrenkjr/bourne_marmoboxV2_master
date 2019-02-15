@@ -81,7 +81,6 @@ if prev_state == 0 or confirm == 'n' or 'N':
         limitTrial = 50
 
     task_count = int(task_number)
-    tasklist = []
 
     print('Confirming test parameters... ')
     print('Global sucess criterion (%): ',sucess_criterion)
