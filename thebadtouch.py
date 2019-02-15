@@ -53,6 +53,7 @@ if prev_state == 0 or confirm == 'n' or 'N':
     while task_number > 0:
         task_suite = raw_input('Input your suite of tasks: ')
         task_number -= 1
+        tasklist = []
         tasklist.append(task_suite)
 
     #checking existence of scripts
