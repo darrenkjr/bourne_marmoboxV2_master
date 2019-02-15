@@ -37,8 +37,6 @@ if prev_state[0] == 1:
 
 print(confirm)
 
-if confirm == 'y' or 'Y':
-    pass
 
 #if no save file is detected, or new session to be started, delete any previous save files, and start filling in test parameters
 elif prev_state == 0 or confirm == 'n' or 'N':
@@ -103,6 +101,10 @@ elif prev_state == 0 or confirm == 'n' or 'N':
     current_taskname = 0
     prev_state = False
 
+
+if confirm == 'y' or 'Y':
+    pass
+    
 else:
     pass
 
