@@ -98,7 +98,7 @@ if prev_state == 0 or confirm == 'n' or 'N':
     current_taskname = 0
     prev_state = False
 
-elif confirm == 'y' or 'Y':
+if confirm == 'y' or 'Y':
     pass
 
 else:
