@@ -39,8 +39,7 @@ if prev_state[0] == 1:
 if prev_state == 0:
     #change defult values in exception handlers
 
-
-    print('no previous saves detected.)
+    print('no previous saves detected')
 
     try:
         task_number = int(raw_input('How many tasks would you like to run? Press enter/return for 3 '))
