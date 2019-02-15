@@ -36,7 +36,7 @@ if prev_state[0] == 1:
 
 
 #if no save file is detected, or new session to be started, delete any previous save files, and start filling in test parameters
-elif prev_state == 0:
+elif prev_state[0] == 0:
     #change defult values in exception handlers
 
     print('no previous saves detected')
