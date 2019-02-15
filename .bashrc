@@ -111,4 +111,4 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-alias ini-marmobox="cd /home/pi/marmobox && export DISPLAY=:0 && ls -l *.py && python splash.py"
+alias ini-marmobox="cd /home/pi/marmobox && export DISPLAY=:0 && ls -l *.py && python thebadtouch.py"
