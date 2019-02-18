@@ -21,8 +21,22 @@ unpacked, prev_state = state_obj.loadstate()
 confirm = 'n'
 tasklist = []
 
+#if save file is detected, unpack
+if prev_state[0] == 1:
+    #unloading states
+    tasklist = unpacked.iloc[0]['tasklist']
+    current_task_index = unpacked.iloc[0]['task number']
+    current_taskname = unpacked.iloc[0]['current task']
+    progression = unpacked.iloc[0]['progression criteria']
+    limitTrial = unpacked.iloc[0]['set trials']
+    prev_sucess_list = unpacked.iloc[0]['sucess state']
+    prev_session = unpacked.iloc[0]['current session']
+    progression_num = unpacked.iloc[0]['progression number']
+    confirm = raw_input('Continue from previous session? Y/N: ')
+
+
 #if no save file is detected, or new session to be started, delete any previous save files, and start filling in test parameters
-if prev_state[0] == 0:
+elif prev_state[0] == 0:
     #change defult values in exception handlers
 
     print('no previous saves detected')
@@ -79,27 +93,15 @@ if prev_state[0] == 0:
     current_taskname = 0
     prev_state = False
 
-#if save file is detected, unpack
-elif prev_state[0] == 1:
-    #unloading states
-    tasklist = unpacked.iloc[0]['tasklist']
-    current_task_index = unpacked.iloc[0]['task number']
-    current_taskname = unpacked.iloc[0]['current task']
-    progression = unpacked.iloc[0]['progression criteria']
-    limitTrial = unpacked.iloc[0]['set trials']
-    prev_sucess_list = unpacked.iloc[0]['sucess state']
-    prev_session = unpacked.iloc[0]['current session']
-    progression_num = unpacked.iloc[0]['progression number']
-    confirm = raw_input('Continue from previous session? Y/N: ')
+if confirm == 'y' or 'Y':
+    pass
 
-if confirm == 'n':
-    raw_input('Press enter to confirm cleaning up previous saves. ')
-    print('cleaning up previous saves..')
+elif confirm == 'n' or 'n':
     state_obj.cleanup()
+    print('cleaning up previous saves..')
     #change defult values in exception handlers
 
     try:
-        print('Initializing new task suites.')
         task_number = int(raw_input('How many tasks would you like to run? Press enter/return for 3 '))
     except:
         task_number = 3
@@ -111,7 +113,7 @@ if confirm == 'n':
 
     #checking existence of scripts
     for tasks in tasklist:
-        task_check = os.path.isfile(r'./tasks' + '/' + str(tasks) + '.py')
+        task_check = os.path.isfile('./' + tasks + '.py')
         if task_check == False:
             print(tasks, ' doesn''t seem to exist. Please check spelling! Exiting now...')
             sys.exit()
@@ -151,21 +153,21 @@ if confirm == 'n':
     current_taskname = 0
     prev_state = False
 
-else:
-    pass
-
 sucess_list = [0,0,0] #enter loop later
 session = 0
+load = 1
 
 try:
     tasklist = tasklist[current_task_index:]
-    print('Current task suite: ',tasklist)
+    print(tasklist)
     count = 1
     pass_check_sucess = mor_drakka(count)
     for index,taskname in enumerate(tasklist):
 
         print('Running saved task: ', taskname)
         sucess_list = [0]
+
+
 
         while np.all(np.array(sucess_list[0:progression_num]) >= progression[0]) == False:
             # session counter
@@ -201,6 +203,8 @@ try:
             print('current state:' ,state_df)
             print('Pass or fail: ', np.all(sucess_list >= progression))
         count += 1
+
+
 
 except:
     for index, taskname in enumerate(tasklist):

@@ -1,7 +1,5 @@
 #importing required packages
 from imutils.video import VideoStream
-from imutils.video import WebcamVideoStream
-from imutils.video import FPS
 import argparse
 import datetime
 import time
@@ -9,48 +7,21 @@ import timeit
 import cv2
 import imutils
 
+
+
 #constructing argument parser and parsing arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-v", "--video", help ="path to video file")
 ap.add_argument("-a", "--min-area", type=int, default = 700, help = "minimum area size or change in pxiels to be detecting for motion")
 args = vars(ap.parse_args())
 
-elapsed = 0
-elapsed1 = 0
-
 #if video argument is none, then we take webcam live stream source
 if args.get('video', None) is None:
+    vs = VideoStream(src=0).start()
+    fps = 60
+    time.sleep(2.0)
 
-    try:
-        # vs = VideoStream(src='http://45.46.170.23:1024/img/video.mjpeg').start()
-        adsasd
-
-    except:
-        vs = WebcamVideoStream(src=0).start()
-
-    # except: #put ip source here
-    #     vs = VideoStream(src= 'enter ip video stream here')
-
-    #sampling FPS
-    print('Sampling a few frames...')
-
-    fps_stream = FPS().start()
-
-    while fps_stream._numFrames < 240:
-
-        frame = vs.read()
-        frame = imutils.resize(frame, width = 400)
-
-        fps_stream.update()
-
-        cv2.imshow("Frame", frame)
-
-    fps_stream.stop()
-    fps = fps_stream.fps()
-    print('Approx stream FPS: ', fps)
-    print('Elapsed time (s): ', fps_stream.elapsed())
-
-#otherwise, read in actual video file
+#otherwise, read in actual video file or ip source
 else:
     vs = cv2.VideoCapture(args["video"])
     fps = vs.get(cv2.CAP_PROP_FPS)
@@ -59,7 +30,6 @@ else:
 #initialize first video frame
 firstFrame = None
 occupy_frame = 0
-
 
 
 #start basic motion detection
@@ -104,13 +74,10 @@ while True:
     contours = imutils.grab_contours(contours)
 
     #looping over contours and drawing box
-
-
     for c in contours:
 
         #if the present contour is smaller than our set minimum area threshold for motion detection, ignore, text stays unoccupied. otherwise draw box.
         if cv2.contourArea(c) < args["min_area"]:
-            start_time = time.time()
             continue
         #x coord, y coord, width and height
         (x,y,w,h) = cv2.boundingRect(c)
@@ -121,10 +88,7 @@ while True:
 
     if text == "Occupied":
         occupy_frame = occupy_frame + 1
-        end_time = time.time()
-        elapsed = end_time - start_time
-        elapsed1 += elapsed
-        print(elapsed1)
+        print(occupy_frame)
     #drawing text and timestamp on video
     cv2.putText(frame,"Cage status:{}".format(text), (10,20),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,255),2)
     cv2.putText(frame, datetime.datetime.now().strftime("%d-%m-%y %H:%M%p"), (10, frame.shape[0]-10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0,0,255),1)
@@ -139,7 +103,7 @@ while True:
         break
 
 print('Total occupied frames: ', occupy_frame)
-print('Total time interaction with test(s): ', occupy_frame/fps)
+print('Total time interaction with test(s): ', (occupy_frame / fps))
 vs.stop() if args.get("video",None) is None else vs.release()
 cv2.destroyAllWindows()
 
