@@ -56,6 +56,7 @@ def forceStop(): # Force stop a run-away pump
     GPIO.setmode(GPIO.BOARD)
     pump = GPIO.PWM(PIN_PUMP, DEFAULT_FREQUENCY)
     pump.stop()
+    GPIO.cleanup()
 
 def manual_reward():
     PIN_PUMP=13
