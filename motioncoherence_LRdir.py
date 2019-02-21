@@ -31,13 +31,13 @@ miss = 0
 stim_size = 200  # 3cm equivalent on screen
 
 # set box positions
-left_box_coord = [-1280 / 3, 0]
-right_box_coord = [1280 / 3, 0]
+left_box_coord = [-1280 / 2.5, 0]
+right_box_coord = [1280 / 2.5, 0]
 centre_box_coord = [0,0]
 
 left_box = visual.GratingStim(win=mywin,size=stim_size,pos=left_box_coord, color = [1,1,1], colorSpace='rgb',sf=0)
 right_box = visual.GratingStim(win=mywin,size=stim_size,pos=right_box_coord, color = [1,1,1], colorSpace='rgb',sf=0)
-centre_box = visual.GratingStim(win=mywin,size=stim_size,pos=centre_box_coord, color = [1,1,1], colorSpace='rgb',sf=0)
+centre_box = visual.GratingStim(win=mywin,size=stim_size,pos=centre_box_coord, color = [-1,-1,-1], colorSpace='rgb',sf=0)
 # pseudo-rng determining direction of motion coherence dots.
 # if not wholly divisble by 2, will round to nearest integer.
 #0 = right, 1 = left
