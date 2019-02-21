@@ -18,7 +18,7 @@ animal_ID = raw_input("Enter animal I.D, press enter/return for 'test' : ") or '
 #check animal_ID and previous save states
 state_obj = state(animal_ID)
 unpacked, prev_state = state_obj.loadstate()
-confirm = 'n'
+confirm = 0
 tasklist = []
 
 #if save file is detected, unpack
@@ -33,6 +33,68 @@ if prev_state[0] == 1:
     prev_session = unpacked.iloc[0]['current session']
     progression_num = unpacked.iloc[0]['progression number']
     confirm = raw_input('Continue from previous session? Y/N: ')
+
+    print(confirm)
+
+    if confirm == 'n':
+        state_obj.cleanup()
+        print('cleaning up previous saves..')
+        # change defult values in exception handlers
+
+        try:
+            task_number = int(raw_input('How many tasks would you like to run? Press enter/return for 3 '))
+        except:
+            task_number = 3
+
+        while task_number > 0:
+            task_suite = raw_input('Input your suite of tasks: ')
+            task_number -= 1
+            tasklist.append(task_suite)
+
+        # checking existence of scripts
+        for tasks in tasklist:
+            task_check = os.path.isfile('./' + tasks + '.py')
+            if task_check == False:
+                print(tasks, ' doesn''t seem to exist. Please check spelling! Exiting now...')
+                sys.exit()
+            else:
+                continue
+
+        try:
+            sucess_criterion = int(raw_input('Set your success criterion, press enter/return for 80%:  '))
+        except:
+            sucess_criterion = 80
+
+        try:
+            progression_num = int(raw_input('Set amount of sucessive sucesses required, press enter/return for 3  '))
+        except:
+            progression_num = 3
+
+        try:
+            limitTrial = int(raw_input('How many trials per task would you like to run, press enter/return for 50: '))
+        except:
+            limitTrial = 50
+
+        task_count = int(task_number)
+
+        print('Confirming test parameters... ')
+        print('Global sucess criterion (%): ', sucess_criterion)
+        print('Amount of trials per task: ', limitTrial)
+        print('Confirming tasks to be run: ', tasklist)
+
+        raw_input("Press Enter to continue...")
+
+        print('Starting task suite...  ')
+
+        # dummy sucess variable to initiate while loop
+
+        progression = [sucess_criterion] * progression_num
+        current_task_index = 0
+        current_taskname = 0
+        prev_state = False
+
+    elif confirm == 'y' or confirm == 'Y':
+        pass
 
 
 #if no save file is detected, or new session to be started, delete any previous save files, and start filling in test parameters
@@ -93,65 +155,6 @@ elif prev_state[0] == 0:
     current_taskname = 0
     prev_state = False
 
-if confirm == 'y' or 'Y':
-    pass
-
-elif confirm == 'n' or 'n':
-    state_obj.cleanup()
-    print('cleaning up previous saves..')
-    #change defult values in exception handlers
-
-    try:
-        task_number = int(raw_input('How many tasks would you like to run? Press enter/return for 3 '))
-    except:
-        task_number = 3
-
-    while task_number > 0:
-        task_suite = raw_input('Input your suite of tasks: ')
-        task_number -= 1
-        tasklist.append(task_suite)
-
-    #checking existence of scripts
-    for tasks in tasklist:
-        task_check = os.path.isfile('./' + tasks + '.py')
-        if task_check == False:
-            print(tasks, ' doesn''t seem to exist. Please check spelling! Exiting now...')
-            sys.exit()
-        else:
-            continue
-
-    try:
-        sucess_criterion = int(raw_input('Set your success criterion, press enter/return for 80%:  '))
-    except:
-        sucess_criterion = 80
-
-    try:
-        progression_num = int(raw_input('Set amount of sucessive sucesses required, press enter/return for 3  '))
-    except:
-        progression_num = 3
-
-    try:
-        limitTrial = int(raw_input('How many trials per task would you like to run, press enter/return for 50: '))
-    except:
-        limitTrial = 50
-
-    task_count = int(task_number)
-
-    print('Confirming test parameters... ')
-    print('Global sucess criterion (%): ',sucess_criterion)
-    print('Amount of trials per task: ', limitTrial)
-    print('Confirming tasks to be run: ', tasklist)
-
-    raw_input("Press Enter to continue...")
-
-    print('Starting task suite...  ')
-
-    #dummy sucess variable to initiate while loop
-
-    progression = [sucess_criterion]*progression_num
-    current_task_index = 0
-    current_taskname = 0
-    prev_state = False
 
 sucess_list = [0,0,0] #enter loop later
 session = 0
