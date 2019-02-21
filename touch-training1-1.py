@@ -18,9 +18,10 @@ def execTask(taskname,limitTrial,mywin,animal_ID,session):
 	reportobj_summary.createdir()
 	results = []
 	summary = []
-
+	stim_size = 700
+	centre_box_coord = [0,0]
 	#create stimulus
-	grating = visual.GratingStim(win=mywin, size=700, pos=[0,0], sf=0, color = [-1,-1,1], colorSpace='rgb' )
+	grating = centre_box = visual.GratingStim(win=mywin,size=stim_size,pos=centre_box_coord, color = [-1,-1,1], colorSpace='rgb',sf=0)
 	# limitTrial=3
 	trial = 0
 	buttons = []
