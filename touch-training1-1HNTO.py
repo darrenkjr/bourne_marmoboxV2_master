@@ -77,7 +77,7 @@ def execTask(taskname,limitTrial,mywin,animal_ID,session):
 			    results.append([session,session_time,trial, xpos, ypos, time.time() - t, '-', dist_stim, reaction_time, 'no'])
 			    mywin.update()
 			    reportobj_trial.addEvent(results)
-			    core.wait(2) # specifies timeout period
+			    #core.wait(2) # specifies timeout period
          		    checking = True
 
 	###########################################
