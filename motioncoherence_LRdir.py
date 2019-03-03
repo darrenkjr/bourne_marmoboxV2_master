@@ -13,6 +13,10 @@ limitTrial = 5
 mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix", pos=(0, 0))
 mouse = event.Mouse(win=mywin)
 
+#setting report parameters
+results_col = ['Session','Timestamp','Trial', 'Time (s)', 'Time to Fixate', 'Reward Stimulus Position','Distance from reward center (px)', 'Reaction time (s)', 'Success (Y/N)']
+summary_col = ['Session','Finished Session Time', 'Total Time', 'Trials', 'Hits', 'Misses', 'Nulls', 'Average dist from center (Px)', 'Average reaction time (s)', 'Reward Stimulus', 'Success%']
+
 # dummy trial counter and trial limits
 trial = 1
 nulls = 0
@@ -56,8 +60,6 @@ reward_dir = 0
 stop = False
 while trial <= limitTrial:
     # testing central fixation
-
-
     for dir in choice:
         if dir == 0:
             reward_box = right_box
@@ -69,12 +71,10 @@ while trial <= limitTrial:
             incorrect_box = right_box
             reward_dir = 180.0
 
-
-
         #display dot_stim for 100 frames first, then display left and right boxes
         primer_frames = 100
-        dot_stim = visual.DotStim(win=mywin, units='', nDots=500, coherence=1, fieldPos=centre_box_coord, fieldSize=(600, 600),
-                                  fieldShape='circle', dotSize=10, dotLife=100, dir=reward_dir, speed=5, opacity=1.0,
+        dot_stim = visual.DotStim(win=mywin, units='', nDots=500, coherence=0.1, fieldPos=centre_box_coord, fieldSize=(600, 600),
+                                  fieldShape='circle', dotSize=10, dotLife=50, dir=reward_dir, speed=5, opacity=1.0,
                                   contrast=1.0, signalDots='same', noiseDots='direction')
 
         print('checking central fixation')
@@ -185,13 +185,4 @@ while trial <= limitTrial:
         if event.getKeys('q'):
             mywin.close()
             stop = True
-        #
-        #
-        #
-        #
-        #
-        #
-        #
-        #
-        #
-        #
+
