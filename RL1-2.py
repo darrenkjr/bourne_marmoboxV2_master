@@ -14,7 +14,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
    
 
     #generating report directory
-    results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Reward Stimulus Position','Distance from reward center (px)', 'Reaction time (s)', 'Success (Y/N)']
+    results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Reward Stimulus Position','Distance from reward center (px)', 'Reaction time (s)', 'Success (Y/N)', 'Counter']
     summary_col = ['Session','Finished Session Time', 'Total Time', 'Trials', 'Hits', 'Misses', 'Nulls', 'Average dist from center (Px)', 'Average reaction time (s)', 'Reward Stimulus - Red', 'Success%']
     reportObj_trial = Report(str(taskname),animal_ID,results_col,'raw_data')
     reportObj_summary = Report(str(taskname), animal_ID, summary_col,'summary_data')
@@ -48,8 +48,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     #set reward parameters, reward stimuli / variable = image
 
-    reward_image = 'images/composite4-1.jpg'
-    penalty_image = 'images/composite4-2.jpg'
+    reward_image = 'images/composite4-2.jpg'
+    penalty_image = 'images/composite4-1.jpg'
 
     #pseudo-rng
     #if not wholly divisble by 2, will round to nearest integer.
@@ -157,7 +157,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
                             session_time = datetime.datetime.now().strftime("%H:%M %p")
                             reaction_time = (reaction_end - reaction_start).total_seconds()
-                            results.append([session, session_time, trial, xpos, ypos, time.time() - t, reward, dist_stim, reaction_time, 'yes'])
+                            results.append([session, session_time, trial, xpos, ypos, time.time() - t, reward, dist_stim, reaction_time, 'yes', 1])
                             hits += 1
                             trial += 1
 
@@ -191,7 +191,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
                             session_time = datetime.datetime.now().strftime("%H:%M %p")
                             reaction_time = (reaction_end - reaction_start).total_seconds()
-                            results.append([session,session_time,trial, xpos, ypos, time.time() - t, reward, dist_stim, reaction_time, 'no'])
+                            results.append([session,session_time,trial, xpos, ypos, time.time() - t, reward, dist_stim, reaction_time, 'no', 0])
                             reportObj_trial.addEvent(results)
 
                             mywin.flip()

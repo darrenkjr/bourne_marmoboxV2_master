@@ -48,8 +48,13 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     #set reward parameters, reward stimuli / variable = image
 
+<<<<<<< HEAD
     reward_image = 'images/composite1-1.jpg'
     penalty_image = 'images/composite1-2.jpg'
+=======
+    reward_image = 'images/composite4-1.jpg'
+    penalty_image = 'images/composite4-2.jpg'
+>>>>>>> d7caa05e686363680887eba3aa6f23165f1283f8
 
     #pseudo-rng
     #if not wholly divisble by 2, will round to nearest integer.
