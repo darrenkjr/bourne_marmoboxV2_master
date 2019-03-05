@@ -39,6 +39,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     hits = 0 #hit counter dummy
     stim_size = 250 #3cm equivalent on screen
+    reaction_threshold = 0.5 # 500 ms threshold for selecting a choice before fixation cue is refreshed
 
     #set box positions
 
@@ -82,6 +83,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                 else:  # If pressed
                     if mouse.isPressedIn(fixation_cue):
                         checking = True
+                        fixation_end = datetime.datetime.now()
                     else:
                         checking = False                    
 
@@ -131,7 +133,11 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
             while not checking:
                 while not mouse.getPressed()[0]:  # checks whether mouse button (i.e. button '0') was pressed
                     touchTimeout = False
-                    time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms
+                    reaction_monitor = (datetime.datetime.now() - reaction_start).total_seconds()
+                    if reaction_monitor >= reaction_threshold:
+                        checking = True
+                    #else:
+                        #time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms - THIS MUST BE ACCOUNTED FOR IF ACCURATELY TIMING RESPONSE LATENCIES
                 else:  # If pressed
                     xpos = mouse.getPos()[0]  # Returns current positions of mouse during press
                     ypos = mouse.getPos()[1]
@@ -147,6 +153,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             print('Touch recorded outside grating')
 
                             dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
+                            fixation_time = (fixation_end - fixation_start)
                             session_time = datetime.datetime.now().strftime("%H:%M %p")
                             reaction_time = (reaction_end - reaction_start).total_seconds()
                             results.append([session, session_time, 'outside stimuli', xpos, ypos, time.time() - t, reward, dist_stim, reaction_time, 'N/A'])
