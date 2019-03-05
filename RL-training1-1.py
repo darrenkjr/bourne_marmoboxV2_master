@@ -39,7 +39,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     hits = 0 #hit counter dummy
     stim_size = 250 #3cm equivalent on screen
-    reaction_threshold = 0.5 # 500 ms threshold for selecting a choice before fixation cue is refreshed
+    reaction_threshold = 2 # 2s threshold for selecting a choice before fixation cue is refreshed
 
     #set box positions
 
