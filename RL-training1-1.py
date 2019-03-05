@@ -67,23 +67,23 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
             t = time.time()  # returns time in sec as float
 
             # creating fixation cue
-            #fixation_cue = visual.GratingStim(win = mywin, size = stim_size, pos = (0,0), color = [0,0,0], colorSpace = 'rgb', sf = 0)
-            #fixation_cue.draw(mywin)
-            #mywin.update()
+            fixation_cue = visual.GratingStim(win = mywin, size = stim_size, pos = (0,0), color = [0,0,0], colorSpace = 'rgb', sf = 0)
+            fixation_cue.draw(mywin)
+            mywin.update()
 
-            #fixation_start = datetime.datetime.now()
-            #mouse.clickReset()
-            #checking = False
+            fixation_start = datetime.datetime.now()
+            mouse.clickReset()
+            checking = False
     
-            #while not checking:
-                #while not mouse.getPressed()[0]:  # checks whether mouse button (i.e. button '0') was pressed
-                    #touchTimeout = False
-                    #time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms
-                #else:  # If pressed
-                    #if mouse.isPressedIn(fixation_cue):
-                    
- 
-
+            while not checking:
+                while not mouse.getPressed()[0]:  # checks whether mouse button (i.e. button '0') was pressed
+                    touchTimeout = False
+                    time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms
+                else:  # If pressed
+                    if mouse.isPressedIn(fixation_cue):
+                        checking = True
+                    else:
+                        checking = False                    
 
 
             # creating left and right boxes
