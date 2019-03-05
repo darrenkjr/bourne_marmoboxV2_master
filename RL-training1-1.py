@@ -67,7 +67,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
             t = time.time()  # returns time in sec as float
 
             # creating fixation cue
-            fixation_cue = visual.GratingStim(win = mywin, size = stim_size, pos = (0,0), color = [0,0,0], colorSpace = 'rgb', sf = 0)
+            fixation_cue = visual.GratingStim(win = mywin, size = stim_size, pos = (0,0), color = [-1,-1,-1], colorSpace = 'rgb', sf = 0)
             fixation_cue.draw(mywin)
             mywin.update()
 
