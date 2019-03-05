@@ -34,13 +34,12 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     xpos = 0
     ypos = 0
     touchTimeout = False
-    timeout = False
     correct = []
     wrong = []
 
     hits = 0 #hit counter dummy
     stim_size = 250 #3cm equivalent on screen
-    reaction_threshold = 10 # 500 ms threshold for selecting a choice before fixation cue is refreshed
+    reaction_threshold = 0.5 # 500 ms threshold for selecting a choice before fixation cue is refreshed
 
     #set box positions
 
@@ -130,18 +129,17 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
             mouse.clickReset()  # resets a timer for timing button clicks
             checking = False
+            timeout = False
 
             while not checking:
                 while not mouse.getPressed()[0] and not timeout:  # checks whether mouse button (i.e. button '0') was pressed
                     touchTimeout = False
                     reaction_monitor = (datetime.datetime.now() - reaction_start).total_seconds()
-                    print(reaction_monitor)
-                    print(reaction_threshold)
                     if reaction_monitor >= reaction_threshold:
                         timeout = True
                         checking = True
                     else:
-                        time.sleep(1)  # Sleeps if not pressed and then checks again after 10ms - THIS MUST BE ACCOUNTED FOR IF ACCURATELY TIMING RESPONSE LATENCIES
+                        time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms - THIS MUST BE ACCOUNTED FOR IF ACCURATELY TIMING RESPONSE LATENCIES
               
                 if mouse.getPressed()[0] and not timeout:  # If pressed
                     xpos = mouse.getPos()[0]  # Returns current positions of mouse during press
