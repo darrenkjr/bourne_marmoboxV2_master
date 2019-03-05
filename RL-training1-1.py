@@ -139,6 +139,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                     print(reaction_threshold)
                     if reaction_monitor >= reaction_threshold:
                         timeout = True
+                        checking = True
                     else:
                         time.sleep(1)  # Sleeps if not pressed and then checks again after 10ms - THIS MUST BE ACCOUNTED FOR IF ACCURATELY TIMING RESPONSE LATENCIES
               
