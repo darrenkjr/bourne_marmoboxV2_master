@@ -34,6 +34,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     xpos = 0
     ypos = 0
     touchTimeout = False
+    timeout = False
     correct = []
     wrong = []
 
@@ -131,13 +132,13 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
             checking = False
 
             while not checking:
-                while not mouse.getPressed()[0]:  # checks whether mouse button (i.e. button '0') was pressed
+                while not mouse.getPressed()[0] and not timeout:  # checks whether mouse button (i.e. button '0') was pressed
                     touchTimeout = False
                     reaction_monitor = (datetime.datetime.now() - reaction_start).total_seconds()
                     print(reaction_monitor)
                     print(reaction_threshold)
                     if reaction_monitor >= reaction_threshold:
-                        checking = True
+                        timeout = True
                     else:
                         time.sleep(1)  # Sleeps if not pressed and then checks again after 10ms - THIS MUST BE ACCOUNTED FOR IF ACCURATELY TIMING RESPONSE LATENCIES
                 else:  # If pressed
