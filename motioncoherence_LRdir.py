@@ -1,21 +1,17 @@
 from psychopy import visual, core, logging, event
-import time, random, datetime
-import marmocontrol as control
+import time
 import pandas as pd
 from reports import Report
 from heatmap import scatterplot
-
 from initialisation import fixation, initial_param, rng_choice
 
 def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     # setting initial parameters
-    mouse,trial,nulls,timer,xpos,ypos, touchTimeout,correct,wrong,hits,null, miss = initial_param(mywin)
+    mouse,trial,nulls,timer,xpos,ypos, touchTimeout,correct,wrong,hits,null, miss, results, summary = initial_param(mywin)
     stim_size = 200  # 3cm equivalent on screen
 
-
-    # pseudo-rng determining direction of motion coherence dots.
-    #0 = right, 1 = left
+    #pseudo-rng determining direction of motion coherence dots
     possible_selection = 2
     choice = rng_choice(possible_selection,limitTrial)
 
@@ -34,7 +30,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     stop = False
     while trial <= limitTrial:
-
+        #begin sampling from RNG, 0 = right, 1 = left
         for dir in choice:
             if dir == 0:
                 reward_box = right_box
@@ -121,8 +117,6 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                             else:
                                 time.sleep(0.01)
-
-
 
             if event.getKeys('q'):
                 mywin.close()

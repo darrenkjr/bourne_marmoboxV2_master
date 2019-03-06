@@ -21,10 +21,49 @@ class Report:
         self.event_col = event_col
 
         return
-        # def createStartEvent():
-        #
-        #     self.Events.append({'time':self.startTime['time'],'info':'Start'})
-        # createStartEvent()
+
+    def createdir(self):
+        #creating csv and creating directory if required.
+        if not os.path.exists(os.path.dirname(self.dir)):
+            try:
+                os.makedirs(os.path.dirname(self.dir))
+            except OSError as exc: #Guard against race condition
+                if exc.errno != errno.EEXIST:
+                    raise
+
+    def data_col(self,taskname):
+        ########
+        if taskname[:2] == 'RL':
+            results_col = ['Session', 'Timestamp', 'Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)',
+                           'Reward Stimulus Position', 'Distance from reward center (px)', 'Fixation latency (s)',
+                           'Response latency (s)', 'Success (Y/N)', 'Counter']
+            summary_col = ['Session', 'Finished Session Time', 'Total Time', 'Trials', 'Hits', 'Misses', 'Timeouts',
+                           'Outsides', 'Nulls', 'Average dist from center (Px)', 'Average response latency (s)',
+                           'Reward Stimulus - Red', 'Success%']
+
+        elif taskname[:2] == 'to': #fortouchtraining
+            results_col = ['Session', 'Timestamp', 'Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)',
+                           'Stimulus type', 'Stimulus Position (Center)', 'Distance from center (px)', 'Reaction time',
+                           'Success (Y/N)']
+            summary_col = ['Session', 'Timestamp (End)', 'Minutes', 'Seconds', 'Trials', 'Hits', 'Misses',
+                           'Average dist from center (Px)', 'Average reaction time (s)', 'Success%']
+
+        elif taskname[:2] == 'mo':
+            results_col = ['Session', 'Timestamp', 'Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)',
+                           'Reward Stimulus Position', 'Distance from reward center (px)', 'Fixation latency (s)',
+                           'Response latency (s)', 'Success (Y/N)', 'Counter']
+            summary_col = ['Session', 'Finished Session Time', 'Total Time', 'Trials', 'Hits', 'Misses', 'Timeouts',
+                           'Outsides', 'Nulls', 'Average dist from center (Px)', 'Average response latency (s)',
+                           'Reward Stimulus - Red', 'Success%']
+
+        return results_col, summary_col
+
+
+    def data_present(self):
+
+
+        return
+
 
     def timeStamp(self):
         ts = time.time()
@@ -40,16 +79,6 @@ class Report:
         print(self.df_info)
         return
 
-    def createdir(self):
-
-        #creating csv and creating directory if required.
-
-        if not os.path.exists(os.path.dirname(self.dir)):
-            try:
-                os.makedirs(os.path.dirname(self.dir))
-            except OSError as exc: #Guard against race condition
-                if exc.errno != errno.EEXIST:
-                    raise
 
     def writecsv(self,report_type,session):
 
@@ -60,5 +89,9 @@ class Report:
         else:
             header_bool = None
         self.df_info.to_csv(self.dir + report_type + '.csv', mode='a',header=header_bool)
+
+
+
+
 
 

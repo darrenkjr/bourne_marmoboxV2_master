@@ -62,12 +62,14 @@ def initial_param(mywin):
     hits = 0
     null = 0
     miss = 0
+    results = []
+    summary = []
 
-    return mouse, trial,nulls,timer,xpos,ypos, touchTimeout,correct,wrong,hits,null, miss
+    return mouse, trial,nulls,timer,xpos,ypos, touchTimeout,correct,wrong,hits,null, miss, results, summary
 
 def rng_choice(possible_selection,limitTrial):
 
-    choice = np.repeat([0, 1], math.floor(limitTrial / 2))
+    choice = np.repeat([0, possible_selection -1], math.floor(limitTrial / 2))
     if math.floor(limitTrial % 2) > 0:
         choice = np.append(choice, random.randint(0, 1))
     np.random.shuffle(choice)

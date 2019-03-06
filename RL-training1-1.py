@@ -1,44 +1,26 @@
 from psychopy import visual, core, logging, event
-import time, random, datetime
+import time, datetime
 import marmocontrol as control
 import pandas as pd
 from reports import Report
 from heatmap import scatterplot
-import numpy as np
-import math
+from initialisation import fixation, initial_param, rng_choice
 
 
 def execTask(taskname,limitTrial,mywin, animal_ID,session):
-
-    mouse = event.Mouse(win=mywin)
-   
+    mouse, trial, nulls, timer, xpos, ypos, touchTimeout, correct, wrong, hits, null, miss, results, summary = initial_param(mywin)
 
     #generating report directory
-    results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Reward Stimulus Position','Distance from reward center (px)', 'Fixation latency (s)', 'Response latency (s)', 'Success (Y/N)', 'Counter']
-    summary_col = ['Session','Finished Session Time', 'Total Time', 'Trials', 'Hits', 'Misses', 'Timeouts', 'Outsides', 'Nulls', 'Average dist from center (Px)', 'Average response latency (s)', 'Reward Stimulus - Red', 'Success%']
+    results_col, summary_col = Report.data_col(taskname)
+
     reportObj_trial = Report(str(taskname),animal_ID,results_col,'raw_data')
     reportObj_summary = Report(str(taskname), animal_ID, summary_col,'summary_data')
     reportObj_summary.createdir()
     reportObj_trial.createdir()
-    results = []
-    summary = []
-
-    #setting initial parameters
 
     #dummy trial counter and trial limits
-    trial = 1
     timeouts = 0
     outsides = 0
-    timer = time.time()
-
-    #dummy mouse position
-    xpos = 0
-    ypos = 0
-    touchTimeout = False
-    correct = []
-    wrong = []
-
-    hits = 0 #hit counter dummy
     stim_size = 250 #3cm equivalent on screen
     reaction_threshold = 2 # 2s threshold for selecting a choice before fixation cue is refreshed
 
@@ -55,14 +37,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     #pseudo-rng
     #if not wholly divisble by 2, will round to nearest integer.
-    choice = np.repeat([0,1],math.floor(limitTrial/2))
-
-    if math.floor(limitTrial%2) >0:
-        choice = np.append(choice,random.randint(0,1))
-    
-    print(choice)
-    np.random.shuffle(choice)
-    print(choice)
+    possible_selection = 2
+    choice = rng_choice(possible_selection,limitTrial)
 
     while trial <= limitTrial:
         for rand_stim in choice:
