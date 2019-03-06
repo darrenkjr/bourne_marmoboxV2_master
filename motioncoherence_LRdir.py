@@ -1,5 +1,6 @@
 from psychopy import visual, core, logging, event
-import time
+import time, datetime
+import marmocontrol as control
 import pandas as pd
 from reports import Report
 from heatmap import scatterplot
