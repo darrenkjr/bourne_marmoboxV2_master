@@ -15,24 +15,9 @@ session = 0
 limitTrial = 5
 
 # setting initial parameters
-
+limitTrial = 5
 mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix", pos=(0, 0))
 mouse = event.Mouse(win=mywin)
-coherence = 0.9
-
-#setting report parameters
-results_col = ['Session', 'Timestamp', 'Trial', 'Time to fixate (s)', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Reward Stimulus Position', 'Distance from reward center (px)', 'Reaction time (s)', 'Success (Y/N)']
-summary_col = ['Session','Finished Session Time', 'Coherence', 'Total Time', 'Trials', 'Hits', 'Misses', 'Nulls', 'Average dist from center (Px)', 'Average reaction time (s)', 'Average time to fixate (s)', 'Success%']
-
-reportObj_trial = Report(str(taskname),animal_ID,results_col,'raw_data')
-
-# generating report directory
-
-reportObj_summary = Report(str(taskname), animal_ID, summary_col, 'summary_data')
-reportObj_summary.createdir()
-reportObj_trial.createdir()
-results = []
-summary = []
 
 # dummy trial counter and trial limits
 trial = 1
@@ -77,21 +62,17 @@ reward_dir = 0
 stop = False
 while trial <= limitTrial:
     # testing central fixation
+
+
     for dir in choice:
         if dir == 0:
             reward_box = right_box
-            reward_coord = right_box_coord
-            reward = 'right'
             incorrect_box = left_box
-            penalty_coord = left_box_coord
             reward_dir = 0
 
         else:
             reward_box = left_box
-            reward_coord = left_box_coord
-            reward = 'left'
             incorrect_box = right_box
-            penalty_coord = right_box_coord
             reward_dir = 180.0
 
         #first check fixation
@@ -112,7 +93,6 @@ while trial <= limitTrial:
         print('presenting options')
         stop = False
         mywin.flip()
-        reaction_start = datetime.datetime.now()
 
         #now draw stimuli
         while stop == False:
@@ -126,7 +106,6 @@ while trial <= limitTrial:
                     left_box.draw()
                     right_box.draw()
                     mywin.flip()
-                    t = time.time()
 
                 else:  # If pressed
                     xpos = mouse.getPos()[0]  # Returns current positions of mouse during press
@@ -134,7 +113,6 @@ while trial <= limitTrial:
 
                     correct = mouse.isPressedIn(reward_box)  # Returns True if mouse pressed in grating
                     incorrect = mouse.isPressedIn(incorrect_box)
-                    reaction_end = datetime.datetime.now()
 
                     #count nulls.
                     if correct is not True and incorrect is not True:
@@ -145,35 +123,13 @@ while trial <= limitTrial:
                             nulls += 1
                             print('Trial: ',trial)
 
-                            dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
-                            session_time = datetime.datetime.now().strftime("%H:%M %p")
-                            reaction_time = reaction_time = (reaction_end - reaction_start).total_seconds()
-
-                            results.append(
-                                [session, session_time, 'outside stimuli', time_to_fixate, xpos, ypos, time.time() - t, reward,
-                                 dist_stim,
-                                 reaction_time, 'null'])
-
-                            reportObj_trial.addEvent(results)
-
                     elif correct == True:
                         if not touchTimeout:
                             print('Hit!')
                             hits += 1
                             trial += 1
 
-                            control.correctAnswer()
                             mywin.flip()
-                            dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
-                            session_time = datetime.datetime.now().strftime("%H:%M %p")
-                            reaction_time = reaction_time = (reaction_end - reaction_start).total_seconds()
-
-                            results.append(
-                                [session, session_time, trial, time_to_fixate, xpos, ypos, time.time() - t, reward, dist_stim,
-                                 reaction_time, 'yes'])
-
-                            reportObj_trial.addEvent(results)
-
                             core.wait(0.5)
                             checking = True
                             stop = True
@@ -187,20 +143,7 @@ while trial <= limitTrial:
                             miss +=1
                             trial += 1
 
-                            control.incorrectAnswer()
                             mywin.flip()
-
-                            dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
-                            session_time = datetime.datetime.now().strftime("%H:%M %p")
-                            reaction_time = reaction_time = (reaction_end - reaction_start).total_seconds()
-
-                            results.append(
-                                [session, session_time, trial, time_to_fixate, xpos, ypos, time.time() - t, reward,
-                                 dist_stim,
-                                 reaction_time, 'no'])
-
-                            reportObj_trial.addEvent(results)
-
                             core.wait(2.0)
                             checking = True
                             stop = True
@@ -213,34 +156,13 @@ while trial <= limitTrial:
         if event.getKeys('q'):
             mywin.close()
             stop = True
-
-# Timer variables
-totalTime = time.time() - timer
-mins = int(totalTime / 60)
-secs = round((totalTime % 60), 1)
-timeLog = str(mins) + ' min ' + str(secs) + ' sec'
-
-# below, data presenting
-df_results = pd.DataFrame(results, columns=results_col)
-reportObj_trial.writecsv('trial', session)
-average_dist = float(df_results[['Distance from reward center (px)']].mean())
-avg_reactiontime = float(df_results[['Reaction time (s)']].mean())
-avg_timetofixate = float(df_results[['Time to fixate (s)']].mean())
-
-session_time = datetime.datetime.now().strftime("%H:%M %p")
-summary.append(
-    [session, session_time, coherence, timeLog, limitTrial, hits, limitTrial - hits, nulls, average_dist, avg_reactiontime, avg_timetofixate,
-     (float(hits) / float(limitTrial)) * 100])
-
-sucess = (float(hits) / float(limitTrial)) * 100
-reportObj_summary.addEvent(summary)
-reportObj_summary.writecsv('summary', session)
-
-# organizing coordinates
-pressed = ([df_results['X-Position (Pressed)']], [df_results['Y-Position (Pressed)']])
-print(reward_coord)
-stimulus = ([reward_coord[0], penalty_coord[0]], [reward_coord[1], penalty_coord[1]])
-# creating scatter object and saving heat map plot
-scatter = scatterplot(stimulus, pressed, stim_size)
-scatter.heatmap_param(limitTrial, stim_size)
-scatter.saveheatmap(taskname, animal_ID, limitTrial)
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
