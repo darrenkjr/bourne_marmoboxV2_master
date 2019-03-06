@@ -4,165 +4,126 @@ import marmocontrol as control
 import pandas as pd
 from reports import Report
 from heatmap import scatterplot
-import numpy as np
-import math
-from fixation import fixation
 
-#temporary paramters delete when integrating into thebadtouch
-taskname = 'motioncoherence_LRdir'
-animal_ID = 'test'
-session = 0
-limitTrial = 5
+from initialisation import fixation, initial_param, rng_choice
 
-# setting initial parameters
-limitTrial = 5
-mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix", pos=(0, 0))
-mouse = event.Mouse(win=mywin)
+def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
-# dummy trial counter and trial limits
-trial = 1
-nulls = 0
-timer = time.time()
-
-# dummy mouse position
-xpos = 0
-ypos = 0
-touchTimeout = False
-correct = []
-wrong = []
-
-hits = 0  # hit counter dummy
-null = 0
-miss = 0
-stim_size = 200  # 3cm equivalent on screen
-
-# set box positions
-left_box_coord = [-1280 / 2.5, 0]
-right_box_coord = [1280 / 2.5, 0]
+    # setting initial parameters
+    mouse,trial,nulls,timer,xpos,ypos, touchTimeout,correct,wrong,hits,null, miss = initial_param(mywin)
+    stim_size = 200  # 3cm equivalent on screen
 
 
-left_box = visual.GratingStim(win=mywin,size=stim_size,pos=left_box_coord, color = [1,1,1], colorSpace='rgb',sf=0)
-right_box = visual.GratingStim(win=mywin,size=stim_size,pos=right_box_coord, color = [1,1,1], colorSpace='rgb',sf=0)
+    # pseudo-rng determining direction of motion coherence dots.
+    #0 = right, 1 = left
+    possible_selection = 2
+    choice = rng_choice(possible_selection,limitTrial)
 
-# pseudo-rng determining direction of motion coherence dots.
-# if not wholly divisble by 2, will round to nearest integer.
-#0 = right, 1 = left
-choice = np.repeat([0, 1], math.floor(limitTrial / 2))
+    #############################################################
 
-if math.floor(limitTrial % 2) > 0:
-    choice = np.append(choice, random.randint(0, 1))
+    #begin task specific code
+    # set box positions
+    left_box_coord = [-1280 / 2.5, 0]
+    right_box_coord = [1280 / 2.5, 0]
 
-print(choice)
-np.random.shuffle(choice)
-print(choice)
-
-# in degrees
-reward_dir = 0
-
-stop = False
-while trial <= limitTrial:
-    # testing central fixation
+    left_box = visual.GratingStim(win=mywin,size=stim_size,pos=left_box_coord, color = [1,1,1], colorSpace='rgb',sf=0)
+    right_box = visual.GratingStim(win=mywin,size=stim_size,pos=right_box_coord, color = [1,1,1], colorSpace='rgb',sf=0)
 
 
-    for dir in choice:
-        if dir == 0:
-            reward_box = right_box
-            incorrect_box = left_box
-            reward_dir = 0
+    reward_dir = 0 #in degrees
 
-        else:
-            reward_box = left_box
-            incorrect_box = right_box
-            reward_dir = 180.0
+    stop = False
+    while trial <= limitTrial:
 
-        #first check fixation
-        time_to_fixate = fixation(mywin, taskname, stim_size, mouse, trial)
+        for dir in choice:
+            if dir == 0:
+                reward_box = right_box
+                incorrect_box = left_box
+                reward_dir = 0
 
-        #display dot_stim for 100 frames first, then display left and right boxes
-        primer_frames = 100
-        dot_stim = visual.DotStim(win=mywin, units='', nDots=500, coherence=coherence, fieldPos=(0,0),
-                                  fieldSize=(600, 600),
-                                  fieldShape='circle', dotSize=10, dotLife=50, dir=reward_dir, speed=5, opacity=1.0,
-                                  contrast=1.0, signalDots='same', noiseDots='direction')
+            else:
+                reward_box = left_box
+                incorrect_box = right_box
+                reward_dir = 180.0
 
-        for frames in range(primer_frames):
+            #first check fixation
+            time_to_fixate = fixation(mywin, taskname, stim_size, mouse, trial)
 
-            dot_stim.draw()
+            #display dot_stim for 100 frames first, then display left and right boxes
+            primer_frames = 100
+            dot_stim = visual.DotStim(win=mywin, units='', nDots=500, coherence=0.8, fieldPos=(0,0),
+                                      fieldSize=(600, 600),
+                                      fieldShape='circle', dotSize=10, dotLife=50, dir=reward_dir, speed=5, opacity=1.0,
+                                      contrast=1.0, signalDots='same', noiseDots='direction')
+
+            for frames in range(primer_frames):
+
+                dot_stim.draw()
+                mywin.flip()
+
+            print('presenting options')
+            stop = False
             mywin.flip()
 
-        print('presenting options')
-        stop = False
-        mywin.flip()
+            #now draw stimuli
+            while stop == False:
+                mouse.clickReset()
+                checking = False
 
-        #now draw stimuli
-        while stop == False:
-            mouse.clickReset()
-            checking = False
+                while not checking:
+                    while not mouse.getPressed()[0]:
+                        touchTimeout = False
+                        dot_stim.draw()
+                        left_box.draw()
+                        right_box.draw()
+                        mywin.flip()
 
-            while not checking:
-                while not mouse.getPressed()[0]:
-                    touchTimeout = False
-                    dot_stim.draw()
-                    left_box.draw()
-                    right_box.draw()
-                    mywin.flip()
+                    else:  # If pressed
+                        xpos = mouse.getPos()[0]  # Returns current positions of mouse during press
+                        ypos = mouse.getPos()[1]
 
-                else:  # If pressed
-                    xpos = mouse.getPos()[0]  # Returns current positions of mouse during press
-                    ypos = mouse.getPos()[1]
+                        correct = mouse.isPressedIn(reward_box)  # Returns True if mouse pressed in grating
+                        incorrect = mouse.isPressedIn(incorrect_box)
 
-                    correct = mouse.isPressedIn(reward_box)  # Returns True if mouse pressed in grating
-                    incorrect = mouse.isPressedIn(incorrect_box)
+                        #count nulls.
+                        if correct is not True and incorrect is not True:
+                            print('Current trial: ', trial)
+                            if not touchTimeout:
 
-                    #count nulls.
-                    if correct is not True and incorrect is not True:
-                        print('Current trial: ', trial)
-                        if not touchTimeout:
+                                print('Touch recorded outside grating')
+                                nulls += 1
+                                print('Trial: ',trial)
 
-                            print('Touch recorded outside grating')
-                            nulls += 1
-                            print('Trial: ',trial)
+                        elif correct == True:
+                            if not touchTimeout:
+                                print('Hit!')
+                                hits += 1
+                                trial += 1
 
-                    elif correct == True:
-                        if not touchTimeout:
-                            print('Hit!')
-                            hits += 1
-                            trial += 1
+                                mywin.flip()
+                                core.wait(0.5)
+                                checking = True
+                                stop = True
 
-                            mywin.flip()
-                            core.wait(0.5)
-                            checking = True
-                            stop = True
+                            else:
+                                time.sleep(0.01)
 
-                        else:
-                            time.sleep(0.01)
+                        elif incorrect == True:
+                            if not touchTimeout:
+                                print('Miss!')
+                                miss +=1
+                                trial += 1
 
-                    elif incorrect == True:
-                        if not touchTimeout:
-                            print('Miss!')
-                            miss +=1
-                            trial += 1
+                                mywin.flip()
+                                core.wait(2.0)
+                                checking = True
+                                stop = True
 
-                            mywin.flip()
-                            core.wait(2.0)
-                            checking = True
-                            stop = True
-
-                        else:
-                            time.sleep(0.01)
+                            else:
+                                time.sleep(0.01)
 
 
 
-        if event.getKeys('q'):
-            mywin.close()
-            stop = True
-        #
-        #
-        #
-        #
-        #
-        #
-        #
-        #
-        #
-        #
+            if event.getKeys('q'):
+                mywin.close()
+                stop = True
