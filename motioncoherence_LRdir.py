@@ -6,7 +6,7 @@ from reports import Report
 from heatmap import scatterplot
 import numpy as np
 import math
-
+from fixation import fixation
 
 #temporary paramters delete when integrating into thebadtouch
 taskname = 'motioncoherence_LRdir'
@@ -54,11 +54,11 @@ stim_size = 200  # 3cm equivalent on screen
 # set box positions
 left_box_coord = [-1280 / 2.5, 0]
 right_box_coord = [1280 / 2.5, 0]
-centre_box_coord = [0,0]
+
 
 left_box = visual.GratingStim(win=mywin,size=stim_size,pos=left_box_coord, color = [1,1,1], colorSpace='rgb',sf=0)
 right_box = visual.GratingStim(win=mywin,size=stim_size,pos=right_box_coord, color = [1,1,1], colorSpace='rgb',sf=0)
-centre_box = visual.GratingStim(win=mywin,size=stim_size,pos=centre_box_coord, color = [-1,-1,-1], colorSpace='rgb',sf=0)
+
 # pseudo-rng determining direction of motion coherence dots.
 # if not wholly divisble by 2, will round to nearest integer.
 #0 = right, 1 = left
@@ -94,50 +94,15 @@ while trial <= limitTrial:
             penalty_coord = right_box_coord
             reward_dir = 180.0
 
+        #first check fixation
+        time_to_fixate = fixation(mywin, taskname, stim_size, mouse, trial)
+
         #display dot_stim for 100 frames first, then display left and right boxes
         primer_frames = 100
-        dot_stim = visual.DotStim(win=mywin, units='', nDots=500, coherence=coherence, fieldPos=centre_box_coord, fieldSize=(600, 600),
+        dot_stim = visual.DotStim(win=mywin, units='', nDots=500, coherence=coherence, fieldPos=(0,0),
+                                  fieldSize=(600, 600),
                                   fieldShape='circle', dotSize=10, dotLife=50, dir=reward_dir, speed=5, opacity=1.0,
                                   contrast=1.0, signalDots='same', noiseDots='direction')
-
-        print('checking central fixation')
-
-        centre_box.draw()
-        mywin.flip()
-
-        mouse.clickReset()
-        fix_start = datetime.datetime.now()
-
-        fixation = False
-        print('starting')
-
-        while fixation == False:
-            while not mouse.getPressed()[0]:  # checks whether mouse button (i.e. button '0') was pressed
-                touchTimeout = False
-                time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms
-            else:  # If pressed
-                xpos = mouse.getPos()[0]  # Returns current positions of mouse during press
-                ypos = mouse.getPos()[1]
-                fixate_button = mouse.isPressedIn(centre_box)
-
-                if fixate_button == True:
-                    if not touchTimeout:
-                        print('Hit!')
-                        time_to_fixate = (datetime.datetime.now() - fix_start).total_seconds()
-                        print('Time to fixate (s): ', time_to_fixate)
-
-
-                        trial += 1
-
-                        mywin.flip()
-                        touchTimeout = True
-                        fixation = True
-
-                    else:
-                        time.sleep(0.01)
-
-                if not fixate_button:
-                    time.sleep(0.01)
 
         for frames in range(primer_frames):
 
