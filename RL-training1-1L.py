@@ -125,11 +125,13 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
             reaction_start = datetime.datetime.now()
             # start reaction timer from drawing the grating
 
-            mouse.clickReset()  # resets a timer for timing button clicks
             checking2 = False
             timeout = False
 
             while not checking2:
+                
+                mouse.clickReset()  # resets a timer for timing button clicks
+                
                 while not mouse.getPressed()[0] and not timeout:  # checks whether mouse button (i.e. button '0') was pressed
                     reaction_monitor = (datetime.datetime.now() - reaction_start).total_seconds()
                     if reaction_monitor >= reaction_threshold:
@@ -147,8 +149,6 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                     else:
                         time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms - THIS MUST BE ACCOUNTED FOR IF ACCURATELY TIMING RESPONSE LATENCIES
 
-                mouse.clickReset()
-                  
                 if mouse.getPressed()[0] and not timeout:  # If pressed
                     xpos = mouse.getPos()[0]  # Returns current positions of mouse during press
                     ypos = mouse.getPos()[1]
@@ -157,7 +157,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                     wrong = mouse.isPressedIn(penalty_stim)
                     reaction_end = datetime.datetime.now()
 
-                    if correct is not True and wrong is not True:
+                    if correct is not True and wrong is not True: #if background pressed in
                         print('Current trial: ', trial)
                         print('Touch recorded outside grating')
 
@@ -168,7 +168,6 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                         #do not record as trial, reset number
                         reportObj_trial.addEvent(results)
 
-                        core.wait(1)
                         outsides += 1
                         print('Trial: ',trial)
 
