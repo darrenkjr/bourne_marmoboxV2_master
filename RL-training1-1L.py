@@ -227,7 +227,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                         checking2 = True
 
-
+                print(trial)
+                print(limitTrial)
 
 
 
