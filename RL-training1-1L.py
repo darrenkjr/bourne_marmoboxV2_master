@@ -82,9 +82,9 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                 if mouse.isPressedIn(fixation_cue):
                     checking1 = True
                     fixation_end = datetime.datetime.now()
+                    fixation_time = (fixation_end - fixation_start)
                 else:
                     checking1 = False                    
-
 
             # creating left and right boxes
 
@@ -135,7 +135,6 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                     if reaction_monitor >= reaction_threshold:
                         timeout = True
                         checking2 = True
-                        fixation_time = (fixation_end - fixation_start)
                         session_time = datetime.datetime.now().strftime("%H:%M %p")
                         results.append([session, session_time, 'timeout', '', '', time.time() - t, '','', '> ' + str(reaction_threshold) + ' sec', '', 'N/A', ''])
                         #do not record as trial, reset number
@@ -161,7 +160,6 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                         print('Touch recorded outside grating')
 
                         dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
-                        fixation_time = (fixation_end - fixation_start)
                         session_time = datetime.datetime.now().strftime("%H:%M %p")
                         reaction_time = (reaction_end - reaction_start).total_seconds()
                         results.append([session, session_time, 'outside stimuli', xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, 'N/A', ''])
