@@ -146,7 +146,9 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                     else:
                         time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms - THIS MUST BE ACCOUNTED FOR IF ACCURATELY TIMING RESPONSE LATENCIES
-              
+
+                mouse.clickReset()
+                  
                 if mouse.getPressed()[0] and not timeout:  # If pressed
                     xpos = mouse.getPos()[0]  # Returns current positions of mouse during press
                     ypos = mouse.getPos()[1]
