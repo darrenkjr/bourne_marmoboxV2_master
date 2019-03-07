@@ -79,7 +79,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
             while not checking1:
                 while not mouse.getPressed()[0]:  # checks whether mouse button (i.e. button '0') was pressed
                     time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms
-                if mouse.isPressedIn(fixation_cue):
+                if mouse.getPressed()[0] and mouse.isPressedIn(fixation_cue):
                     checking1 = True
                     fixation_end = datetime.datetime.now()
                     fixation_time = (fixation_end - fixation_start)
@@ -125,13 +125,11 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
             reaction_start = datetime.datetime.now()
             # start reaction timer from drawing the grating
 
+            mouse.clickReset()  # resets a timer for timing button clicks
             checking2 = False
             timeout = False
 
             while not checking2:
-                
-                mouse.clickReset()  # resets a timer for timing button clicks
-                
                 while not mouse.getPressed()[0] and not timeout:  # checks whether mouse button (i.e. button '0') was pressed
                     reaction_monitor = (datetime.datetime.now() - reaction_start).total_seconds()
                     if reaction_monitor >= reaction_threshold:
