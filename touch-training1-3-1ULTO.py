@@ -29,7 +29,7 @@ def execTask(taskname,limitTrial,mywin,animal_ID,session):
     xpos = 0
     ypos = 0
     stimPosx = 0
-    stimPosy = 0
+    stimPosy = 75
     touchTimeout = False
     hits = 0
     size = 550
