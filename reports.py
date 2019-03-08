@@ -40,9 +40,11 @@ class Report:
         #appending results - every trial
         self.df_info = pd.DataFrame(events, columns=self.event_col)
         print(self.df_info)
+        return
+    
         passes +=1
         print(str(passes) + ' passes)'
-        return
+
 
     def createdir(self):
 
