@@ -166,12 +166,11 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                         #do not record as trial, reset number
                         reportObj_trial.addEvent(results)
 
+                        print('One pass')
+
                         outsides += 1
                         print('Trial: ',trial)
                         mouse.clickReset()
-                        
-                        if mouse.getPressed()[0]:
-                            print('Mouse is still pressed')
 
                     elif correct == True:
 
