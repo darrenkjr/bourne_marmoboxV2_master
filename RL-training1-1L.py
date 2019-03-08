@@ -14,7 +14,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
    
 
     #generating report directory
-    results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Reward Stimulus Position','Distance from reward center (px)', 'Fixation latency (s)', 'Response latency (s)', 'Outsides', 'Success (Y/N)', 'Counter']
+    results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Reward Stimulus Position','Distance from reward center (px)', 'Fixation latency (s)', 'Response latency (ms)', 'Outsides', 'Success (Y/N)', 'Counter']
     summary_col = ['Session','Finished Session Time', 'Total Time', 'Trials', 'Hits', 'Misses', 'Timeouts', 'Outsides', 'Nulls', 'Average dist from center (Px)', 'Average response latency (s)', 'Reward Stimulus - Red', 'Success%']
     reportObj_trial = Report(str(taskname),animal_ID,results_col,'raw_data')
     reportObj_summary = Report(str(taskname), animal_ID, summary_col,'summary_data')
@@ -49,7 +49,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     #set reward parameters, reward stimuli / variable = image
 
-    reward_image = 'images/composite1-1.jpg'
+    reward_image = 'kev.jpg'
     penalty_image = 'images/composite1-2.jpg'
 
     #pseudo-rng
