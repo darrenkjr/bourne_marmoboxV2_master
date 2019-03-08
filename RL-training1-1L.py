@@ -141,7 +141,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                         checking2 = True
                         session_time = datetime.datetime.now().strftime("%H:%M %p")
                         append_array = [session, session_time, 'timeout', '', '', time.time() - t, reward,'', '> ' + str(reaction_threshold) + ' sec', '', '', 'N/A', '']
-                        print("DEBUG APPEND: ", append_array)
+                        #print("DEBUG APPEND: ", append_array)
                         results.append(append_array)
                         #do not record as trial, reset number
                         
