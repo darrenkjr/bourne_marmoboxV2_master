@@ -36,6 +36,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     ypos = 0
     correct = []
     wrong = []
+    
+    passes = 0
 
     hits = 0 #hit counter dummy
     stim_size = 250 #3cm equivalent on screen
@@ -166,7 +168,9 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                         #do not record as trial, reset number
                         reportObj_trial.addEvent(results)
 
-                        print('One pass')
+                        passes =+ 1
+
+                        print(str(passes) + ' passes')
 
                         outsides += 1
                         print('Trial: ',trial)
