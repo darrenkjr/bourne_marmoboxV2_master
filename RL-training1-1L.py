@@ -169,6 +169,9 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                         outsides += 1
                         print('Trial: ',trial)
                         mouse.clickReset()
+                        
+                        if mouse.getPressed()[0]:
+                            print('Mouse is still pressed')
 
                     elif correct == True:
 
