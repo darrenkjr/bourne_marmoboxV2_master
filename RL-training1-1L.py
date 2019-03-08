@@ -37,8 +37,6 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     correct = []
     wrong = []
     
-    passes = 0
-
     hits = 0 #hit counter dummy
     stim_size = 250 #3cm equivalent on screen
     reaction_threshold = 2 # 2s threshold for selecting a choice before fixation cue is refreshed
@@ -167,10 +165,6 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                         results.append([session, session_time, 'outside stimuli', xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, 'N/A', ''])
                         #do not record as trial, reset number
                         reportObj_trial.addEvent(results)
-
-                        passes =+ 1
-
-                        print(str(passes) + ' passes')
 
                         outsides += 1
                         print('Trial: ',trial)

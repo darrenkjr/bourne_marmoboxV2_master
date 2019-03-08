@@ -6,6 +6,8 @@ import os
 import errno
 import pandas as pd
 
+passes = 0
+
 class Report:
     def __init__(self,taskname,animal_ID,event_col,report_type):
         self.startTime = self.timeStamp()
@@ -38,6 +40,8 @@ class Report:
         #appending results - every trial
         self.df_info = pd.DataFrame(events, columns=self.event_col)
         print(self.df_info)
+        passes +=1
+        print(str(passes) + ' passes)'
         return
 
     def createdir(self):
