@@ -168,6 +168,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                         outsides += 1
                         print('Trial: ',trial)
+                        mouse.clickReset()
 
                     elif correct == True:
 
