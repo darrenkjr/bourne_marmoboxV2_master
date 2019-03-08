@@ -14,7 +14,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
    
 
     #generating report directory
-    results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Reward Stimulus Position','Distance from reward center (px)', 'Fixation latency (s)', 'Response latency (s)', 'Success (Y/N)', 'Counter']
+    results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Reward Stimulus Position','Distance from reward center (px)', 'Fixation latency (s)', 'Response latency (s)', 'Outsides', 'Success (Y/N)', 'Counter']
     summary_col = ['Session','Finished Session Time', 'Total Time', 'Trials', 'Hits', 'Misses', 'Timeouts', 'Outsides', 'Nulls', 'Average dist from center (Px)', 'Average response latency (s)', 'Reward Stimulus - Red', 'Success%']
     reportObj_trial = Report(str(taskname),animal_ID,results_col,'raw_data')
     reportObj_summary = Report(str(taskname), animal_ID, summary_col,'summary_data')
@@ -36,7 +36,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     ypos = 0
     correct = []
     wrong = []
-    
+
     hits = 0 #hit counter dummy
     stim_size = 250 #3cm equivalent on screen
     reaction_threshold = 2 # 2s threshold for selecting a choice before fixation cue is refreshed
@@ -128,16 +128,23 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
             mouse.clickReset()  # resets a timer for timing button clicks
             checking2 = False
             timeout = False
+            loops = -1
 
             while not checking2:
+                
+                loops += 1 # a proxy for counting outside touches in a given trial  
+                
                 while not mouse.getPressed()[0] and not timeout:  # checks whether mouse button (i.e. button '0') was pressed
                     reaction_monitor = (datetime.datetime.now() - reaction_start).total_seconds()
                     if reaction_monitor >= reaction_threshold:
                         timeout = True
                         checking2 = True
                         session_time = datetime.datetime.now().strftime("%H:%M %p")
-                        results.append([session, session_time, 'timeout', '', '', time.time() - t, '','', '> ' + str(reaction_threshold) + ' sec', '', 'N/A', ''])
+                        append_array = [session, session_time, 'timeout', '', '', time.time() - t, reward,'', '> ' + str(reaction_threshold) + ' sec', '', '', 'N/A', '']
+                        print("DEBUG APPEND: ", append_array)
+                        results.append(append_array)
                         #do not record as trial, reset number
+                        
                         reportObj_trial.addEvent(results)
 
                         core.wait(1)
@@ -162,7 +169,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                         dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
                         session_time = datetime.datetime.now().strftime("%H:%M %p")
                         reaction_time = (reaction_end - reaction_start).total_seconds()
-                        results.append([session, session_time, 'outside stimuli', xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, 'N/A', ''])
+                        results.append([session, session_time, 'outside stimuli', xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, loops, 'N/A', ''])
                         #do not record as trial, reset number
                         reportObj_trial.addEvent(results)
 
@@ -188,7 +195,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
                             session_time = datetime.datetime.now().strftime("%H:%M %p")
                             reaction_time = (reaction_end - reaction_start).total_seconds()
-                            results.append([session, session_time, trial, xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, 'yes', 1])
+                            results.append([session, session_time, trial, xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, loops, 'yes', 1])
                             hits += 1
                             trial += 1
 
@@ -218,7 +225,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                         dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
                         session_time = datetime.datetime.now().strftime("%H:%M %p")
                         reaction_time = (reaction_end - reaction_start).total_seconds()
-                        results.append([session,session_time,trial, xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, 'no', 0])
+                        results.append([session,session_time,trial, xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, loops, 'no', 0])
                         reportObj_trial.addEvent(results)
 
                         mywin.flip()
@@ -226,10 +233,6 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                         core.wait(2)
 
                         checking2 = True
-
-                print(trial)
-                print(limitTrial)
-
 
 
         ###########################################
@@ -248,7 +251,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     avg_reactiontime = float(df_results[['Reaction time (s)']].mean())
 
     session_time = datetime.datetime.now().strftime("%H:%M %p")
-    summary.append([session, session_time, timeLog, limitTrial, hits, limitTrial - hits, timeouts, outsides, outsides + timeouts, average_dist, avg_reactiontime, reward_image,
+    summary.append([session, session_time, timeLog, limitTrial, hits, limitTrial - hits, timeouts, outsides, (limitTrial+outsides)*100, average_dist, avg_reactiontime, reward_image,
                     (float(hits) / float(limitTrial)) * 100])
     sucess = (float(hits) / float(limitTrial)) * 100
     reportObj_summary.addEvent(summary)
