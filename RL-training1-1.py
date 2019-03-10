@@ -11,18 +11,27 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     mouse, trial, nulls, timer, xpos, ypos, touchTimeout, correct, wrong, hits, null, miss, results, summary = initial_param(mywin)
 
     #generating report directory
-    results_col, summary_col = Report.data_col(taskname)
-
+    results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Reward Stimulus Position','Distance from reward center (px)', 'Reaction time (s)', 'Success (Y/N)', 'Counter']
+    summary_col = ['Session','Finished Session Time', 'Total Time', 'Trials', 'Hits', 'Misses', 'Nulls', 'Average dist from center (Px)', 'Average reaction time (s)', 'Reward Stimulus - Red', 'Success%']
     reportObj_trial = Report(str(taskname),animal_ID,results_col,'raw_data')
     reportObj_summary = Report(str(taskname), animal_ID, summary_col,'summary_data')
     reportObj_summary.createdir()
     reportObj_trial.createdir()
 
     #dummy trial counter and trial limits
-    timeouts = 0
-    outsides = 0
+    trial = 1
+    nulls = 0
+    timer = time.time()
+
+    #dummy mouse position
+    xpos = 0
+    ypos = 0
+    touchTimeout = False
+    correct = []
+    wrong = []
+
+    hits = 0 #hit counter dummy
     stim_size = 250 #3cm equivalent on screen
-    reaction_threshold = 2 # 2s threshold for selecting a choice before fixation cue is refreshed
 
     #set box positions
 
@@ -43,27 +52,6 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     while trial <= limitTrial:
         for rand_stim in choice:
             t = time.time()  # returns time in sec as float
-
-            # creating fixation cue
-            fixation_cue = visual.GratingStim(win = mywin, size = stim_size, pos = (0,0), color = [-1,-1,-1], colorSpace = 'rgb', sf = 0)
-            fixation_cue.draw(mywin)
-            mywin.update()
-
-            fixation_start = datetime.datetime.now()
-            mouse.clickReset()
-            checking = False
-    
-            while not checking:
-                while not mouse.getPressed()[0]:  # checks whether mouse button (i.e. button '0') was pressed
-                    touchTimeout = False
-                    time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms
-                else:  # If pressed
-                    if mouse.isPressedIn(fixation_cue):
-                        checking = True
-                        fixation_end = datetime.datetime.now()
-                    else:
-                        checking = False                    
-
 
             # creating left and right boxes
 
@@ -106,29 +94,12 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
             mouse.clickReset()  # resets a timer for timing button clicks
             checking = False
-            timeout = False
 
             while not checking:
-                while not mouse.getPressed()[0] and not timeout:  # checks whether mouse button (i.e. button '0') was pressed
+                while not mouse.getPressed()[0]:  # checks whether mouse button (i.e. button '0') was pressed
                     touchTimeout = False
-                    reaction_monitor = (datetime.datetime.now() - reaction_start).total_seconds()
-                    if reaction_monitor >= reaction_threshold:
-                        timeout = True
-                        checking = True
-                        fixation_time = (fixation_end - fixation_start)
-                        session_time = datetime.datetime.now().strftime("%H:%M %p")
-                        results.append([session, session_time, 'timeout', '', '', time.time() - t, '','', '> ' + str(reaction_threshold) + ' sec', '', 'N/A', ''])
-                        #do not record as trial, reset number
-                        reportObj_trial.addEvent(results)
-
-                        core.wait(1)
-                        timeouts += 1
-                        print('Trial: ',trial)
-
-                    else:
-                        time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms - THIS MUST BE ACCOUNTED FOR IF ACCURATELY TIMING RESPONSE LATENCIES
-              
-                if mouse.getPressed()[0] and not timeout:  # If pressed
+                    time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms
+                else:  # If pressed
                     xpos = mouse.getPos()[0]  # Returns current positions of mouse during press
                     ypos = mouse.getPos()[1]
 
@@ -143,16 +114,16 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             print('Touch recorded outside grating')
 
                             dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
-                            fixation_time = (fixation_end - fixation_start)
                             session_time = datetime.datetime.now().strftime("%H:%M %p")
                             reaction_time = (reaction_end - reaction_start).total_seconds()
-                            results.append([session, session_time, 'outside stimuli', xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, 'N/A', ''])
+                            results.append([session, session_time, 'outside stimuli', xpos, ypos, time.time() - t, reward, dist_stim, reaction_time, 'N/A'])
                             #do not record as trial, reset number
                             reportObj_trial.addEvent(results)
 
                             core.wait(1)
-                            outsides += 1
+                            nulls += 1
                             print('Trial: ',trial)
+
 
                     elif correct == True:
                         if not touchTimeout:
@@ -173,7 +144,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
                             session_time = datetime.datetime.now().strftime("%H:%M %p")
                             reaction_time = (reaction_end - reaction_start).total_seconds()
-                            results.append([session, session_time, trial, xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, 'yes', 1])
+                            results.append([session, session_time, trial, xpos, ypos, time.time() - t, reward, dist_stim, reaction_time, 'yes', 1])
                             hits += 1
                             trial += 1
 
@@ -207,7 +178,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
                             session_time = datetime.datetime.now().strftime("%H:%M %p")
                             reaction_time = (reaction_end - reaction_start).total_seconds()
-                            results.append([session,session_time,trial, xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, 'no', 0])
+                            results.append([session,session_time,trial, xpos, ypos, time.time() - t, reward, dist_stim, reaction_time, 'no', 0])
                             reportObj_trial.addEvent(results)
 
                             mywin.flip()
@@ -236,7 +207,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     avg_reactiontime = float(df_results[['Reaction time (s)']].mean())
 
     session_time = datetime.datetime.now().strftime("%H:%M %p")
-    summary.append([session, session_time, timeLog, limitTrial, hits, limitTrial - hits, timeouts, outsides, outsides + timeouts, average_dist, avg_reactiontime, reward_image,
+    summary.append([session, session_time, timeLog, limitTrial, hits, limitTrial - hits, nulls, average_dist, avg_reactiontime, reward_image,
                     (float(hits) / float(limitTrial)) * 100])
     sucess = (float(hits) / float(limitTrial)) * 100
     reportObj_summary.addEvent(summary)
@@ -255,9 +226,6 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
 
 
-############ Changes to make ###############
-#   Data reports must be in ms
-#   Make sure task runs effectively
-#   Ensure max trial count works - may have to modify 'n/a' quality of timeout trial
+
 
 
