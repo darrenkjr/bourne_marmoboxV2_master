@@ -129,6 +129,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
             checking2 = False
             timeout = False
             loops = -1
+            touch_timeout == True
 
             while not checking2:
                 
@@ -166,7 +167,6 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                     if correct is not True and wrong is not True: #if background pressed in
                         if touch_timeout == False:
-                            outside_touch_start = time.time()
                             print('Current trial: ', trial)
                             print('Touch recorded outside grating')
 
