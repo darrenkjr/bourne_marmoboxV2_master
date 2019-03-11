@@ -122,18 +122,19 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
             print('Current reward position: ', reward)
             print('Current reward image: ', reward_image)
-            reaction_start = datetime.datetime.now()
-            # start reaction timer from drawing the grating
+            reaction_start = datetime.datetime.now() # start reaction timer from drawing the grating
 
+            # pre-loop dummies
             mouse.clickReset()  # resets a timer for timing button clicks
             checking2 = False
             timeout = False
             loops = -1
+            outside_touch_start = time.time()
 
             while not checking2:
                 
                 loops += 1 # a proxy for counting outside touches in a given trial  
-                
+
                 while not mouse.getPressed()[0] and not timeout:  # checks whether mouse button (i.e. button '0') was pressed
                     reaction_monitor = (datetime.datetime.now() - reaction_start).total_seconds()
                     if reaction_monitor >= reaction_threshold:
@@ -161,8 +162,11 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                     correct = mouse.isPressedIn(reward_stim) # Returns True if mouse pressed in grating
                     wrong = mouse.isPressedIn(penalty_stim)
                     reaction_end = datetime.datetime.now()
+                    outside_touch_interval = time.time() - outside_touch_start
+                    print(outside_touch_interval)
 
-                    if correct is not True and wrong is not True: #if background pressed in
+                    if correct is not True and wrong is not True and outside_touch_interval > 0.2 : #if background pressed in
+                        outside_touch_start = time.time()
                         print('Current trial: ', trial)
                         print('Touch recorded outside grating')
 
