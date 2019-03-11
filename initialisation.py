@@ -2,8 +2,6 @@ from psychopy import visual, core, logging, event
 import time, random, datetime, math
 import numpy as np
 
-
-
 def fixation(mywin, taskname, stim_size,mouse,trial):
     fix_coord = [0, 0]
     centre_box = visual.GratingStim(win=mywin, size=stim_size, pos= fix_coord, color=[-1, -1, -1],
