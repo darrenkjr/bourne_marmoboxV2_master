@@ -137,6 +137,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                 while not mouse.getPressed()[0] and not timeout:  # checks whether mouse button (i.e. button '0') was pressed
                     reaction_monitor = (datetime.datetime.now() - reaction_start).total_seconds()
+                    touch_timeout = False
                     if reaction_monitor >= reaction_threshold:
                         timeout = True
                         checking2 = True
@@ -150,7 +151,6 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                         core.wait(1)
                         timeouts += 1
-                        touch_timeout = False
                         print('Trial: ',trial)
                         
 
