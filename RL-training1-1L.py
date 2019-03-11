@@ -173,7 +173,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
                             session_time = datetime.datetime.now().strftime("%H:%M %p")
                             reaction_time = ((reaction_end - reaction_start).total_seconds())*1000
-                            results.append([session, session_time, 'outside stimuli', xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, loops, 'N/A', ''])
+                            results.append([session, session_time, 'outside stimuli', xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, '', 'N/A', ''])
                             #do not record as trial, reset number
                             reportObj_trial.addEvent(results)
 
