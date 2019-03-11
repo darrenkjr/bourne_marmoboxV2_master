@@ -129,7 +129,6 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
             checking2 = False
             timeout = False
             loops = -1
-            outside_touch_start = time.time()
 
             while not checking2:
                 
@@ -150,7 +149,9 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                         core.wait(1)
                         timeouts += 1
+                        touch_timeout = False
                         print('Trial: ',trial)
+                        
 
                     else:
                         time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms - THIS MUST BE ACCOUNTED FOR IF ACCURATELY TIMING RESPONSE LATENCIES
@@ -162,23 +163,23 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                     correct = mouse.isPressedIn(reward_stim) # Returns True if mouse pressed in grating
                     wrong = mouse.isPressedIn(penalty_stim)
                     reaction_end = datetime.datetime.now()
-                    outside_touch_interval = time.time() - outside_touch_start
 
-                    if correct is not True and wrong is not True and outside_touch_interval > 0.2 : #if background pressed in
-                        outside_touch_start = time.time()
-                        print('Current trial: ', trial)
-                        print('Touch recorded outside grating')
+                    if correct is not True and wrong is not True: #if background pressed in
+                        if touch_timeout == False:
+                            outside_touch_start = time.time()
+                            print('Current trial: ', trial)
+                            print('Touch recorded outside grating')
 
-                        dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
-                        session_time = datetime.datetime.now().strftime("%H:%M %p")
-                        reaction_time = ((reaction_end - reaction_start).total_seconds())*1000
-                        results.append([session, session_time, 'outside stimuli', xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, loops, 'N/A', ''])
-                        #do not record as trial, reset number
-                        reportObj_trial.addEvent(results)
+                            dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
+                            session_time = datetime.datetime.now().strftime("%H:%M %p")
+                            reaction_time = ((reaction_end - reaction_start).total_seconds())*1000
+                            results.append([session, session_time, 'outside stimuli', xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, loops, 'N/A', ''])
+                            #do not record as trial, reset number
+                            reportObj_trial.addEvent(results)
 
-                        outsides += 1
-                        print('Trial: ',trial)
-                        mouse.clickReset()
+                            outsides += 1
+                            print('Trial: ',trial)
+                            touch_timeout = True          
 
                     elif correct == True:
 
