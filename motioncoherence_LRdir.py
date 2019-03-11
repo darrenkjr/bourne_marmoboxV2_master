@@ -39,7 +39,6 @@ choice = rng_choice(possible_selection, limitTrial)
 reward_dir = 0
 stop = False
 while trial <= limitTrial:
-    print('test')
     #begin sampling from RNG, 0 = right, 1 = left
     for dir in choice:
         if dir == 0:
@@ -51,15 +50,14 @@ while trial <= limitTrial:
             reward_box = left_box
             incorrect_box = right_box
             reward_dir = 180.0
-            
-        time_to_fixate = (mywin, taskname, stim_size,mouse,trial)
+
+        time_to_fixate = fixation(mywin, taskname, stim_size,mouse,trial)
 
         #display dot_stim for 100 frames first, then display left and right boxes
         primer_frames = 100
         dot_stim = visual.DotStim(win=mywin, units='', nDots=500, coherence=1, fieldPos=centre_box_coord, fieldSize=(600, 600),
                                   fieldShape='circle', dotSize=10, dotLife=100, dir=reward_dir, speed=5, opacity=1.0,
                                   contrast=1.0, signalDots='same', noiseDots='direction')
-
 
         for frames in range(primer_frames):
 
@@ -121,15 +119,13 @@ while trial <= limitTrial:
                             trial +=1
 
                             mywin.flip()
-                            core.wait(2.0)
+                            core.wait(0.1)
                             checking = True
                             stop = True
 
                         else:
                             time.sleep(0.01)
 
-
-
-        if event.getKeys('q'):
-            mywin.close()
-            stop = True
+                        if event.getKeys('q'):
+                            mywin.close()
+                            stop = True
