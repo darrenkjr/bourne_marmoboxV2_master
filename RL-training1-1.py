@@ -41,7 +41,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     #set reward parameters, reward stimuli / variable = image
 
-    reward_image = 'images/composite1-1.jpg'
+    reward_image = 'kev.jpg'
     penalty_image = 'images/composite1-2.jpg'
 
     #pseudo-rng
