@@ -51,6 +51,8 @@ while trial <= limitTrial:
             reward_box = left_box
             incorrect_box = right_box
             reward_dir = 180.0
+            
+        time_to_fixate = (mywin, taskname, stim_size,mouse,trial)
 
         #display dot_stim for 100 frames first, then display left and right boxes
         primer_frames = 100
@@ -58,7 +60,6 @@ while trial <= limitTrial:
                                   fieldShape='circle', dotSize=10, dotLife=100, dir=reward_dir, speed=5, opacity=1.0,
                                   contrast=1.0, signalDots='same', noiseDots='direction')
 
-        time_to_fixate = (mywin, taskname, stim_size,mouse,trial)
 
         for frames in range(primer_frames):
 
