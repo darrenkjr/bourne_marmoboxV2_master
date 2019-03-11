@@ -163,7 +163,6 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                     wrong = mouse.isPressedIn(penalty_stim)
                     reaction_end = datetime.datetime.now()
                     outside_touch_interval = time.time() - outside_touch_start
-                    print(outside_touch_interval)
 
                     if correct is not True and wrong is not True and outside_touch_interval > 0.2 : #if background pressed in
                         outside_touch_start = time.time()
