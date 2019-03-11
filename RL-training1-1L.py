@@ -129,7 +129,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
             checking2 = False
             timeout = False
             loops = -1
-            touch_timeout == True
+            touch_timeout = True
 
             while not checking2:
                 
