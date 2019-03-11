@@ -11,7 +11,7 @@ def execTask(taskname,limitTrial,mywin,animal_ID,session):
 
 	# generating report directories and objects
 	results_col = ['Session','Timestamp','Trial', 'xpos', 'ypos', 'Time (s)', '-', 'Distance from stimulus center (Px)', 'Reaction time (s)', 'Success Y/N']
-	summary_col = ['Session','Session Time', 'Total Time', 'Trials','Hits','Misses', 'Average distance from stimulus center (Px)', 'Avg reaction time (s)', 'Success %']
+	summary_col = ['Session','Session Time', 'Total Time (sec)', 'Trials','Hits','Misses', 'Average distance from stimulus center (Px)', 'Avg reaction time (s)', 'Success %']
 	reportobj_trial = Report(str(taskname), animal_ID, results_col, 'raw_data')
 	reportobj_summary = Report(str(taskname), animal_ID, summary_col, 'summary_data')
 	reportobj_trial.createdir()
@@ -75,11 +75,11 @@ def execTask(taskname,limitTrial,mywin,animal_ID,session):
 	###########################################
 	# below, data presenting
 
-    # Timer variables
-    totalTime = time.time() - timer
-    mins = int(totalTime / 60)
-    secs = round((totalTime % 60), 1)
-    timeLog = str(mins) + ' min ' + str(secs) + ' sec'
+    	# Timer variables
+	totalTime = time.time() - timer
+	mins = int(totalTime / 60)
+	secs = round((totalTime % 60), 1)
+	timeLog = str(mins) + ' min ' + str(secs) + ' sec'
 
 	df_results = pd.DataFrame(results, columns=results_col)
 	reportobj_trial.writecsv('trial',session)
@@ -87,7 +87,7 @@ def execTask(taskname,limitTrial,mywin,animal_ID,session):
 	avg_reactiontime = float(df_results[['Reaction time (s)']].mean())
 
 	session_time = datetime.datetime.now().strftime("%H:%M %p")
-	summary.append([session,session_time,######limitTrial, hits, limitTrial - hits, average_dist, avg_reactiontime, (float(hits) / float(limitTrial)) * 100])
+	summary.append([session,session_time, timeLog, limitTrial, hits, limitTrial - hits, average_dist, avg_reactiontime, (float(hits) / float(limitTrial)) * 100])
 	sucess = (float(hits) / float(limitTrial)) * 100
 	reportobj_summary.addEvent(summary)
 	reportobj_summary.writecsv('summary',session)

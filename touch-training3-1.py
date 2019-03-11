@@ -14,7 +14,7 @@ def execTask(taskname,limitTrial,mywin,animal_ID,session):
     #generating report directories and objects
     results_col = ['Session','Timestamp', 'Trial', 'xpos', 'ypos', 'Time (s)', 'Stimuli color', 'Distance from stimulus center (Px)',
                    'Reaction time (s)', 'Success Y/N']
-    summary_col = ['Session','Timestamp', 'Trials', 'Hits', 'Misses', 'Average distance from stimulus center (Px)',
+    summary_col = ['Session','Timestamp', 'Total Time (sec)', 'Trials', 'Hits', 'Misses', 'Average distance from stimulus center (Px)',
                    'Avg reaction time (s)', 'Sucesss %']
     reportobj_trial = Report(str(taskname), animal_ID, results_col, 'raw_data')
     reportobj_summary = Report(str(taskname), animal_ID, summary_col, 'summary_data')
@@ -162,6 +162,13 @@ def execTask(taskname,limitTrial,mywin,animal_ID,session):
                     checking = True
 
         ###########################################
+     
+    # Timer variables
+	totalTime = time.time() - timer
+	mins = int(totalTime / 60)
+	secs = round((totalTime % 60), 1)
+	timeLog = str(mins) + ' min ' + str(secs) + ' sec'     
+     
         # below, data presenting
 
     df_results = pd.DataFrame(results, columns=results_col)
@@ -170,7 +177,7 @@ def execTask(taskname,limitTrial,mywin,animal_ID,session):
     avg_reactiontime = float(df_results[['Reaction time (s)']].mean())
 
     session_time = datetime.datetime.now().strftime("%d-%m-%y, %H:%M %p")
-    summary.append([session,session_time, limitTrial, hits, limitTrial - hits, average_dist, avg_reactiontime,
+    summary.append([session,session_time, timeLog, limitTrial, hits, limitTrial - hits, average_dist, avg_reactiontime,
                     (float(hits) / float(limitTrial)) * 100])
     reportobj_summary.addEvent(summary)
     reportobj_summary.writecsv('summary', session)
