@@ -157,7 +157,7 @@ def execTask(taskname,limitTrial,mywin,animal_ID,session):
 
                     mywin.update()
 
-                    core.wait(2) # specifies timeout period
+                    core.wait(5) # specifies timeout period
                     touchTimeout = True
                     checking = True
 
