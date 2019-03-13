@@ -1,10 +1,10 @@
 from psychopy import visual, core, logging, event
 import time, datetime
-import marmocontrol as control
 import pandas as pd
 from reports import Report
 from heatmap import scatterplot
 from initialisation import fixation, initial_param, rng_choice
+from touchresults import motion_coherence_results
 
 # setting initial parameters
 limitTrial = 5
@@ -50,7 +50,7 @@ while trial <= limitTrial:
 
         #display dot_stim for 100 frames first, then display left and right boxes
         primer_frames = 100
-        dot_stim = visual.DotStim(win=mywin, units='', nDots=500, coherence=1, fieldPos=centre_box_coord, fieldSize=(600, 600),
+        dot_stim = visual.DotStim(win=mywin, units='', nDots=500, coherence=1, fieldPos=(0,0), fieldSize=(600, 600),
                                   fieldShape='circle', dotSize=10, dotLife=100, dir=reward_dir, speed=5, opacity=1.0,
                                   contrast=1.0, signalDots='same', noiseDots='direction')
 
@@ -82,45 +82,10 @@ while trial <= limitTrial:
 
                     correct = mouse.isPressedIn(reward_box)  # Returns True if mouse pressed in grating
                     incorrect = mouse.isPressedIn(incorrect_box)
+                    #begin touch detection and handling of results
+                    nulls, miss, trial, hits = motion_coherence_results(checking,stop,correct,incorrect,touchTimeout,nulls,trial,miss,hits,mywin)
 
-                    #count nulls.
-                    if correct is not True and incorrect is not True:
-                        print('Current trial: ', trial)
-                        if not touchTimeout:
 
-                            print('Touch recorded outside grating')
-                            core.wait(1)
-                            nulls += 1
-                            print('Trial: ', trial)
-
-                    elif incorrect == True:
-                        if not touchTimeout:
-                            print('Miss!')
-                            miss +=1
-                            trial += 1
-
-                            mywin.flip()
-                            core.wait(2.0)
-                            checking = True
-                            stop = True
-
-                        else:
-                            time.sleep(0.01)
-
-                    elif correct == True:
-                        if not touchTimeout:
-                            print('Hit!')
-                            hits += 1
-                            trial +=1
-
-                            mywin.flip()
-                            core.wait(0.1)
-                            checking = True
-                            stop = True
-
-                        else:
-                            time.sleep(0.01)
-
-                        if event.getKeys('q'):
-                            mywin.close()
-                            stop = True
+            if event.getKeys('q'):
+                mywin.close()
+                stop = True

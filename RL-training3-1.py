@@ -162,8 +162,6 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             trial += 1
 
                             reportObj_trial.addEvent(results)
-
-                            
                             mywin.flip()   
 
                             checking = True
