@@ -23,19 +23,14 @@ choice = rng_choice(possible_selection,limitTrial)
 # set box positions
 left_box_coord = [-1280 / 2.5, 0]
 right_box_coord = [1280 / 2.5, 0]
-centre_box_coord = [0,0]
 
 left_box = visual.GratingStim(win=mywin,size=stim_size,pos=left_box_coord, color = [1,1,1], colorSpace='rgb',sf=0)
 right_box = visual.GratingStim(win=mywin,size=stim_size,pos=right_box_coord, color = [1,1,1], colorSpace='rgb',sf=0)
-centre_box = visual.GratingStim(win=mywin,size=stim_size,pos=centre_box_coord, color = [-1,-1,-1], colorSpace='rgb',sf=0)
 
-
-# pseudo-rng determining direction of motion coherence dots.
-# if not wholly divisble by 2, will round to nearest integer.
-#0 = right, 1 = left
+#pseudo-rng determining direction of motion coherence dots.
 choice = rng_choice(possible_selection, limitTrial)
 
-# in degrees
+#in degrees
 reward_dir = 0
 stop = False
 while trial <= limitTrial:
