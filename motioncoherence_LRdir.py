@@ -37,13 +37,13 @@ while trial <= limitTrial:
     #begin sampling from RNG, 0 = right, 1 = left
     for dir in choice:
         if dir == 0:
-            reward_box = right_box
-            incorrect_box = left_box
+            reward_stim = right_box
+            penalty_stim = left_box
             reward_dir = 0
 
         else:
-            reward_box = left_box
-            incorrect_box = right_box
+            reward_stim = left_box
+            penalty_stim = right_box
             reward_dir = 180.0
 
         time_to_fixate = fixation(mywin, taskname, stim_size,mouse,trial)
@@ -80,8 +80,8 @@ while trial <= limitTrial:
                     xpos = mouse.getPos()[0]  # Returns current positions of mouse during press
                     ypos = mouse.getPos()[1]
 
-                    correct = mouse.isPressedIn(reward_box)  # Returns True if mouse pressed in grating
-                    incorrect = mouse.isPressedIn(incorrect_box)
+                    correct = mouse.isPressedIn(reward_stim)  # Returns True if mouse pressed in grating
+                    incorrect = mouse.isPressedIn(penalty_stim)
                     #begin touch detection and handling of results
                     nulls, miss, trial, hits = motion_coherence_results(checking,stop,correct,incorrect,touchTimeout,nulls,trial,miss,hits,mywin)
 
