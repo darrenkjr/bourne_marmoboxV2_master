@@ -261,8 +261,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     df_results = pd.DataFrame(results, columns=results_col)
     print(df_results)
     reportObj_trial.writecsv('trial', session)
-    average_dist = 0 #temporarily commented out# float(df_results[['Distance from reward center (px)']].mean())
-    avg_reactiontime = float(df_results[['Response latency (ms)']].mean())
+    average_dist = df_results[['Distance from reward center (px)']].mean()
+    avg_reactiontime = df_results[['Response latency (ms)']].mean()
 
     session_time = datetime.datetime.now().strftime("%H:%M %p")
     ## for reference ##  summary_col = ['Session','Finished Session Time', 'Total Time', 'Trials', 'Hits', 'Misses', 'Timeouts', 'Outsides', 'Accuracy (%)', 'Average dist from center (Px)', 'Average response latency (s)', 'Reward Stimulus - Red', 'Success%']
