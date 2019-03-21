@@ -84,7 +84,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                 if mouse.getPressed()[0] and mouse.isPressedIn(fixation_cue):
                     checking1 = True
                     fixation_end = datetime.datetime.now()
-                    fixation_time = (fixation_end - fixation_start)
+                    fixation_time = (fixation_end - fixation_start).total_seconds()
                 else:
                     checking1 = False                    
 
@@ -152,8 +152,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                         outsides = 0 #reset outside counter
                         print('Trial: ',trial)
                         
-                        print(trial)
-                        print(limitTrial)
+                        print('Current trial: ' + str(trial))
+                        print('Trial limit: ' + str(limitTrial))
                         
                     else:
                         time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms - THIS MUST BE ACCOUNTED FOR IF ACCURATELY TIMING RESPONSE LATENCIES
@@ -212,8 +212,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                             checking2 = True
                             
-                            print(trial)
-                            print(limitTrial)
+                            print('Current trial: ' + str(trial))
+                            print('Trial limit: ' + str(limitTrial))
                             
 
                     elif wrong == True:
@@ -245,8 +245,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                         checking2 = True
 
-                        print(trial)
-                        print(limitTrial)
+                        print('Current trial: ' + str(trial))
+                        print('Trial limit: ' + str(limitTrial))
 
 
         ###########################################
@@ -261,8 +261,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     df_results = pd.DataFrame(results, columns=results_col)
     print(df_results)
     reportObj_trial.writecsv('trial', session)
-    average_dist = float(df_results[['Distance from reward center (px)']].mean())
-    avg_reactiontime = float(df_results[['Response latency (ms)']].mean())
+    average_dist = df_results[['Distance from reward center (px)']].mean()
+    avg_reactiontime = df_results[['Response latency (ms)']].mean()
 
     session_time = datetime.datetime.now().strftime("%H:%M %p")
     ## for reference ##  summary_col = ['Session','Finished Session Time', 'Total Time', 'Trials', 'Hits', 'Misses', 'Timeouts', 'Outsides', 'Accuracy (%)', 'Average dist from center (Px)', 'Average response latency (s)', 'Reward Stimulus - Red', 'Success%']
