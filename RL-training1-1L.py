@@ -150,10 +150,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                         core.wait(1)
                         timeouts += 1
                         outsides = 0 #reset outside counter
-                        print('Trial: ',trial)
+                        print('Trial: '+ str(trial) + '/' + str(limitTrial))
                         
-                        print('Current trial: ' + str(trial))
-                        print('Trial limit: ' + str(limitTrial))
                         
                     else:
                         time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms - THIS MUST BE ACCOUNTED FOR IF ACCURATELY TIMING RESPONSE LATENCIES
@@ -179,7 +177,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                         outsides += 1
                         total_outsides += 1
-                        print('Trial: ',trial)
+                        print('Trial: '+ str(trial) + '/' + str(limitTrial))
                         touch_timeout = True          
 
                     elif correct == True:
@@ -212,8 +210,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                             checking2 = True
                             
-                            print('Current trial: ' + str(trial))
-                            print('Trial limit: ' + str(limitTrial))
+                            print('Trial: '+ str(trial) + '/' + str(limitTrial))
                             
 
                     elif wrong == True:
@@ -245,8 +242,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                         checking2 = True
 
-                        print('Current trial: ' + str(trial))
-                        print('Trial limit: ' + str(limitTrial))
+                        print('Trial: '+ str(trial) + '/' + str(limitTrial))
 
 
         ###########################################
