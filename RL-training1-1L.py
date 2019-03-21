@@ -84,7 +84,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                 if mouse.getPressed()[0] and mouse.isPressedIn(fixation_cue):
                     checking1 = True
                     fixation_end = datetime.datetime.now()
-                    fixation_time = (fixation_end - fixation_start)
+                    fixation_time = (fixation_end - fixation_start).total_seconds()
                 else:
                     checking1 = False                    
 
