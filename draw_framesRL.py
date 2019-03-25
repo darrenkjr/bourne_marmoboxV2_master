@@ -15,7 +15,7 @@ stim_size = 200  # 3cm equivalent on screen
 taskname = 'draw_frameRL'
 
 imagelist = ['images/composite1-1.jpg','images/composite1-2.jpg','images/composite2-1.jpg', 'images/composite2-2.jpg','images/composite3-2.jpg', 'images/composite3-1.jpg','images/composite4-1.jpg','images/composite4-2.jpg']
-primer_frames = 60
+primer_frames = 100
 
 
 while trial <= limitTrial:
@@ -29,6 +29,8 @@ while trial <= limitTrial:
         test_im1 = visual.ImageStim(win=mywin, size=stim_size, pos=[-1280 / 4, 0], image=imagelist[counter])
         # test_im = visual.ImageStim(win=mywin, size=stim_size, pos=[-1280 / 4, 0], image=imagelist[counter])
         test_im2 = visual.ImageStim(win=mywin, size=stim_size, pos=[1280 / 4, 0], image=imagelist[-counter])
+        left_mask = visual.GratingStim(win=mywin, size=stim_size, pos=[-1280 / 4, 0], opacity=0.0)
+        right_mask = visual.GratingStim(win=mywin, size=stim_size, pos=[1280 / 4, 0], opacity=0.0)
 
         test_im = visual.ImageStim(win=mywin, size=stim_size, pos=[-1280 / 4, 0], image=imagelist[counter])
         test_im1.draw()
