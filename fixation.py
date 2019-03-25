@@ -34,8 +34,8 @@ class fixation:
                 if fixate_button == True:
                     if not touchTimeout:
                         print('Hit!')
-                        time_to_fixate = (datetime.datetime.now() - fix_start).total_seconds()
-                        print('Time to fixate (s): ', time_to_fixate)
+                        self.time_to_fixate = (datetime.datetime.now() - fix_start).total_seconds()
+                        print('Time to fixate (s): ', self.time_to_fixate)
 
                         trial += 1
 
@@ -49,7 +49,6 @@ class fixation:
                 if not fixate_button:
                     time.sleep(0.01)
 
-        return time_to_fixate
 
 
     def timeout(self, reaction_start,session,reward,outsides,t):
@@ -68,6 +67,12 @@ class fixation:
 
         else:
             time.sleep(0.01)
+
+    def fixation_time(self):
+
+        fixation_time = self.time_to_fixate
+
+        return fixation_time
 
 
             # results.append(append_array)

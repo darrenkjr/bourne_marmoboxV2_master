@@ -3,8 +3,9 @@ import time, datetime
 import pandas as pd
 from reports import Report
 from heatmap import scatterplot
-from initialisation import fixation, initial_param, rng_choice
-from touchresults import motion_coherence_results
+from initialisation import initial_param, rng_choice
+from fixation import fixation
+# from touchresults import motion_coherence_results
 
 # setting initial parameters
 limitTrial = 5
@@ -33,6 +34,9 @@ choice = rng_choice(possible_selection, limitTrial)
 #in degrees
 reward_dir = 0
 stop = False
+
+reaction_threshold = 2
+
 while trial <= limitTrial:
     #begin sampling from RNG, 0 = right, 1 = left
     for dir in choice:
@@ -46,46 +50,53 @@ while trial <= limitTrial:
             penalty_stim = right_box
             reward_dir = 180.0
 
-        time_to_fixate = fixation(mywin, taskname, stim_size,mouse,trial)
+        fixate_obj = fixation(mywin, taskname, stim_size,mouse,trial,reaction_threshold)
+        fixation_time = fixate_obj.time_to_fixate
 
         #display dot_stim for 100 frames first, then display left and right boxes
-        primer_frames = 100
+        primer_frames = 60
         dot_stim = visual.DotStim(win=mywin, units='', nDots=500, coherence=1, fieldPos=(0,0), fieldSize=(600, 600),
                                   fieldShape='circle', dotSize=10, dotLife=100, dir=reward_dir, speed=5, opacity=1.0,
                                   contrast=1.0, signalDots='same', noiseDots='direction')
 
+        time_start = datetime.datetime.now()
         for frames in range(primer_frames):
 
             dot_stim.draw()
             mywin.flip()
 
-        print('presenting options')
-        stop = False
-        mywin.flip()
+        time_delta = (datetime.datetime.now() - time_start).total_seconds()
+        print('Time taken to draw 100 frames', time_delta)
 
-        #now draw stimuli
-        while stop == False:
-            mouse.clickReset()
-            checking = False
-
-            while not checking:
-                while not mouse.getPressed()[0]:
-                    touchTimeout = False
-                    dot_stim.draw()
-                    left_box.draw()
-                    right_box.draw()
-                    mywin.flip()
-
-                else:  # If pressed
-                    xpos = mouse.getPos()[0]  # Returns current positions of mouse during press
-                    ypos = mouse.getPos()[1]
-
-                    correct = mouse.isPressedIn(reward_stim)  # Returns True if mouse pressed in grating
-                    incorrect = mouse.isPressedIn(penalty_stim)
-                    #begin touch detection and handling of results
-                    nulls, miss, trial, hits = motion_coherence_results(checking,stop,correct,incorrect,touchTimeout,nulls,trial,miss,hits,mywin)
-
-
-            if event.getKeys('q'):
-                mywin.close()
-                stop = True
+        # print('presenting options')
+        # stop = False
+        # mywin.flip()
+        #
+        # #now draw stimuli
+        # while stop == False:
+        #     mouse.clickReset()
+        #     checking = False
+        #
+        #     while not checking:
+        #         while not mouse.getPressed()[0]:
+        #             touchTimeout = False
+        #             dot_stim.draw()
+        #             left_box.draw()
+        #             right_box.draw()
+        #             mywin.flip()
+        #
+        #         else:  # If pressed
+        #             xpos = mouse.getPos()[0]  # Returns current positions of mouse during press
+        #             ypos = mouse.getPos()[1]
+        #
+        #             correct = mouse.isPressedIn(reward_stim)  # Returns True if mouse pressed in grating
+        #             incorrect = mouse.isPressedIn(penalty_stim)
+        #             #begin touch detection and handling of results
+        #             nulls, miss, trial, hits = motion_coherence_results(checking,stop,correct,incorrect,touchTimeout,nulls,trial,miss,hits,mywin)
+        #
+        #
+        #     if event.getKeys('q'):
+        #         mywin.close()
+        #         stop = True
+        #
+        # print(time_delta)
