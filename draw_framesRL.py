@@ -11,7 +11,7 @@ mouse = event.Mouse(win=mywin)
 
 # setting initial parameters
 mouse,trial,nulls,timer,xpos,ypos, touchTimeout,correct,wrong,hits,null, miss, results, summary = initial_param(mywin)
-stim_size = 200  # 3cm equivalent on screen
+stim_size = 250  # 3cm equivalent on screen
 taskname = 'draw_frameRL'
 
 imagelist = ['images/composite1-1.jpg','images/composite1-2.jpg','images/composite2-1.jpg', 'images/composite2-2.jpg','images/composite3-2.jpg', 'images/composite3-1.jpg','images/composite4-1.jpg','images/composite4-2.jpg']

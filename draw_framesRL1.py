@@ -5,7 +5,7 @@ from initialisation import initial_param, rng_choice
 from fixation import fixation
 
 #setting initial parameters
-limitTrial = 5
+limitTrial = 10
 mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix", pos=(0, 0))
 mouse = event.Mouse(win=mywin)
 
@@ -15,7 +15,7 @@ stim_size = 250  # 3cm equivalent on screen
 taskname = 'draw_frameRL'
 
 imagelist = ['images/composite1-1.jpg','images/composite1-2.jpg','images/composite2-1.jpg', 'images/composite2-2.jpg','images/composite3-2.jpg', 'images/composite3-1.jpg','images/composite4-1.jpg','images/composite4-2.jpg']
-primer_frames = 10
+primer_frames = 1
 
 
 while trial <= limitTrial:
@@ -35,6 +35,8 @@ while trial <= limitTrial:
         test_im = visual.ImageStim(win=mywin, size=stim_size, pos=[-1280 / 4, 0], image=imagelist[counter])
         test_im1.draw()
         test_im2.draw()
+        left_mask.draw()
+        right_mask.draw()
         mywin.flip()
 
         counter += 1
@@ -43,7 +45,7 @@ while trial <= limitTrial:
             counter = 0
 
     time_delta = (datetime.datetime.now() - time_start).total_seconds()
-    print('Time taken to draw 100 frames', time_delta)
+    print('Time taken to draw 1 frame', time_delta)
     trial += 1
 
 
