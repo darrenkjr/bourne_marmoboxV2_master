@@ -20,8 +20,8 @@ primer_frames = 10
 
 while trial <= limitTrial:
     reaction_threshold = 2
-    fixate_obj = fixation(mywin, taskname, stim_size, mouse, trial, reaction_threshold)
-    fixation_time = fixate_obj.time_to_fixate
+   # fixate_obj = fixation(mywin, taskname, stim_size, mouse, trial, reaction_threshold)
+  #  fixation_time = fixate_obj.time_to_fixate
 
     counter = 0
     time_start = datetime.datetime.now()
@@ -45,7 +45,7 @@ while trial <= limitTrial:
             counter = 0
 
     time_delta = (datetime.datetime.now() - time_start).total_seconds()
-    print('Time taken to draw 100 frames', time_delta)
+    print('Time taken to draw 10 frames', time_delta)
     trial += 1
 
 
