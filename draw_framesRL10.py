@@ -35,6 +35,8 @@ while trial <= limitTrial:
         test_im = visual.ImageStim(win=mywin, size=stim_size, pos=[-1280 / 4, 0], image=imagelist[counter])
         test_im1.draw()
         test_im2.draw()
+        left_mask.draw()
+        right_mask.draw()
         mywin.flip()
 
         counter += 1
