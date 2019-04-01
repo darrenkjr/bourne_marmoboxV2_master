@@ -141,7 +141,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                         timeout = True
                         checking2 = True
                         session_time = datetime.datetime.now().strftime("%H:%M %p")
-                        append_array = [session, session_time, 'timeout', '', '', time.time() - t, reward,'', '> ' + str(reaction_threshold) + ' sec', '', outsides, 'N/A', '']
+                        append_array = [session, session_time, 'timeout', None, None, time.time() - t, reward,None,None, '> ' + str(reaction_threshold) + ' sec', outsides, 'N/A', '']
                         results.append(append_array)
                         #do not record as trial, reset number
                         
@@ -150,10 +150,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                         core.wait(1)
                         timeouts += 1
                         outsides = 0 #reset outside counter
-                        print('Trial: ',trial)
+                        print('Trial: '+ str(trial) + '/' + str(limitTrial))
                         
-                        print('Current trial: ' + str(trial))
-                        print('Trial limit: ' + str(limitTrial))
                         
                     else:
                         time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms - THIS MUST BE ACCOUNTED FOR IF ACCURATELY TIMING RESPONSE LATENCIES
@@ -179,7 +177,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                         outsides += 1
                         total_outsides += 1
-                        print('Trial: ',trial)
+                        print('Trial: '+ str(trial) + '/' + str(limitTrial))
                         touch_timeout = True          
 
                     elif correct == True:
@@ -212,8 +210,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                             checking2 = True
                             
-                            print('Current trial: ' + str(trial))
-                            print('Trial limit: ' + str(limitTrial))
+                            print('Trial: '+ str(trial) + '/' + str(limitTrial))
                             
 
                     elif wrong == True:
@@ -245,8 +242,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                         checking2 = True
 
-                        print('Current trial: ' + str(trial))
-                        print('Trial limit: ' + str(limitTrial))
+                        print('Trial: '+ str(trial) + '/' + str(limitTrial))
 
 
         ###########################################
@@ -261,8 +257,10 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     df_results = pd.DataFrame(results, columns=results_col)
     print(df_results)
     reportObj_trial.writecsv('trial', session)
-    average_dist = df_results[['Distance from reward center (px)']].mean()
-    avg_reactiontime = df_results[['Response latency (ms)']].mean()
+    df_results_clean = df_results.dropna()
+
+    average_dist = float(df_results_clean[['Distance from reward center (px)']].mean())
+    avg_reactiontime = float(df_results_clean[['Response latency (ms)']].mean())
 
     session_time = datetime.datetime.now().strftime("%H:%M %p")
     ## for reference ##  summary_col = ['Session','Finished Session Time', 'Total Time', 'Trials', 'Hits', 'Misses', 'Timeouts', 'Outsides', 'Accuracy (%)', 'Average dist from center (Px)', 'Average response latency (s)', 'Reward Stimulus - Red', 'Success%']
