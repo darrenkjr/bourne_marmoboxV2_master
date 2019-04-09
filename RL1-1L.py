@@ -271,6 +271,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     print(total_outsides + limitTrial)
     print(extra)
     print(limitTrial/extra)
+    print(float(limitTrial/extra))
     print(total_accuracy)
 
     session_time = datetime.datetime.now().strftime("%H:%M %p")
