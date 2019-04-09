@@ -262,7 +262,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     average_dist = float(df_results_clean[['Distance from reward center (px)']].mean())
     avg_reactiontime = float(df_results_clean[['Response latency (ms)']].mean())
     extra = limitTrial + total_outsides
-    total_accuracy = (limitTrial/extra)*100
+    total_accuracy = (10/extra)*100
 
     print(limitTrial)
     print(total_outsides)
