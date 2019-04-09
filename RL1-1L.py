@@ -269,7 +269,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     session_time = datetime.datetime.now().strftime("%H:%M %p")
     ## for reference ##  summary_col = ['Session','Finished Session Time', 'Total Time', 'Trials', 'Hits', 'Misses', 'Timeouts', 'Outsides', 'Accuracy (%)', 'Average dist from center (Px)', 'Average response latency (s)', 'Reward Stimulus - Red', 'Success%']
-    summary.append([session, session_time, timeLog, limitTrial, hits, limitTrial - hits, timeouts, total_outsides, , average_dist, avg_reactiontime, reward_image, (float(hits) / float(limitTrial)) * 100])
+    summary.append([session, session_time, timeLog, limitTrial, hits, limitTrial - hits, timeouts, total_outsides, total_accuracy, average_dist, avg_reactiontime, reward_image, (float(hits) / float(limitTrial)) * 100])
     sucess = (float(hits) / float(limitTrial)) * 100
     reportObj_summary.addEvent(summary)
     reportObj_summary.writecsv('summary', session)
