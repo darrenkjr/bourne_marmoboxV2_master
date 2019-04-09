@@ -261,10 +261,15 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     average_dist = float(df_results_clean[['Distance from reward center (px)']].mean())
     avg_reactiontime = float(df_results_clean[['Response latency (ms)']].mean())
+    total_accuracy = (limitTrial/(limitTrial+total_outsides))*100
+
+    print(limitTrial)
+    print(total_outsides)
+    print(total_accuracy)
 
     session_time = datetime.datetime.now().strftime("%H:%M %p")
     ## for reference ##  summary_col = ['Session','Finished Session Time', 'Total Time', 'Trials', 'Hits', 'Misses', 'Timeouts', 'Outsides', 'Accuracy (%)', 'Average dist from center (Px)', 'Average response latency (s)', 'Reward Stimulus - Red', 'Success%']
-    summary.append([session, session_time, timeLog, limitTrial, hits, limitTrial - hits, timeouts, total_outsides, (limitTrial/(limitTrial+total_outsides))*100, average_dist, avg_reactiontime, reward_image, (float(hits) / float(limitTrial)) * 100])
+    summary.append([session, session_time, timeLog, limitTrial, hits, limitTrial - hits, timeouts, total_outsides, , average_dist, avg_reactiontime, reward_image, (float(hits) / float(limitTrial)) * 100])
     sucess = (float(hits) / float(limitTrial)) * 100
     reportObj_summary.addEvent(summary)
     reportObj_summary.writecsv('summary', session)
