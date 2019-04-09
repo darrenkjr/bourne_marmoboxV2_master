@@ -264,7 +264,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     
 
     total_accuracy = float((limitTrial/(total_outsides + limitTrial))*100)
-    extra = total_outsides + limitTrial
+    extra = float(total_outsides) + limitTrial
 
     print(limitTrial)
     print(total_outsides)
