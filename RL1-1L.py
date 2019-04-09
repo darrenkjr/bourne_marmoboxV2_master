@@ -263,7 +263,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     avg_reactiontime = float(df_results_clean[['Response latency (ms)']].mean())
     
 
-    total_accuracy = float((limitTrial/(total_outsides + limitTrial))*100)
+    total_accuracy = (float(limitTrial)/(total_outsides + limitTrial))*100)
     extra = float(total_outsides) + limitTrial
 
     print(limitTrial)
