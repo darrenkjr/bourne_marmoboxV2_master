@@ -142,7 +142,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                         checking2 = True
                         session_time = datetime.datetime.now().strftime("%H:%M %p")
 #### for reference #####  results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Reward Stimulus Position','Distance from reward center (px)', 'Fixation latency (s)', 'Response latency (ms)', 'Outsides', 'Success (Y/N)', 'Counter']
-                        append_array = [session, session_time, 'timeout', '', '', time.time() - t, reward,None,None,None, outsides, 'N/A', '']
+                        append_array = [session, session_time, 'timeout', None, None, time.time() - t, reward,None,None,None, outsides, 'N/A', '']
                         results.append(append_array)
                         #do not record as trial, reset number
                         
@@ -272,7 +272,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     reportObj_summary.writecsv('summary', session)
 
     # organizing coordinates
-    pressed = ([df_results['X-Position (Pressed)']], [df_results['Y-Position (Pressed)']])
+    pressed = ([df_results_clean['X-Position (Pressed)']], [df_results_clean['Y-Position (Pressed)']])
     print(reward_coord)
     stimulus = ([reward_coord[0], penalty_coord[0]], [reward_coord[1], penalty_coord[1]])
     # creating scatter object and saving heat map plot
