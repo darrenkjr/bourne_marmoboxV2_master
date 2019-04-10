@@ -261,18 +261,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     average_dist = float(df_results_clean[['Distance from reward center (px)']].mean())
     avg_reactiontime = float(df_results_clean[['Response latency (ms)']].mean())
-    
-
     total_accuracy = (float(limitTrial)/(total_outsides + limitTrial))*100
-    extra = float(total_outsides) + limitTrial
-
-    print(limitTrial)
-    print(total_outsides)
-    print(total_outsides + limitTrial)
-    print(extra)
-    print(limitTrial/extra)
-    print(float(limitTrial/extra))
-    print(total_accuracy)
 
     session_time = datetime.datetime.now().strftime("%H:%M %p")
     ## for reference ##  summary_col = ['Session','Finished Session Time', 'Total Time', 'Trials', 'Hits', 'Misses', 'Timeouts', 'Outsides', 'Accuracy (%)', 'Average dist from center (Px)', 'Average response latency (s)', 'Reward Stimulus - Red', 'Success%']
