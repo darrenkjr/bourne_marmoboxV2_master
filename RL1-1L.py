@@ -66,184 +66,184 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
     while trial <= limitTrial:
         for rand_stim in choice:
-       
-            t = time.time()  # returns time in sec as float
+            if trial <= limitTrial:
+                t = time.time()  # returns time in sec as float
 
-            # creating fixation cue
-            fixation_cue = visual.GratingStim(win = mywin, size = stim_size, pos = (0,0), color = [-1,-1,-1], colorSpace = 'rgb', sf = 0)
-            fixation_cue.draw(mywin)
-            mywin.update()
+                # creating fixation cue
+                fixation_cue = visual.GratingStim(win = mywin, size = stim_size, pos = (0,0), color = [-1,-1,-1], colorSpace = 'rgb', sf = 0)
+                fixation_cue.draw(mywin)
+                mywin.update()
 
-            fixation_start = datetime.datetime.now()
-            mouse.clickReset()
-            checking1 = False
+                fixation_start = datetime.datetime.now()
+                mouse.clickReset()
+                checking1 = False
 
-            while not checking1:
-                while not mouse.getPressed()[0]:  # checks whether mouse button (i.e. button '0') was pressed
-                    time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms
-                if mouse.getPressed()[0] and mouse.isPressedIn(fixation_cue):
-                    checking1 = True
-                    fixation_end = datetime.datetime.now()
-                    fixation_time = (fixation_end - fixation_start).total_seconds()
-                else:
-                    checking1 = False                    
-
-            # creating left and right boxes
-
-            left_mask = visual.GratingStim(win=mywin, size=stim_size, pos=left_box_coord, opacity = 0.0)
-            right_mask = visual.GratingStim(win=mywin, size=stim_size, pos=right_box_coord, opacity = 0.0)
-
-            if rand_stim == 0:
-                left_image = reward_image
-                reward_stim = left_mask
-                reward_coord = left_box_coord
-                penalty_coord = right_box_coord
-                penalty_stim = right_mask
-                right_image = penalty_image
-                reward = 'left'
-            elif rand_stim == 1:
-                right_image = reward_image
-                reward_stim = right_mask
-                reward_coord = right_box_coord
-                penalty_coord = left_box_coord
-                penalty_stim = left_mask
-                left_image = penalty_image
-                reward = 'right'
-
-            left_grating = visual.ImageStim(win=mywin, size=stim_size, pos=left_box_coord, image = left_image)
-            right_grating = visual.ImageStim(win=mywin, size=stim_size, pos=right_box_coord, image = right_image)
-
-
-            # drawing gratings
-            reward_stim.draw(mywin)
-            penalty_stim.draw(mywin)           
-            right_grating.draw(mywin)
-            left_grating.draw(mywin)
-
-            mywin.update()
-
-            print('Current reward position: ', reward)
-            print('Current reward image: ', reward_image)
-            reaction_start = datetime.datetime.now() # start reaction timer from drawing the grating
-
-            # pre-loop dummies
-            mouse.clickReset()  # resets a timer for timing button clicks
-            checking2 = False
-            timeout = False
-            touch_timeout = True
-
-            while not checking2:
-
-                while not mouse.getPressed()[0] and not timeout:  # checks whether mouse button (i.e. button '0') was pressed
-                    reaction_monitor = (datetime.datetime.now() - reaction_start).total_seconds()
-                    touch_timeout = False
-                    if reaction_monitor >= reaction_threshold:
-                        timeout = True
-                        checking2 = True
-                        session_time = datetime.datetime.now().strftime("%H:%M %p")
-#### for reference #####  results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Reward Stimulus Position','Distance from reward center (px)', 'Fixation latency (s)', 'Response latency (ms)', 'Outsides', 'Success (Y/N)', 'Counter']
-                        append_array = [session, session_time, 'timeout', None, None, time.time() - t, reward,None,None,None, outsides, 'N/A', '']
-                        results.append(append_array)
-                        #do not record as trial, reset number
-                        
-                        reportObj_trial.addEvent(results)
-
-                        core.wait(1)
-                        timeouts += 1
-                        outsides = 0 #reset outside counter
-                        print('Trial: '+ str(trial) + '/' + str(limitTrial))
-                        
-                        
+                while not checking1:
+                    while not mouse.getPressed()[0]:  # checks whether mouse button (i.e. button '0') was pressed
+                        time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms
+                    if mouse.getPressed()[0] and mouse.isPressedIn(fixation_cue):
+                        checking1 = True
+                        fixation_end = datetime.datetime.now()
+                        fixation_time = (fixation_end - fixation_start).total_seconds()
                     else:
-                        time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms - THIS MUST BE ACCOUNTED FOR IF ACCURATELY TIMING RESPONSE LATENCIES
+                        checking1 = False                    
 
-                if mouse.getPressed()[0] and not timeout:  # If pressed
-                    xpos = mouse.getPos()[0]  # Returns current positions of mouse during press
-                    ypos = mouse.getPos()[1]
+                # creating left and right boxes
 
-                    correct = mouse.isPressedIn(reward_stim) # Returns True if mouse pressed in grating
-                    wrong = mouse.isPressedIn(penalty_stim)
-                    reaction_end = datetime.datetime.now()
+                left_mask = visual.GratingStim(win=mywin, size=stim_size, pos=left_box_coord, opacity = 0.0)
+                right_mask = visual.GratingStim(win=mywin, size=stim_size, pos=right_box_coord, opacity = 0.0)
 
-                    if correct is not True and wrong is not True and touch_timeout is not True: #if background pressed in
-                        print('Current trial: ', trial)
-                        print('Touch recorded outside grating')
+                if rand_stim == 0:
+                    left_image = reward_image
+                    reward_stim = left_mask
+                    reward_coord = left_box_coord
+                    penalty_coord = right_box_coord
+                    penalty_stim = right_mask
+                    right_image = penalty_image
+                    reward = 'left'
+                elif rand_stim == 1:
+                    right_image = reward_image
+                    reward_stim = right_mask
+                    reward_coord = right_box_coord
+                    penalty_coord = left_box_coord
+                    penalty_stim = left_mask
+                    left_image = penalty_image
+                    reward = 'right'
 
-                        dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
-                        session_time = datetime.datetime.now().strftime("%H:%M %p")
-                        reaction_time = ((reaction_end - reaction_start).total_seconds())*1000
-                        results.append([session, session_time, 'outside stimuli', xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, '', 'N/A', ''])
-                        #do not record as trial, reset number
-                        reportObj_trial.addEvent(results)
+                left_grating = visual.ImageStim(win=mywin, size=stim_size, pos=left_box_coord, image = left_image)
+                right_grating = visual.ImageStim(win=mywin, size=stim_size, pos=right_box_coord, image = right_image)
 
-                        outsides += 1
-                        total_outsides += 1
-                        print('Trial: '+ str(trial) + '/' + str(limitTrial))
-                        touch_timeout = True          
 
-                    elif correct == True:
+                # drawing gratings
+                reward_stim.draw(mywin)
+                penalty_stim.draw(mywin)           
+                right_grating.draw(mywin)
+                left_grating.draw(mywin)
 
-                            mywin.flip()
+                mywin.update()
 
-                            #present reward stim for duration of reward
-                            if rand_stim == 0:
-                                left_grating.draw(mywin)
-                            else:
-                                right_grating.draw(mywin)                            
+                print('Current reward position: ', reward)
+                print('Current reward image: ', reward_image)
+                reaction_start = datetime.datetime.now() # start reaction timer from drawing the grating
 
-                            mywin.flip()                            
-                            control.correctAnswer()
+                # pre-loop dummies
+                mouse.clickReset()  # resets a timer for timing button clicks
+                checking2 = False
+                timeout = False
+                touch_timeout = True
 
-                            core.wait(0.5)  # stimulus presentation                       
+                while not checking2:
+
+                    while not mouse.getPressed()[0] and not timeout:  # checks whether mouse button (i.e. button '0') was pressed
+                        reaction_monitor = (datetime.datetime.now() - reaction_start).total_seconds()
+                        touch_timeout = False
+                        if reaction_monitor >= reaction_threshold:
+                            timeout = True
+                            checking2 = True
+                            session_time = datetime.datetime.now().strftime("%H:%M %p")
+    #### for reference #####  results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Reward Stimulus Position','Distance from reward center (px)', 'Fixation latency (s)', 'Response latency (ms)', 'Outsides', 'Success (Y/N)', 'Counter']
+                            append_array = [session, session_time, 'timeout', None, None, time.time() - t, reward,None,None,None, outsides, 'N/A', '']
+                            results.append(append_array)
+                            #do not record as trial, reset number
                             
+                            reportObj_trial.addEvent(results)
+
+                            core.wait(1)
+                            timeouts += 1
+                            outsides = 0 #reset outside counter
+                            print('Trial: '+ str(trial) + '/' + str(limitTrial))
+                            
+                            
+                        else:
+                            time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms - THIS MUST BE ACCOUNTED FOR IF ACCURATELY TIMING RESPONSE LATENCIES
+
+                    if mouse.getPressed()[0] and not timeout:  # If pressed
+                        xpos = mouse.getPos()[0]  # Returns current positions of mouse during press
+                        ypos = mouse.getPos()[1]
+
+                        correct = mouse.isPressedIn(reward_stim) # Returns True if mouse pressed in grating
+                        wrong = mouse.isPressedIn(penalty_stim)
+                        reaction_end = datetime.datetime.now()
+
+                        if correct is not True and wrong is not True and touch_timeout is not True: #if background pressed in
+                            print('Current trial: ', trial)
+                            print('Touch recorded outside grating')
+
                             dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
                             session_time = datetime.datetime.now().strftime("%H:%M %p")
                             reaction_time = ((reaction_end - reaction_start).total_seconds())*1000
-                            results.append([session, session_time, trial, xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, outsides, 'yes', 1])
-                            hits += 1
-                            trial += 1
-                            outsides = 0 #reset outside counter
-
+                            results.append([session, session_time, 'outside stimuli', xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, '', 'N/A', ''])
+                            #do not record as trial, reset number
                             reportObj_trial.addEvent(results)
 
-                            
-                            mywin.flip()   
+                            outsides += 1
+                            total_outsides += 1
+                            print('Trial: '+ str(trial) + '/' + str(limitTrial))
+                            touch_timeout = True          
+
+                        elif correct == True:
+
+                                mywin.flip()
+
+                                #present reward stim for duration of reward
+                                if rand_stim == 0:
+                                    left_grating.draw(mywin)
+                                else:
+                                    right_grating.draw(mywin)                            
+
+                                mywin.flip()                            
+                                control.correctAnswer()
+
+                                core.wait(0.5)  # stimulus presentation                       
+                                
+                                dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
+                                session_time = datetime.datetime.now().strftime("%H:%M %p")
+                                reaction_time = ((reaction_end - reaction_start).total_seconds())*1000
+                                results.append([session, session_time, trial, xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, outsides, 'yes', 1])
+                                hits += 1
+                                trial += 1
+                                outsides = 0 #reset outside counter
+
+                                reportObj_trial.addEvent(results)
+
+                                
+                                mywin.flip()   
+
+                                checking2 = True
+                                
+                                print('Trial: '+ str(trial) + '/' + str(limitTrial))
+                                
+
+                        elif wrong == True:
+                                
+                            mywin.flip()
+                                
+                            #present penalty stim for initial duration of timeout
+                            if rand_stim == 0:
+                                right_grating.draw(mywin)
+                            else:
+                                left_grating.draw(mywin)
+                                
+                            mywin.flip()
+                                
+                            control.incorrectAnswer()
+
+                            core.wait(0.5) #stimulus presentation
+                                
+                            dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
+                            session_time = datetime.datetime.now().strftime("%H:%M %p")
+                            reaction_time = ((reaction_end - reaction_start).total_seconds())*1000
+                            results.append([session,session_time,trial, xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, outsides, 'no', 0])
+                            reportObj_trial.addEvent(results)
+
+                            mywin.flip()
+                            trial += 1
+                            outsides = 0 #reset outside counter
+                            core.wait(2) #timeout
 
                             checking2 = True
-                            
+
                             print('Trial: '+ str(trial) + '/' + str(limitTrial))
-                            
-
-                    elif wrong == True:
-                            
-                        mywin.flip()
-                            
-                        #present penalty stim for initial duration of timeout
-                        if rand_stim == 0:
-                            right_grating.draw(mywin)
-                        else:
-                            left_grating.draw(mywin)
-                            
-                        mywin.flip()
-                            
-                        control.incorrectAnswer()
-
-                        core.wait(0.5) #stimulus presentation
-                            
-                        dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
-                        session_time = datetime.datetime.now().strftime("%H:%M %p")
-                        reaction_time = ((reaction_end - reaction_start).total_seconds())*1000
-                        results.append([session,session_time,trial, xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, outsides, 'no', 0])
-                        reportObj_trial.addEvent(results)
-
-                        mywin.flip()
-                        trial += 1
-                        outsides = 0 #reset outside counter
-                        core.wait(2) #timeout
-
-                        checking2 = True
-
-                        print('Trial: '+ str(trial) + '/' + str(limitTrial))
 
 
         ###########################################
