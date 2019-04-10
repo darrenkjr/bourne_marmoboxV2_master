@@ -141,7 +141,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                         timeout = True
                         checking2 = True
                         session_time = datetime.datetime.now().strftime("%H:%M %p")
-                        append_array = [session, session_time, 'timeout', None, None, time.time() - t, reward,None,None,None, outsides, 'N/A', '']
+#### for reference #####  results_col = ['Session','Timestamp','Trial', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)', 'Reward Stimulus Position','Distance from reward center (px)', 'Fixation latency (s)', 'Response latency (ms)', 'Outsides', 'Success (Y/N)', 'Counter']
+                        append_array = [session, session_time, 'timeout', '', '', time.time() - t, reward,None,None,None, outsides, 'N/A', '']
                         results.append(append_array)
                         #do not record as trial, reset number
                         
