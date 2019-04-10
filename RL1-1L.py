@@ -64,9 +64,9 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     np.random.shuffle(choice)
     print(choice)
 
-
-    for rand_stim in choice:
-        if trial <= limitTrial:
+    while trial <= limitTrial:
+        for rand_stim in choice:
+       
             t = time.time()  # returns time in sec as float
 
             # creating fixation cue
