@@ -32,6 +32,10 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     total_outsides = 0
     timer = time.time()
 
+    #to check pseudorandomiser
+    reward_left_count = 0
+    reward_right_count = 0
+
     #dummy mouse position
     xpos = 0
     ypos = 0
@@ -101,6 +105,9 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                     penalty_stim = right_mask
                     right_image = penalty_image
                     reward = 'left'
+
+                    reward_left_count += 1                    #to check pseudorandomiser
+
                 elif rand_stim == 1:
                     right_image = reward_image
                     reward_stim = right_mask
@@ -109,6 +116,8 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                     penalty_stim = left_mask
                     left_image = penalty_image
                     reward = 'right'
+
+                    reward_right_count += 1                    #to check pseudorandomiser
 
                 left_grating = visual.ImageStim(win=mywin, size=stim_size, pos=left_box_coord, image = left_image)
                 right_grating = visual.ImageStim(win=mywin, size=stim_size, pos=right_box_coord, image = right_image)
@@ -274,6 +283,11 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     # organizing coordinates
     pressed = ([df_results_clean['X-Position (Pressed)']], [df_results_clean['Y-Position (Pressed)']])
     print(reward_coord)
+
+    #to check pseudorandomiser
+    print(reward_left_count)
+    print(reward_right_count)               
+
     stimulus = ([reward_coord[0], penalty_coord[0]], [reward_coord[1], penalty_coord[1]])
     # creating scatter object and saving heat map plot
     scatter = scatterplot(stimulus, pressed, stim_size)
