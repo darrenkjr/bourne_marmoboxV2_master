@@ -285,8 +285,12 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     print(reward_coord)
 
     #to check pseudorandomiser
-    print(reward_left_count)
-    print(reward_right_count)               
+    print('Reward in left position: ' + str(reward_left_count) + ' times. ' + 'Reward in right position: ' + str(reward_right_count) + ' times')
+    if (reward_left_count - 1) <= reward_right_count <= (reward_left_count +1):
+        pseudoFunction = 'Functional.'
+    else:
+        pseudoFunction = 'Not functional.'               
+    print('Pseudorandomizer status: ' + pseudoFunction)
 
     stimulus = ([reward_coord[0], penalty_coord[0]], [reward_coord[1], penalty_coord[1]])
     # creating scatter object and saving heat map plot
