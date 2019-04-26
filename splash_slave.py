@@ -18,10 +18,10 @@ def slave(entry,taskname,session,animal_ID,limitTrial):
         #delay = raw_input('Set Delay: ')
 
         print('Starting session' + str(session) + ' ...')
-        sucess = marmobox.run(taskname,mywin,limitTrial,animal_ID,session) #removed delay param
+        sucess,sucesscounter = marmobox.run(taskname,mywin,limitTrial,animal_ID,session) #removed delay param
         mywin.close()
 
-        return sucess, session
+        return sucess, session,sucesscounter
 
 
 

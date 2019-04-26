@@ -31,6 +31,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     outsides = 0
     total_outsides = 0
     timer = time.time()
+    sucesscounter = []
 
     #to check pseudorandomiser
     reward_left_count = 0
@@ -131,9 +132,14 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
 
                 mywin.update()
 
+<<<<<<< Updated upstream
                 print('Current reward position: ', reward)
                 print('Current reward image: ', reward_image)
                 reaction_start = datetime.datetime.now() # start reaction timer from drawing the grating
+=======
+                            reportObj_trial.addEvent(results)
+                            sucesscounter.append(results[-1])
+>>>>>>> Stashed changes
 
                 # pre-loop dummies
                 mouse.clickReset()  # resets a timer for timing button clicks
@@ -166,6 +172,7 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                         else:
                             time.sleep(0.01)  # Sleeps if not pressed and then checks again after 10ms - THIS MUST BE ACCOUNTED FOR IF ACCURATELY TIMING RESPONSE LATENCIES
 
+<<<<<<< Updated upstream
                     if mouse.getPressed()[0] and not timeout:  # If pressed
                         xpos = mouse.getPos()[0]  # Returns current positions of mouse during press
                         ypos = mouse.getPos()[1]
@@ -244,6 +251,16 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
                             reaction_time = ((reaction_end - reaction_start).total_seconds())*1000
                             results.append([session,session_time,trial, xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, outsides, 'no', 0])
                             reportObj_trial.addEvent(results)
+=======
+                        core.wait(0.5) #stimulus presentation
+                            
+                        dist_stim = ((reward_coord[0] - xpos) ** 2 + (reward_coord[1] - ypos) ** 2) ** (1 / 2.0)
+                        session_time = datetime.datetime.now().strftime("%H:%M %p")
+                        reaction_time = ((reaction_end - reaction_start).total_seconds())*1000
+                        results.append([session,session_time,trial, xpos, ypos, time.time() - t, reward, dist_stim, fixation_time, reaction_time, outsides, 'no', 0])
+                        reportObj_trial.addEvent(results)
+                        sucesscounter.append(results[-1])
+>>>>>>> Stashed changes
 
                             mywin.flip()
                             trial += 1
@@ -298,4 +315,4 @@ def execTask(taskname,limitTrial,mywin, animal_ID,session):
     scatter.heatmap_param(limitTrial, stim_size)
     scatter.saveheatmap(taskname, animal_ID, limitTrial)
 
-    return totalTime, sucess
+    return totalTime, sucess, sucesscounter

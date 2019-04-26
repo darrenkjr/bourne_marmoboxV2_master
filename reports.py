@@ -59,11 +59,6 @@ class Report:
         return results_col, summary_col
 
 
-    def data_present(self):
-
-
-        return
-
 
     def timeStamp(self):
         ts = time.time()

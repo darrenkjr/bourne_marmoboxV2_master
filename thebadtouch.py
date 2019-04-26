@@ -155,6 +155,8 @@ elif prev_state[0] == 0:
     current_taskname = 0
     prev_state = False
 
+    rolling_average_number = 100
+
 
 sucess_list = [0,0,0] #enter loop later
 session = 0
@@ -185,7 +187,10 @@ try:
 
             print('current state: ',sucess_list)
 
-            sucess, session = slave(entry, taskname, session, animal_ID, limitTrial)
+            sucess, session, sucesscounter = slave(entry, taskname, session, animal_ID, limitTrial)
+            rolling_sucess = sucesscounter.append(sucesscounter)
+            avg_rollingsucess = sum(sucesscounter[-rolling_average_number:])
+            print('Rolling average of tasks so far: ',avg_rollingsucess)
             session_num = [session]
 
             print(sucess_list)
