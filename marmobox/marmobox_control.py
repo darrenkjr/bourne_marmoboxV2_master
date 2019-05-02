@@ -6,12 +6,22 @@ import importlib
 
 tasklist = ['tasks.drawframesRL']
 
-for x in tasklist:
-    print(x)
-    task1 = importlib.import_module(x)
-    # import tasks.touchtraining1 as task2
+#loading required tasks, and assigns each task a number
+def loadtaskmodule(tasklist):
+    taskmodule = []
+    for x in tasklist:
 
-    mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix", pos=(0, 0))
-    print('test')
+        print(x)
+        task = importlib.import_module(x)
+        taskmodule.append(task)
 
-    task1.run(mywin)
+        mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix", pos=(0, 0))
+        print('test')
+        print(taskmodule)
+
+        return taskmodule
+
+taskmodule = loadtaskmodule(tasklist)
+
+mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix", pos=(0, 0))
+taskmodule[0].run(mywin)
