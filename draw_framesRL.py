@@ -4,6 +4,7 @@ import marmocontrol as control
 from initialisation import initial_param, rng_choice
 from fixation import fixation
 
+def
 #setting initial parameters
 limitTrial = 5
 mywin = visual.Window([1280, 720], monitor="testMonitor", units="pix", pos=(0, 0))
