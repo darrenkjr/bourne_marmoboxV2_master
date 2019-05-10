@@ -6,7 +6,7 @@ from heatmap import scatterplot
 import pandas as pd
 
 
-def execTask(taskname,limitTrial,mywin,animal_ID,session):
+def run(taskname,limitTrial,mywin,animal_ID,session):
 	mouse = event.Mouse(win=mywin)
 
 	# generating report directories and objects
