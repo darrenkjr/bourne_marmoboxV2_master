@@ -6,6 +6,8 @@ import importlib
 
 tasklist = ['tasks.drawframesRL','tasks.motioncoherenceLRdir']
 
+#or load in required tasklist from json
+
 #loading required tasks, and assigns each task a number
 def loadtaskmodule(tasklist):
     taskmodule = []

@@ -3,27 +3,27 @@ import time, datetime
 import marmocontrol as control
 from reports import Report
 from heatmap import scatterplot
+from tasks.helper.initialisation import initial_param
 import pandas as pd
 
 
 def run(taskname,limitTrial,mywin,animal_ID,session):
-	mouse = event.Mouse(win=mywin)
-
 	# generating report directories and objects
-	results_col = ['Session','Timestamp','Trial', 'xpos', 'ypos', 'Time (s)', '-', 'Distance from stimulus center (Px)', 'Reaction time (s)', 'Success Y/N']
-	summary_col = ['Session','Session Time', 'Total Time (sec)', 'Trials','Hits','Misses', 'Average distance from stimulus center (Px)', 'Avg reaction time (s)', 'Success %']
-	reportobj_trial = Report(str(taskname), animal_ID, results_col, 'raw_data')
-	reportobj_summary = Report(str(taskname), animal_ID, summary_col, 'summary_data')
-	reportobj_trial.createdir()
-	reportobj_summary.createdir()
-	results = []
-	summary = []
+	# results_col = ['Session','Timestamp','Trial', 'xpos', 'ypos', 'Time (s)', '-', 'Distance from stimulus center (Px)', 'Reaction time (s)', 'Success Y/N']
+	# summary_col = ['Session','Session Time', 'Total Time (sec)', 'Trials','Hits','Misses', 'Average distance from stimulus center (Px)', 'Avg reaction time (s)', 'Success %']
+	# reportobj_trial = Report(str(taskname), animal_ID, results_col, 'raw_data')
+	# reportobj_summary = Report(str(taskname), animal_ID, summary_col, 'summary_data')
+	# reportobj_trial.createdir()
+	# reportobj_summary.createdir()
+	# results = []
+	# summary = []
+
+	mouse, trial, nulls, timer, stimPosx, stimPoxy, touchTimeout, correct, wrong, hits, null, miss, results, summary = initial_param(mywin)
+
+
 	stim_size = 700
-	centre_box_coord = [0,0]
 	#create stimulus
-	grating = centre_box = visual.GratingStim(win=mywin,size=stim_size,pos=centre_box_coord, color = [-1,-1,1], colorSpace='rgb',sf=0)
 	# limitTrial=3
-	trial = 0
 	buttons = []
 	xpos = 0
 	stimPosx = 0
@@ -32,13 +32,13 @@ def run(taskname,limitTrial,mywin,animal_ID,session):
 	hits = 0
 	size = 700
 	timer = time.time()
-
+	centre_box = visual.GratingStim(win=mywin,size=stim_size,pos=[0,0], color = [-1,-1,1], colorSpace='rgb',sf=0)
 	while trial < limitTrial:
 		trial = trial+1
 		t=time.time() #returns time in sec as float
 
 
-		grating.draw()
+		centre_box.draw()
 		mywin.update()
 		reaction_start = datetime.datetime.now()
 		mouse.clickReset() #resets a timer for timing button clicks
