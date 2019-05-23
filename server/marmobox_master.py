@@ -2,11 +2,13 @@
 
 from reports import Report
 import importlib
+import protocol_exp
 
 results_col = ['test','test']
 
 reportobj_trial = Report('test', 'test', results_col, 'raw_data')
 reportobj_trial.createdir()
+
 
 #control marmobox, prompts for input for task suite.
 
@@ -16,15 +18,15 @@ preset = input('Run a preset experimental protocol or custom suite of tasks? y/n
 def tasklist(preset):
 
     if preset == 'y':
-        experimental_protocol = input('Enter desired protocol') #enter name of protocol eg: touch training
+        experimental_protocol = input('Enter desired protocol: ') #enter name of protocol eg: touch training
         full_protocol = 'protocol_exp.'+experimental_protocol
-        try:
-            tasksuite = importlib.import_module(full_protocol)
-        except:
-            print('File not found.')
-
-        tasklist = tasksuite.()
-        return tasklist
+        print(full_protocol)
+        # try:
+        tasksuite = importlib.import_module(full_protocol)
+        print('test')
+        # except:
+        #     print('File not found.')
+        return tasksuite
 
     else:
         task_len = 1
@@ -37,8 +39,7 @@ def tasklist(preset):
 
         return tasklist
 
-
-
+tasklist = tasklist(preset)
 
 
 

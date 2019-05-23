@@ -2,6 +2,7 @@
 #prepare logic flow
 #execute and call scripts in marmobox in accordance with logic flow.
 #sucess criterion - moving average - determined by querying SQL database.
+print('initiating touchtrainig protocol classes')
 
 class touchtraining:
 
@@ -15,6 +16,7 @@ class touchtraining:
 
 
     def sucess_criterion(self):
+        print('test')
         #call SQL database.
 
 
@@ -36,7 +38,6 @@ class touchtraining:
                 continue
             break
 
-        for tasks in self.tasklist:
 
 
 
