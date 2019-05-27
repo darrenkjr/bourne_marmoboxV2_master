@@ -1,5 +1,6 @@
 #interface with marmobox.
 import importlib
+
 class marmoIO:
 
     def __init__(self):
@@ -8,16 +9,22 @@ class marmoIO:
     def tasklist(preset):
 
         if preset == 'y':
-            experimental_protocol = input('Enter desired protocol') #enter name of protocol eg: touch training
+            experimental_protocol = input('Enter desired protocol ') #enter name of protocol eg: touch training
             full_protocol = 'protocol_exp.'+experimental_protocol
             try:
-                task_module = importlib.import_module(full_protocol)
-                print('Import' + full_protocol + ' sucess.')
+                tasksuite = importlib.import_module(full_protocol)
+                tasksuite()
+                print(tasksuite)
+
+                tasklist = tasksuite.tasklist_gen()
+                print(tasklist)
+                animalID, limitTrial, success_criterion, rolling_avg_success = tasksuite.sucess_logic()
+                return tasklist,animalID, limitTrial, success_criterion, rolling_avg_success
+
             except:
                 print('File not found.')
 
-            tasklist = task_module.tasklist()
-            return tasklist, task_module
+
 
         else:
             task_len = 1
@@ -30,7 +37,7 @@ class marmoIO:
 
             return tasklist
 
-    def sucess_check(self,success,success_criterion,rolling_avg_success):
+    def success_check(self,success,success_criterion,rolling_avg_success):
     #this success check uses a rolling average
         #call success list
         if len(success) < rolling_avg_success:

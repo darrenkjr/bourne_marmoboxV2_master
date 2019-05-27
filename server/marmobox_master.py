@@ -17,8 +17,9 @@ animal_ID = input("Enter animal I.D, press enter/return for 'test' : ") or 'test
 preset = input('Run a preset experimental protocol or custom suite of tasks? y/n')
 
 
-tasklist, taskmodule = marmoIO.tasklist(preset)
-animalID, limitTrial, success_criterion, rolling_avg_success = taskmodule.sucess_logic()
+tasklist, animalID, limitTrial, success_criterion, rolling_avg_success= marmoIO.tasklist(preset)
+print(tasklist,animalID, limitTrial, success_criterion, rolling_avg_success)
+
 
 
 #generate report

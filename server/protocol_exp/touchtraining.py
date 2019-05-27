@@ -9,13 +9,14 @@ class touchtraining:
     def __init__(self):
         print('Import class successful. ')
 
-    def tasklist_gen(selfs):
+    def tasklist_gen(self):
         self.tasklist = ['touch-training0', 'touchtraining1', 'touchtraining2', 'touchtraining3']
 
         tasklist = self.tasklist
 
         # send task list to marmobox - and run
         return tasklist
+
     def sucess_logic(self):
         #call SQL database for current task parameter
         print('Input protocol parameters...')
