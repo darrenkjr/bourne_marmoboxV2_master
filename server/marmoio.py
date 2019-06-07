@@ -6,40 +6,27 @@ class marmoIO:
     def __init__(self):
         print('Import sucessful. ')
 
-    def tasklist(preset):
 
-        if preset == 'y':
-            experimental_protocol = input('Enter desired protocol ') #enter name of protocol eg: touch training
-            full_protocol = 'protocol_exp.'+experimental_protocol
-            try:
-                tasksuite = importlib.import_module(full_protocol)
-                tasksuite()
-                print(tasksuite)
+    def tasklist(self,protocol):
+            self.tasksuite = importlib.import_module(protocol)
+            self.tasksuite()
+            print(self.tasksuite)
 
-                tasklist = tasksuite.tasklist_gen()
-                print(tasklist)
-                animalID, limitTrial, success_criterion, rolling_avg_success = tasksuite.sucess_logic()
-                return tasklist,animalID, limitTrial, success_criterion, rolling_avg_success
-
-            except:
-                print('File not found.')
-
-
-
-        else:
-            task_len = 1
-            tasklist = []
-            task_len = int(input(('How many different tasks would you like to run')))
-
-            for i in range(task_len):
-                task = str(input('Enter task name'))
-                tasklist.append(task)
-
+            tasklist = self.tasksuite.tasklist_gen()
+            # print(tasklist)
+            # animalID, limitTrial, success_criterion, rolling_avg_success = tasksuite.sucess_logic()
+            # return tasklist,animalID, limitTrial, success_criterion, rolling_avg_success
             return tasklist
 
-    def success_check(self,success,success_criterion,rolling_avg_success):
+    def success_logic(self):
+        limitTrial, success_criterion, rolling_avg_success = self.tasksuite.success_logic()
+        return limitTrial, success_criterion, rolling_avg_success
+
+    def success_status(self,success_criterion,rolling_avg_success):
     #this success check uses a rolling average
-        #call success list
+        #call sql success list
+
+        success = 'placeholder. Call sql list and evaluate'
         if len(success) < rolling_avg_success:
             print('Sample size too low. Continue obtaining data')
 
@@ -55,4 +42,6 @@ class marmoIO:
                 success_state = True
 
         return success_state
+
+
 
