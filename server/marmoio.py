@@ -1,4 +1,4 @@
-#interface with marmobox.
+#interface with marmobox, drawing stuff to be sent to marmobox
 import importlib
 
 class marmoIO:
@@ -19,29 +19,10 @@ class marmoIO:
             return tasklist
 
     def success_logic(self):
-        limitTrial, success_criterion, rolling_avg_success = self.tasksuite.success_logic()
-        return limitTrial, success_criterion, rolling_avg_success
+        limitTrial, success_criterion, rolling_sucess_samplesize = self.tasksuite.success_logic()
+        return limitTrial, success_criterion, rolling_sucess_samplesize
 
-    def success_status(self,success_criterion,rolling_avg_success):
-    #this success check uses a rolling average
-        #call sql success list
 
-        success = 'placeholder. Call sql list and evaluate'
-        if len(success) < rolling_avg_success:
-            print('Sample size too low. Continue obtaining data')
-
-        elif len(success) >= rolling_avg_success:
-            print('Checking performance so far...')
-
-            if sum(success[-rolling_avg_success:] <= success_criterion):
-                print('No pass.')
-                success_state = False
-
-            elif sum(success[-rolling_avg_success:]) >= success_criterion:
-                print('Sucess criterion achieved. Moving on to next task if applicable. ')
-                success_state = True
-
-        return success_state
 
 
 

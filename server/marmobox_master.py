@@ -41,7 +41,7 @@ print('Running following protocol' + ': ' + tasklist + 'on ' + animal_ID)
 #post importing tasklist, define sucess criterion
 #define sucess criterion
 #now defining sucess criterion
-limitTrial, success_criterion, rolling_avg_success = marmoIO.success_logic()
+# limitTrial, success_criterion, rolling_avg_success = marmoIO.success_logic()
 
 #run protocol
 

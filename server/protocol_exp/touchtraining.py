@@ -23,8 +23,8 @@ class touchtraining:
     def progression(self):
         #call sql and marmio, check sucess state and make decision.
         progress_history = []
-        limitTrial, success_criterion, rolling_avg_success = progression_logic.rolling_avg()
-        success_state = marmoIO.success_status(success_criterion, rolling_avg_success)
+        limitTrial, success_criterion, rolling_sucess_samplesize = progression_logic.rolling_avg()
+        success_state = marmoIO.success_status(success_criterion, rolling_sucess_samplesize)
 
         progress_history.append(success_state)
 
