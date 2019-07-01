@@ -42,11 +42,8 @@ class marmoIO:
         #write to mongodb
 
     def json_send(self, json_obj):
+        print('Sending json with instructions to marmobox. ')
         #send json string to minipc
-
-    def execProtocol(self):
-        print('Sending http request.')
-        # signaling marmobox_control.py on mini pc.
 
 
 
