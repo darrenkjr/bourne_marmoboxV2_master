@@ -1,9 +1,8 @@
 #note relevant task names
 #prepare logic flow
 #execute and call scripts in marmobox in accordance with logic flow.
-#sucess criterion - moving average - determined by querying SQL database.
-from server.marmoio import marmoIO
-from server.protocol_exp import progression_logic
+
+import protocol_exp.progression_logic as progression_logic
 print('initiating touchtraining protocol classes')
 
 class touchtraining:
@@ -14,24 +13,38 @@ class touchtraining:
     def tasklist_gen(self):
         self.tasklist = ['touch-training0', 'touchtraining1', 'touchtraining2', 'touchtraining3']
 
-        tasklist = self.tasklist
+        tasklist1 = self.tasklist
 
         # send task list to marmobox - and run
-        return tasklist
+        return tasklist1
+
+    def success_logic(self):
+        #defining success logic for specific protocol + defining required paramters
+        success_framework = (input('Choose success framework, 1 for global success criteria or 2 for rolling average success. Default = rolling average ' )) or 2
+        if success_framework == 1:
+            print('Initiating global success progression criterion.')
+
+        elif success_framework == 2:
+            print('Initiating rolling average success progression criterion. ')
+            rolling_avg = progression_logic.rolling_avg()
+            limitTrial, success_criterion, rolling_sucess_samplesize = rolling_avg.input()
+            return limitTrial, success_criterion, rolling_sucess_samplesize, success_framework
 
 
-    def progression(self):
-        #call sql and marmio, check sucess state and make decision.
-        progress_history = []
-        limitTrial, success_criterion, rolling_sucess_samplesize = progression_logic.rolling_avg()
-        success_state = marmoIO.success_status(success_criterion, rolling_sucess_samplesize)
+    def success_state(self,limitTrial, success_criterion, rolling_sucess_samplesize):
+         success_state = progression_logic.rolling_avg.rolling_success_eval(self,limitTrial, success_criterion, rolling_sucess_samplesize)
 
-        progress_history.append(success_state)
+         return success_state
 
-        if progress_history[-1] == True:
-            #progress
-        elif:
-            #rerun task
+    def progression_decision(self, success_state,tasklist):
+        if success_state == True:
+            print('Progression criterion satisfied. Proceeding to next task. ')
+             #d
+        else:
+            print('Progression criterion not satisfied. Repeating task.')
+             #do something
+
+
 
 
 

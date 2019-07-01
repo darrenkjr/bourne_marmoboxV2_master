@@ -4,6 +4,7 @@ class progression_logic:
         print('loading class sucessful')
 
     def history_check(self):
+        print('checking history...')
         #call SQL list for experiment history - and present marmos
 
     def show_logic_types(self):
@@ -12,15 +13,16 @@ class progression_logic:
 class rolling_avg(progression_logic):
 
     def __init__(self):
+        print('Initaiting rolling average framework.')
+
+    def input(self):
         #call SQL database for current task parameter
         print('Input protocol parameters...')
-
-        # self.animalID = str(input('Enter animal ID'))
 
         #max tries to enter trial
         for i in range(5):
             try:
-                self.limitTrial = int(input('Input number of required trial per task.'))
+                self.limitTrial = int(input('Input number of required trial per session.'))
             except:
                 print('Not a number detected. Be sure to input an integer.')
                 continue
@@ -31,12 +33,12 @@ class rolling_avg(progression_logic):
         self.success_criterion = input('Input sucess criterion % Integer only. Default is 80') or 80
         self.rolling_sucess_samplesize = input('Input sample size to draw sucess rolling average. Default is 100') or 100
 
-        limitTrial, success_criterion, rolling_sucess_samplesize = self.animalID, self.success_criterion, self.rolling_sucess_samplesize
+        limitTrial, success_criterion, rolling_sucess_samplesize = self.limitTrial, self.success_criterion, self.rolling_sucess_samplesize
         return limitTrial, success_criterion, rolling_sucess_samplesize
 
-    def rolling_success_status(self, success_criterion, rolling_sucess_samplesize):
+    def rolling_success_eval(self, success_criterion, rolling_sucess_samplesize):
     #this success check uses a rolling average
-        #call sql success list
+        #call sql success lists
 
         success = 'placeholder. Call sql list and evaluate'
         if len(success) < rolling_sucess_samplesize:
@@ -55,6 +57,30 @@ class rolling_avg(progression_logic):
 
         return success_state
 
+
+
 class global_sucess(progression_logic):
 
     def __init__(self):
+        print('Input protocol paramters! ')
+        # ask for current task parameters
+        # max tries to enter trial
+        for i in range(5):
+            try:
+                self.limitTrial = int(input('Input number of required trials per session.'))
+            except:
+                print('Not a number detected. Be sure to input an integer.')
+                continue
+            break
+
+        self.success_criterion = input('Input desired success criterion % Integer only. Default is 80 ') or 80
+        self.success_samplesize = input('Input required number of sessions required to evaluate performance. Default is 3 ') or 3
+
+        limitTrial, success_criterion, success_samplesize = self.limitTrial, self.success_criterion, self.success_samplesize
+        return limitTrial, success_criterion, success_samplesize
+
+    def global_success_eval(self, limitTrial, success_criterion, success_samplesize):
+        print('Checking global success state. ')
+
+        #this succss check uses a global sucess over multiple session of x amount of trial block, ie: 3 consecutive session of over >80% success over 50 trial sessions.
+
