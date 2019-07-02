@@ -1,7 +1,9 @@
 #interface with marmobox, drawing stuff to be sent to marmobox
 import importlib
 import json
+import requests
 import datetime
+
 
 class marmoIO:
 
@@ -25,25 +27,37 @@ class marmoIO:
     def progression_eval(self):
         success_state = self.protocol.success_state()
 
-    def json_input(self,tasklist,animal_ID):
+    def json_input(self,tasklist,animal_ID, limitTrial):
         #create json file into json_file folder for export to marmobox
         timestamp = datetime.datetime.now()
         print('Creating json and instructions for action by marmobox...')
 
         #creating dictionary file
-        json_input = {'animal_ID':animal_ID, 'tasklist':tasklist
+        json_input = {'animal_ID':animal_ID, 'tasklist':tasklist, 'Trials' : limitTrial,
                       }
 
-        json_name = str(timestamp) + '_' + animal_ID
-
-        directory = 'json_files/marmobox_child_input/' + json_name
         self.json_obj = json_obj = json.dumps(json_input)
+        print(json_obj)
         return json_obj
         #write to mongodb
 
     def json_send(self, json_obj):
-        print('Sending json with instructions to marmobox. ')
+        print('Sending json with instructions to marmobox... ')
+        url = 'http://localhost:8000/'
+        #testing post request url
+        instructions = requests.post(url, data = json_obj)
+        instructions
+        print('Post Request status code: ', instructions.status_code)
+        print('Sent instructions: ', instructions.body)
+
         #send json string to minipc
+
+    def json_receive(self):
+        print('Reading in json marmobox output')
+
+        success = 'placeholder'
+        return success
+
 
 
 
