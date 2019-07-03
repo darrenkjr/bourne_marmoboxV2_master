@@ -11,7 +11,7 @@ marmoio = marmoio()
 
 #placeholder
 #start http server.
-ServerHandler.server_start(http.server)
+# ServerHandler.server_start(http.server)
 
 #control marmobox, prompts for input for task suite.
 print('test')

@@ -7,9 +7,19 @@ import cgi
 class ServerHandler(http.server.SimpleHTTPRequestHandler):
 
 
+    def server_start(self):
+        PORT = 8000
+        Handler = ServerHandler
+        httpd = socketserver.TCPServer(("", PORT), Handler)
+
+        print("serving at port", PORT)
+        httpd.serve_forever()
+
+
+
     def do_GET(self):
         logging.error(self.headers)
-        http.server.SimpleHTTPRequestHandler.do_GET(self)
+        http.server.SimpleHTTPRequestHandler.do_GET(self)`
 
     def do_POST(self):
         logging.error(self.headers)
@@ -26,11 +36,3 @@ class ServerHandler(http.server.SimpleHTTPRequestHandler):
         with open("data.txt", "w") as file:
             for key in form.keys():
                 file.write(str(form.getvalue(str(key))) + ",")
-
-    def server_start(self):
-        PORT = 8000
-        Handler = ServerHandler
-        httpd = socketserver.TCPServer(("", PORT), Handler)
-
-        print("serving at port", PORT)
-        httpd.serve_forever()
