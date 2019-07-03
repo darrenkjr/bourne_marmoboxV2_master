@@ -19,7 +19,7 @@ class ServerHandler(http.server.SimpleHTTPRequestHandler):
 
     def do_GET(self):
         logging.error(self.headers)
-        http.server.SimpleHTTPRequestHandler.do_GET(self)`
+        http.server.SimpleHTTPRequestHandler.do_GET(self)
 
     def do_POST(self):
         logging.error(self.headers)

@@ -16,7 +16,8 @@ class touchtraining:
         print('initiating touchtraining protocol classes')
 
     def tasklist_gen(self):
-        self.tasklist = ['touch-training0', 'touchtraining1', 'touchtraining2', 'touchtraining3']
+        #Tasks in order - trial by trial basis
+        self.tasklist = ['tasks.touch-training0', 'tasks.touch-training1', 'tasks.touch-training2', 'task.touch-training3']
 
         tasklist1 = self.tasklist
 

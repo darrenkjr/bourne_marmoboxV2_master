@@ -1,4 +1,5 @@
-#interface with marmobox, drawing stuff to be sent to marmobox
+#abstracts marmobox_msater away from both progression logic, and experiemtanl protocol design,
+# marmoio links the experiemntal procotol, moarobox master and handles json imports to interface with marmobox child
 import importlib
 import json
 import requests
@@ -26,8 +27,9 @@ class marmoIO:
 
     def progression_eval(self):
         success_state = self.protocol.success_state()
+        return success_state
 
-    def json_input(self,tasklist,animal_ID, limitTrial):
+    def json_create(self,tasklist,animal_ID, limitTrial):
         #create json file into json_file folder for export to marmobox
         timestamp = datetime.datetime.now()
         print('Creating json and instructions for action by marmobox...')
@@ -39,7 +41,7 @@ class marmoIO:
         self.json_obj = json_obj = json.dumps(json_input)
         print(json_obj)
         return json_obj
-        #write to mongodb
+
 
     def json_send(self, json_obj):
         print('Sending json with instructions to marmobox... ')
@@ -48,7 +50,7 @@ class marmoIO:
         instructions = requests.post(url, data = json_obj)
         instructions
         print('Post Request status code: ', instructions.status_code)
-        print('Sent instructions: ', instructions.body)
+        print('Sent instructions: ', instructions.text)
 
         #send json string to minipc
 
