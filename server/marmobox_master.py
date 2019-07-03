@@ -2,8 +2,7 @@
 
 from reports import Report
 from marmoio import marmoIO as marmoio
-from http_server import ServerHandler
-import http.server
+
 
 
 results_col = ['test','test']
@@ -11,7 +10,7 @@ marmoio = marmoio()
 
 #placeholder
 #start http server.
-ServerHandler.server_start(http.server)
+# ServerHandler.server_start(http.server)
 
 #control marmobox, prompts for input for task suite.
 print('test')
@@ -26,10 +25,10 @@ if preset == 'y' or 'Y':
 
     print('Running following protocol' + ' : ' + str(experimental_protocol) + ' on ' + animal_ID + ' ')
 
-    # try:
-    tasklist = marmoio.tasklist(full_protocol,experimental_protocol)
-    # except:
-    #     print('protocol not found.')
+    try:
+        tasklist = marmoio.tasklist(full_protocol,experimental_protocol)
+    except:
+         print('protocol not found. ')
 
 else:
     task_len = 1
@@ -41,16 +40,42 @@ else:
         tasklist.append(task)
 
 
-
 #defining sucess criterion and amount of trials - via marmoio
-limitTrial, success_criterion, rolling_sucess_samplesize, success_framework = marmoio.success_logic()
+session = 1
 
-#run protocol - send http request via marmoio.
-json_obj = marmoio.json_input(tasklist,animal_ID,limitTrial)
-marmoio.json_send(json_obj)
+for i in range(len(tasklist)):
+    taskname = tasklist[i]
+    #define amount of trials for this specific task.
+    limitTrial, success_criterion, rolling_sucess_samplesize, success_framework = marmoio.success_logic()
 
-#check success_state, read in json
-success_state = marmoio.json_receive()
+    #start trial and session counter
+    trial = 0
+
+
+    #run protocol - send http request via marmoio.
+    json_obj = marmoio.json_create(taskname,animal_ID,limitTrial)
+    marmoio.json_send(json_obj)
+
+    while trial <= limitTrial:
+        #listen to json response from minipc and send to mongo db.
+
+        #placeholder
+
+        #check success_state, read in mongodb status
+        success_state = marmoio.progression_eval()
+
+        trial +=1
+
+
+    if success_state == False:
+        #repeat the task
+        i = i - 1
+        session += 1
+    else:
+        #progress to next task (linear), and set session for this new task = 0
+        session = 1
+        continue
+
 
 
 
