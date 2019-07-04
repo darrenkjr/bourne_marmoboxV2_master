@@ -4,13 +4,10 @@ from reports import Report
 from marmoio import marmoIO as marmoio
 
 
-
 results_col = ['test','test']
+#initiating marmoio instance
 marmoio = marmoio()
 
-#placeholder
-#start http server.
-# ServerHandler.server_start(http.server)
 
 #control marmobox, prompts for input for task suite.
 print('test')
@@ -53,12 +50,12 @@ for i in range(len(tasklist)):
 
 
     #run protocol - send http request via marmoio.
-    json_obj = marmoio.json_create(taskname,animal_ID,limitTrial)
-    marmoio.json_send(json_obj)
+    json_obj = marmoio.json_create(taskname,animal_ID)
+
 
     while trial <= limitTrial:
         #listen to json response from minipc and send to mongo db.
-
+        marmoio.json_send(json_obj)
         #placeholder
 
         #check success_state, read in mongodb status

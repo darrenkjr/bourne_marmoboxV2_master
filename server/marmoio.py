@@ -28,13 +28,13 @@ class marmoIO:
         success_state = self.protocol.success_state()
         return success_state
 
-    def json_create(self,tasklist,animal_ID, limitTrial):
+    def json_create(self,tasklist,animal_ID):
         #create json file into json_file folder for export to marmobox
         timestamp = datetime.datetime.now()
         print('Creating json and instructions for action by marmobox...')
 
         #creating dictionary file
-        json_input = {'animal_ID':animal_ID, 'tasklist':tasklist, 'Trials' : limitTrial,
+        json_input = {'animal_ID':animal_ID, 'tasklist':tasklist,
                       }
 
         self.json_obj = json_obj = json.dumps(json_input)
