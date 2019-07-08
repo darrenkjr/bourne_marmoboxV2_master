@@ -1,10 +1,10 @@
-#abstracts marmobox_msater away from both progression logic, and experiemtanl protocol design,
-# marmoio links the experiemntal procotol, moarobox master and handles json imports to interface with marmobox child
+
 import importlib
 import json
 import requests
 import datetime
 
+'''abstracts marmobox_msater away from both progression logic, and experiemtanl protocol design and links the experimental protocol, marmobox master and handles json imports to interface with the marmobox child pc.'''
 
 class marmoIO:
     # Configuration Constants:
@@ -13,12 +13,18 @@ class marmoIO:
     def __init__(self):
         print('marmoio intitiated. ')
 
-    def tasklist(self,protocol, exp_protocol):
+    def protocol_param(self,protocol, exp_protocol):
         self.protocol = importlib.import_module(protocol)
         print(self.protocol)
-        self.protocol_class = (getattr(self.protocol,exp_protocol))()
-        tasklist = self.protocol_class.tasklist_gen()
-        return tasklist
+
+        #access pre-defined protocol attributes
+
+        self.protocol_class = (getattr(self.protocol, exp_protocol))()
+
+        taskname = self.protocol_class.taskname
+        levels = self.protocol_class.show_levels()
+
+        return taskname, levels
 
     def success_logic(self):
         limitTrial, success_criterion, rolling_sucess_samplesize, success_framework = self.protocol_class.success_logic()
@@ -28,7 +34,7 @@ class marmoIO:
         success_state = self.protocol.success_state()
         return success_state
 
-    def json_create(self,taskname,animal_ID):
+    def json_create(self,taskname,animal_ID,instructions):
         #create json file into json_file folder for export to marmobox
         timestamp = datetime.datetime.now()
         print('Creating json and instructions for action by marmobox...')
