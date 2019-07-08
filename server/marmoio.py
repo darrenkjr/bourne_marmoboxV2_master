@@ -3,6 +3,9 @@ import importlib
 import json
 import requests
 import datetime
+import sys
+import inspect
+
 
 '''abstracts marmobox_msater away from both progression logic, and experiemtanl protocol design and links the experimental protocol, marmobox master and handles json imports to interface with the marmobox child pc.'''
 
@@ -15,16 +18,20 @@ class marmoIO:
 
     def protocol_param(self,protocol, exp_protocol):
         self.protocol = importlib.import_module(protocol)
-        print(self.protocol)
+        print(type(self.protocol))
 
         #access pre-defined protocol attributes
-
-        self.protocol_class = (getattr(self.protocol, exp_protocol))()
-
+        self.protocol_class = (getattr(self.protocol,exp_protocol+'_cls'))()
         taskname = self.protocol_class.taskname
-        levels = self.protocol_class.show_levels()
+        levels = self.protocol_class.levels
 
-        return taskname, levels
+        print('showing available levels / progressions :', levels)
+        #
+        return taskname, len(levels)
+
+    def protocol_instructions(self):
+        progress_instructions = self.protocol_class.instructions()
+        return progress_instructions
 
     def success_logic(self):
         limitTrial, success_criterion, rolling_sucess_samplesize, success_framework = self.protocol_class.success_logic()
@@ -34,15 +41,16 @@ class marmoIO:
         success_state = self.protocol.success_state()
         return success_state
 
-    def json_create(self,taskname,animal_ID,instructions):
+    def json_create(self,taskname,animal_ID,level, instructions):
         #create json file into json_file folder for export to marmobox
         timestamp = datetime.datetime.now()
         print('Creating json and instructions for action by marmobox...')
 
         #creating dictionary file
-        json_input = {"animal_ID":animal_ID, "taskname":taskname,
+        json_input = {"animal_ID":animal_ID, "taskname":taskname, "level": level, "instructions": instructions
                       }
         json_obj = json.dumps(json_input)
+        print(json_input)
         return json_obj
 
 
@@ -64,11 +72,11 @@ class marmoIO:
         '''
         # @DKRAJIT NEEDs TO IMPLEMENT DATABASE STOREAGE
         # @KIERENPINTO proposes:
-        # self.protocol.write_event(response)
-        print('Reading in json marmobox output')
 
-        success = 'placeholder'
-        return success
+        print('Reading in json marmobox output')
+        marmobox_result = self.protocol.write_event(response)
+
+        return marmobox_result
 
 
 

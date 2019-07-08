@@ -24,37 +24,46 @@ if preset == 'y' or 'Y':
 
     print('Running following protocol' + ' : ' + str(experimental_protocol) + ' on ' + animal_ID + ' ')
 
+
     try:
         taskname, protocol_levels = marmoio.protocol_param(full_protocol,experimental_protocol)
-        print(taskname + ' found. Total levels / progression detected: ', len(protocol_levels))
+        print(taskname + ' found. Total levels / progressions detected: ', protocol_levels)
+
     except:
-         print('protocol not found. ')
+        print('protocol not found. ')
 
 
 #defining sucess criterion and amount of trials - via marmoio
 session = 1
 
-for i in range(len(protocol_levels)):
+for i in range(protocol_levels):
     #define amount of trials for this specific level.
     limitTrial, success_criterion, rolling_sucess_samplesize, success_framework = marmoio.success_logic()
+
+    #defining param for each progression
+    protocol_instructions = marmoio.protocol_instructions()
 
     #start trial and session counter
     trial = 0
 
     #run protocol - send http request via marmoio.
-    json_obj = marmoio.json_create(taskname,animal_ID)
+    #read in task specific paramters, (stim size, color etc.)
+    level = i
+    instructions = protocol_instructions[i]
+    json_obj = marmoio.json_create(taskname,animal_ID,level,instructions)
 
 
     while trial <= limitTrial:
-        #listen to json response from minipc and send to mongo db.
-        marmoio.json_send(json_obj)
+        #sends post request to marmobox pc, and retrieve response as result from initating task
+        response = marmoio.json_send(json_obj)
+        #writing to mongodb
 
-        #check success_state, read in mongodb status
+        #query mongodb and determine success_state
         success_state = marmoio.progression_eval()
 
         trial +=1
 
-
+    #determinging success_state, if suces_state == True, move to next level, (next class)
     if success_state == False:
         #repeat the task
         i = i - 1
