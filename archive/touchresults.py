@@ -1,5 +1,5 @@
-from psychopy import visual, core, logging, event
-import marmocontrol as control
+from psychopy import core
+from archive import marmocontrol as control
 import time
 
 class touch_results:

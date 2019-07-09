@@ -15,7 +15,11 @@ class touchtraining_cls(object):
         # defining protocol levels, task name on marmobox child, trial amount and initiating progression instance from progression logic module.
 
         self.levels = ([cls.__name__ for cls in touchtraining_cls.__subclasses__()]) #checks amount of subclasses (corresponding to available levels in protocol)
-        self.taskname = 'tasks.touchtraining'
+        self.taskname = 'tasks.touch-training'
+        self.results_col = ['Trial Start', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)',
+                                          'Stimulus type','Stimulus Position (Center)',
+                                          'Reaction Latency', 'Time held on screen', 'Success (Y/N)', 'Hit', 'Miss', 'Null', 'Time End'
+                                          ]
 
         progression_obj = logic()
         progression_obj.show_logic_types() #checking progression sub classes for available success frameworks
@@ -98,13 +102,15 @@ class level_1(touchtraining_cls):
         stim_size = (1280, 720) #entire screen
         color = [-1, -1, 1] #blue
         stim_coord = [0,0] #center
+        time_penalty = 0.5  #0.5 for level 1
 
         #create dictionary to be packaged into json
 
         instructions = {
             'Stimulus size': stim_size,
             'Stimulus color': color,
-            'Stimulus coordinates': stim_coord
+            'Stimulus coordinates': stim_coord,
+            'ITI for Wrong Response': time_penalty
         }
 
         return instructions
@@ -121,12 +127,14 @@ class level_2(touchtraining_cls):
         stim_size = 700  # stim size for 700 pixel square.
         color = [-1, -1, 1]  # blue
         stim_coord = [0, 0]  # center
+        time_penalty = 2
 
         # create dictionary to be packaged into json
         instructions = {
             'Stimulus size': stim_size,
             'Stimulus color': color,
-            'Stimulus coordinates': stim_coord
+            'Stimulus coordinates': stim_coord,
+            'ITI for Wrong Response': time_penalty
         }
 
         return instructions
@@ -141,6 +149,7 @@ class level_3(touchtraining_cls):
         # level 3, stimuli further decreases to 550 pixels in size, with pseudo random color choices between red yellow and blue
         stim_size = 550  # entire screen
         stim_coord = [0, 0]  # center
+        time_penalty = 2
 
         color_choices = [[-1, -1, 1], [1, -1, -1], [1, 1, -1]]
         # calling helper pseudo rng function
@@ -158,8 +167,9 @@ class level_3(touchtraining_cls):
         # create dictionary to be packaged into json
         instructions = {
             'Stimulus size': stim_size,
-            'Stimulus color': color,
-            'Stimulus coordinates': stim_coord
+            'Stimulus color': color, #is a list of RGB codes for x amount of trials
+            'Stimulus coordinates': stim_coord,
+            'ITI for Wrong Response': time_penalty
         }
 
         return instructions
@@ -174,6 +184,7 @@ class level_4(touchtraining_cls):
 
     def instructions(self):
         stim_size = 250 #entire screen
+        time_penalty = 2
 
         #pseudo random sampling, given amount of trials required.
         color_choices = [[-1, -1, 1], [1, -1, -1], [1, 1, -1]]
@@ -200,7 +211,8 @@ class level_4(touchtraining_cls):
         instructions = {
             'Stimulus size': stim_size,
             'Stimulus color': color,
-            'Stimulus coordinates': stim_coord
+            'Stimulus coordinates': stim_coord,
+            'ITI for Wrong Response': time_penalty
         }
 
         return instructions

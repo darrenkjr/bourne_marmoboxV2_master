@@ -1,6 +1,7 @@
-from psychopy import visual, core, logging, event  # import some libraries from PsychoPy
+from psychopy import visual, event  # import some libraries from PsychoPy
 import time, random
-import marmocontrol as control
+from archive import marmocontrol as control
+
 # predefined stuff
 boxSize = 5
 pause = control.getParamTrialDelay()

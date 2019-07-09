@@ -1,7 +1,6 @@
 from psychopy import visual
-import marmobox
-import marmocontrol
-from watcher import mor_drakka
+from archive import marmobox
+from archive.watcher import mor_drakka
 
 
 def slave(entry,taskname,session,animal_ID,limitTrial):
@@ -18,7 +17,7 @@ def slave(entry,taskname,session,animal_ID,limitTrial):
         #delay = raw_input('Set Delay: ')
 
         print('Starting session' + str(session) + ' ...')
-        sucess,sucesscounter = marmobox.run(taskname,mywin,limitTrial,animal_ID,session) #removed delay param
+        sucess,sucesscounter = marmobox.run(taskname, mywin, limitTrial, animal_ID, session) #removed delay param
         mywin.close()
 
         return sucess, session,sucesscounter

@@ -1,8 +1,8 @@
-from psychopy import visual, core, logging, event
+from psychopy import visual, core, event
 import time, datetime
-import marmocontrol as control
-from reports import Report
-from heatmap import scatterplot
+from archive import marmocontrol as control
+from archive.reports import Report
+from archive.heatmap import scatterplot
 import pandas as pd
 
 

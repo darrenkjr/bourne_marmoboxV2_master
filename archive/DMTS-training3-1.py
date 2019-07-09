@@ -1,7 +1,8 @@
-from psychopy import visual, core, logging, event
+from psychopy import visual, event
 import time
 import random
-import marmocontrol as control
+from archive import marmocontrol as control
+
 
 def execTask(mywin):
 	

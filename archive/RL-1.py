@@ -1,9 +1,9 @@
-from psychopy import visual, core, logging, event
-import time, random, datetime
-import marmocontrol as control
+from psychopy import visual, core, event
+import time, datetime
+from archive import marmocontrol as control
 import pandas as pd
-from reports import Report
-from heatmap import scatterplot
+from archive.reports import Report
+from archive.heatmap import scatterplot
 import numpy as np
 
 #reward color = yellow

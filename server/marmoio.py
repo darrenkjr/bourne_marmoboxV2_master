@@ -24,33 +24,36 @@ class marmoIO:
         self.protocol_class = (getattr(self.protocol,exp_protocol+'_cls'))()
         taskname = self.protocol_class.taskname
         levels = self.protocol_class.levels
+        #for database purposes
+        results_col = self.protocol_class.results_col
 
         print('showing available levels / progressions :', levels)
         #
-        return taskname, len(levels)
-
-    def protocol_instructions(self):
-        progress_instructions = self.protocol_class.instructions()
-        return progress_instructions
+        return taskname, len(levels), results_col
 
     def success_logic(self):
         limitTrial, success_criterion, rolling_sucess_samplesize, success_framework = self.protocol_class.success_logic()
         return limitTrial, success_criterion, rolling_sucess_samplesize, success_framework
 
+    def protocol_instructions(self):
+        progress_instructions = self.protocol_class.instructions()
+        return progress_instructions
+
     def progression_eval(self):
         success_state = self.protocol.success_state()
         return success_state
 
-    def json_create(self,taskname,animal_ID,level, instructions):
+    def json_create(self,taskname,animal_ID,level, protocol_instructions):
         #create json file into json_file folder for export to marmobox
         timestamp = datetime.datetime.now()
         print('Creating json and instructions for action by marmobox...')
 
         #creating dictionary file
-        json_input = {"animal_ID":animal_ID, "taskname":taskname, "level": level, "instructions": instructions
+        json_input = {'animal_ID':animal_ID, 'taskname':taskname, 'level': level, 'instructions': protocol_instructions
                       }
         json_obj = json.dumps(json_input)
         print(json_input)
+        print(type(json_input))
         return json_obj
 
 

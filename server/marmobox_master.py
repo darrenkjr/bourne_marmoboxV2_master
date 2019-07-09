@@ -1,12 +1,12 @@
 '''controls marmobox and subsequent reward modules'''
 
-
-from marmoio import marmoIO as marmoio
-
+from marmoio import marmoIO
+import pymongo
+import database
 
 results_col = ['test','test']
 #initiating marmoio instance
-marmoio = marmoio()
+marmoio = marmoIO()
 
 
 #control marmobox, prompts for input for task suite.
@@ -26,8 +26,9 @@ if preset == 'y' or 'Y':
 
 
     try:
-        taskname, protocol_levels = marmoio.protocol_param(full_protocol,experimental_protocol)
+        taskname, protocol_levels, results_col = marmoio.protocol_param(full_protocol,experimental_protocol)
         print(taskname + ' found. Total levels / progressions detected: ', protocol_levels)
+        print('Collecting following raw parameters: ', results_col)
 
     except:
         print('protocol not found. ')
@@ -49,14 +50,13 @@ for i in range(protocol_levels):
     #run protocol - send http request via marmoio.
     #read in task specific paramters, (stim size, color etc.)
     level = i
-    instructions = protocol_instructions[i]
-    json_obj = marmoio.json_create(taskname,animal_ID,level,instructions)
-
+    sent_instructions = protocol_instructions[i]
+    json_obj = marmoio.json_create(taskname,animal_ID,level,sent_instructions)
 
     while trial <= limitTrial:
         #sends post request to marmobox pc, and retrieve response as result from initating task
         response = marmoio.json_send(json_obj)
-        #writing to mongodb
+        #writing results, taskname, level and animal_ID to mongodb
 
         #query mongodb and determine success_state
         success_state = marmoio.progression_eval()

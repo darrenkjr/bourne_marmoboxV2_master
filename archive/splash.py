@@ -1,7 +1,6 @@
 from psychopy import visual
-import marmobox
-import marmocontrol
-from watcher import mor_drakka
+from archive import marmobox
+from archive.watcher import mor_drakka
 
 entry = 1
 taskname = 'dummy'
@@ -29,7 +28,7 @@ while entry == 1:
 
     try:
         print('Starting session' + str(session) + ' ...')
-        marmobox.run(taskname,mywin,limitTrial,animal_ID,session) #removed delay param
+        marmobox.run(taskname, mywin, limitTrial, animal_ID, session) #removed delay param
         new = raw_input('Start new session? (y/n): ')
 
         if new == 'n':

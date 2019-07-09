@@ -1,9 +1,7 @@
-from psychopy import visual, core, logging, event
-import time, datetime, random
-import marmocontrol as control
-from reports import Report
-from heatmap import scatterplot
-import pandas as pd
+from psychopy import visual, core, event
+import time, random
+from archive import marmocontrol as control
+from archive.reports import Report
 
 
 def execTask(taskname,limitTrial,mywin,animal_ID):

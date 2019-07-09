@@ -1,4 +1,4 @@
-from reports import Report
+from archive.reports import Report
 
 x = Report('testtask')
 x.addEvent('Touch')

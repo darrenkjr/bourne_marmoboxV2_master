@@ -4,9 +4,9 @@
 #this will replace splash.py
 
 
-from watcher import mor_drakka
-from splash_slave import slave
-from savestate import state
+from archive.watcher import mor_drakka
+from archive.splash_slave import slave
+from archive.savestate import state
 import pandas as pd
 import numpy as np
 import os

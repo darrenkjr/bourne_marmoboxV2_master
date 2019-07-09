@@ -1,6 +1,7 @@
-from psychopy import visual, core, logging, event
-import time, random
-import marmocontrol as control
+from psychopy import visual, event
+import time
+from archive import marmocontrol as control
+
 
 def showimage(im1,mywin):
         im1.draw()

@@ -1,7 +1,8 @@
-from psychopy import visual, core, logging, event  # import some libraries from PsychoPy
+from psychopy import visual, event  # import some libraries from PsychoPy
 import time, random
 import numpy as np
-import marmocontrol as control
+from archive import marmocontrol as control
+
 # using predefined stuff
 
 pause = control.getParamTrialDelay()

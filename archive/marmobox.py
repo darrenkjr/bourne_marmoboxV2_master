@@ -1,8 +1,8 @@
-import marmocontrol as control
 import argparse
 import importlib
-import time, datetime
-from psychopy import visual, core, logging, event
+import datetime
+from psychopy import visual
+
 
 #alternatively in terminal: python splash.py
 

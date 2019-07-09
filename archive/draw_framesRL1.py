@@ -1,8 +1,7 @@
-from psychopy import visual, core, logging, event
-import time, random, datetime
-import marmocontrol as control
-from initialisation import initial_param, rng_choice
-from fixation import fixation
+from psychopy import visual, event
+import datetime
+from initialisation import initial_param
+from archive.fixation import fixation
 
 #setting initial parameters
 limitTrial = 10

@@ -1,10 +1,10 @@
-from psychopy import visual, core, logging, event
+from psychopy import visual, core
 import time, datetime
-import marmocontrol as control
+from archive import marmocontrol as control
 import pandas as pd
-from reports import Report
-from heatmap import scatterplot
-from initialisation import fixation, initial_param, rng_choice
+from archive.reports import Report
+from archive.heatmap import scatterplot
+from initialisation import initial_param, rng_choice
 
 
 def execTask(taskname,limitTrial,mywin, animal_ID,session):
