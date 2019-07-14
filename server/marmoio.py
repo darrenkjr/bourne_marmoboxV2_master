@@ -65,8 +65,8 @@ class marmoIO:
         print(json_obj)
         instructions = requests.post(self.marmobox_child_url, json=json_obj)#send json string to minipc and wait for response
         print('Post Request status code: ', instructions.status_code)
-        print('Sent instructions: ', instructions.text)
-        self.__json_on_response(instructions.json()) # Converts response to JSON and calls receive callback
+        print('Received output: ', instructions.text)
+        return self.__json_on_response(instructions.json()) # Converts response to dict and calls receive callback
         #
 
     def __json_on_response(self,response):
@@ -77,9 +77,12 @@ class marmoIO:
         # @KIERENPINTO proposes:
 
         print('Reading in json marmobox output')
-        marmobox_result = self.protocol.write_event(response)
+        json_result = response
+        print(json_result)
+        #write to mongodb
+        # marmobox_result = self.protocol.write_event(response)
 
-        return marmobox_result
+        return json_result
 
 
 

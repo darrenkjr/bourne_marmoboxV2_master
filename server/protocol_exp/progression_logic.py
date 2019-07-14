@@ -1,3 +1,4 @@
+from database import database_cls as database
 class logic:
 
     def __init__(self):
@@ -40,6 +41,7 @@ class rolling_avg(logic):
 
         print('Evaluating success state for rolling averages success frameworks! ')
         #this success check uses a rolling average by calling mongodb success column, assuming that success is binary
+        database.evaluate()
 
         success = 'call mongo db, read json, placeholder'
 

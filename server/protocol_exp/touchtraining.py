@@ -16,9 +16,9 @@ class touchtraining_cls(object):
 
         self.levels = ([cls.__name__ for cls in touchtraining_cls.__subclasses__()]) #checks amount of subclasses (corresponding to available levels in protocol)
         self.taskname = 'tasks.touch-training'
-        self.results_col = ['Trial Start', 'X-Position (Pressed)', 'Y-Position (Pressed)', 'Time (s)',
+        self.results_col = ['Trial Start', 'X-Position (Pressed)', 'Y-Position (Pressed)',
                                           'Stimulus type','Stimulus Position (Center)',
-                                          'Reaction Latency', 'Time held on screen', 'Success (Y/N)', 'Hit', 'Miss', 'Null', 'Time End'
+                                          'Reaction Latency', 'Time held on screen', 'Success (Y/N)', 'Hit', 'Miss', 'Null', 'Trial End'
                                           ]
 
         progression_obj = logic()

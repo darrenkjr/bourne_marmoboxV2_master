@@ -1,18 +1,21 @@
 '''controls marmobox and subsequent reward modules'''
 
 from marmoio import marmoIO
-import pymongo
-import database
+from database import database_cls as database
 
 results_col = ['test','test']
 #initiating marmoio instance
 marmoio = marmoIO()
+database = database()
 
 
 #control marmobox, prompts for input for task suite.
 print('test')
 animal_ID = input("Enter animal I.D, press enter/return for 'test' : ") or 'test'
 preset = input('Run a preset experimental protocol or custom suite of tasks? y/n ') or 'y'
+
+#check for previous collection based on animal_ID, if doesnt exist, create new collection
+database.check_collection(animal_ID)
 
 #using preset input, determine whether to import custom tasklist or create own protocol
 if preset == 'y' or 'Y':
@@ -24,14 +27,14 @@ if preset == 'y' or 'Y':
 
     print('Running following protocol' + ' : ' + str(experimental_protocol) + ' on ' + animal_ID + ' ')
 
+    #
+    # try:
+    taskname, protocol_levels, results_col = marmoio.protocol_param(full_protocol,experimental_protocol)
+    print(taskname + ' found. Total levels / progressions detected: ', protocol_levels)
+    print('Collecting following raw parameters: ', results_col)
 
-    try:
-        taskname, protocol_levels, results_col = marmoio.protocol_param(full_protocol,experimental_protocol)
-        print(taskname + ' found. Total levels / progressions detected: ', protocol_levels)
-        print('Collecting following raw parameters: ', results_col)
-
-    except:
-        print('protocol not found. ')
+    # except:
+    #     print('protocol not found. ')
 
 
 #defining sucess criterion and amount of trials - via marmoio
@@ -43,6 +46,8 @@ for i in range(protocol_levels):
 
     #defining param for each progression
     protocol_instructions = marmoio.protocol_instructions()
+    #save to database
+    database.store_in_database(animal_ID+'_instructions')
 
     #start trial and session counter
     trial = 0
@@ -57,7 +62,8 @@ for i in range(protocol_levels):
         #sends post request to marmobox pc, and retrieve response as result from initating task
         response = marmoio.json_send(json_obj)
         #writing results, taskname, level and animal_ID to mongodb
-
+        print(response)
+        database.store_in_database(results_col, response, trial, session, taskname+(str(level)))
         #query mongodb and determine success_state
         success_state = marmoio.progression_eval()
 
