@@ -6,7 +6,7 @@ class database_cls:
         print('Database class initiated')
         self.client = MongoClient()
 
-        self.db_animals = self.client['marmobox','marmosets']
+        self.db_animals = self.client['marmobox']
         print(self.db_animals)
 
 
@@ -28,7 +28,7 @@ class database_cls:
         }
         print(results)
         print('Inserting into mongodb collection: ',self.animal_collection)
-        self.animal_collection.insert(results)
+        self.animal_collection.insert({'session': session, 'trial': trial, 'task type': tasktype, 'results': results})
 
     def store_instructions(self, instructions):
         self.instruction_collection = self.db_animals['instructions']

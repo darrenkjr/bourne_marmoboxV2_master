@@ -46,8 +46,11 @@ for i in range(protocol_levels):
 
     #defining param for each progression
     protocol_instructions = marmoio.protocol_instructions()
+    store_instructions = {'instructions':protocol_instructions}
+    # print('1:', protocol_instructions)
     #save to database
-    database.store_in_database(animal_ID+'_instructions')
+    #defining collection name
+    database.store_instructions(store_instructions)
 
     #start trial and session counter
     trial = 0
@@ -55,7 +58,9 @@ for i in range(protocol_levels):
     #run protocol - send http request via marmoio.
     #read in task specific paramters, (stim size, color etc.)
     level = i
+    print(protocol_instructions)
     sent_instructions = protocol_instructions[i]
+    print(sent_instructions)
     json_obj = marmoio.json_create(taskname,animal_ID,level,sent_instructions)
 
     while trial <= limitTrial:

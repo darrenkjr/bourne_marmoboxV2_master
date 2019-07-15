@@ -99,7 +99,7 @@ class level_1(touchtraining_cls):
     def instructions(self):
 
         #level 1, stimuli takes up entire screen, blue stimuli, with stimuli drawn from center
-        stim_size = (1280, 720) #entire screen
+        stim_size = [1280, 720] #entire screen
         color = [-1, -1, 1] #blue
         stim_coord = [0,0] #center
         time_penalty = 0.5  #0.5 for level 1

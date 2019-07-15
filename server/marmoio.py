@@ -51,7 +51,8 @@ class marmoIO:
         #creating dictionary file
         json_input = {'animal_ID':animal_ID, 'taskname':taskname, 'level': level, 'instructions': protocol_instructions
                       }
-        json_obj = json.dumps(json_input)
+        print(json_input)
+        json_obj = json.dumps(dict(json_input))
         print(json_input)
         print(type(json_input))
         return json_obj
