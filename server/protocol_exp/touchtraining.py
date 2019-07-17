@@ -38,8 +38,8 @@ class touchtraining_cls(object):
             global_success()
 
             #input initial paramters
-            limitTrial, success_criterion, success_samplesize = global_success.input(self)
-            return limitTrial, success_criterion, success_samplesize
+            limitTrial = global_success.input(self)
+            return limitTrial
 
 
         elif success_framework == 2:
@@ -51,21 +51,21 @@ class touchtraining_cls(object):
             logic()
             rolling_avg()
 
-            limitTrial, success_criterion, rolling_sucess_samplesize = rolling_avg.input(self)
-            return limitTrial, success_criterion, rolling_sucess_samplesize, success_framework
+            limitTrial = rolling_avg.input(self)
+            return limitTrial
 
 
-    def success_state(self,limitTrial, success_criterion, success_samplesize):
+    def success_state(self, success_criterion, success_samplesize, success_col):
         #evaluating whether to progress or not and returns pass or fail.
 
         if self.success_frame == 1:
             #global success criteria - make decision here
-            success_state = self.global_success.global_success_eval(self,limitTrial, success_criterion, success_samplesize)
+            success_state = self.global_success.global_success_eval(self, success_criterion, success_samplesize, success_col)
             return success_state
 
         elif self.success_frame == 2:
             #rolling average success criteria
-            success_state = self.rolling_avg.rolling_success_eval(self,limitTrial, success_criterion, success_samplesize)
+            success_state = self.rolling_avg.rolling_success_eval(self,success_criterion, success_samplesize, success_col)
             return success_state
 
     def progression_decision(self, success_state,tasklist):
@@ -153,7 +153,7 @@ class level_3(touchtraining_cls):
 
         color_choices = [[-1, -1, 1], [1, -1, -1], [1, 1, -1]]
         # calling helper pseudo rng function
-        choice = rng_choice(3, self.limitTrial)
+        choice = rng_choice(len(color_choices), self.limitTrial)
         color = []
 
         for i in range(len(choice)):

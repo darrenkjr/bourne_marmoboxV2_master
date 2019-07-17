@@ -1,21 +1,24 @@
 '''controls marmobox and subsequent reward modules'''
 
 from marmoio import marmoIO
-from database import database_cls as database
+from data.database_sql import database_cls as database
+import datetime
 
 results_col = ['test','test']
 #initiating marmoio instance
 marmoio = marmoIO()
 database = database()
 
+#create postgreSQL tables if does not exist, else move on
+database.create_tables()
 
 #control marmobox, prompts for input for task suite.
 print('test')
 animal_ID = input("Enter animal I.D, press enter/return for 'test' : ") or 'test'
 preset = input('Run a preset experimental protocol or custom suite of tasks? y/n ') or 'y'
 
-#check for previous collection based on animal_ID, if doesnt exist, create new collection
-database.check_collection(animal_ID)
+#check for previous collection based on animal_ID, if doesnt exist, insert new row
+database.check_animal(animal_ID)
 
 #using preset input, determine whether to import custom tasklist or create own protocol
 if preset == 'y' or 'Y':
@@ -37,19 +40,24 @@ if preset == 'y' or 'Y':
     #     print('protocol not found. ')
 
 
-#defining sucess criterion and amount of trials - via marmoio
-session = 1
+#defining sucess criterion and amount of trials - via marmoio. Start new experiment
+experiment_start = datetime.datetime.now()
 
+
+session = 1
 for i in range(protocol_levels):
     #define amount of trials for this specific level.
-    limitTrial, success_criterion, rolling_sucess_samplesize, success_framework = marmoio.success_logic()
+
+    limitTrial = marmoio.success_logic()
 
     #defining param for each progression
     protocol_instructions = marmoio.protocol_instructions()
+
+    #start store new experiment in database.
+
     store_instructions = {'instructions':protocol_instructions}
-    # print('1:', protocol_instructions)
-    #save to database
-    #defining collection name
+    experimental_info = [experiment_start, protocol_instructions]
+
     database.store_instructions(store_instructions)
 
     #start trial and session counter
@@ -63,6 +71,8 @@ for i in range(protocol_levels):
     print(sent_instructions)
     json_obj = marmoio.json_create(taskname,animal_ID,level,sent_instructions)
 
+    #marking start of session, where session refers to X number of trial block for a given progression in a protocol.
+    session_start = datetime.datetime.now()
     while trial <= limitTrial:
         #sends post request to marmobox pc, and retrieve response as result from initating task
         response = marmoio.json_send(json_obj)
@@ -79,12 +89,14 @@ for i in range(protocol_levels):
         #repeat the task
         i = i - 1
         session += 1
-    else:
+        session_end = datetime.datetime.now()
+    elif success_state == True:
         #progress to next task (linear), and set session for this new task = 0
         session = 1
+        session_end = datetime.datetime.now()
         continue
 
-
+experiment_end = datetime.datetime.now()
 
 
 # success_state = marmoIO.

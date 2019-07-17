@@ -32,15 +32,15 @@ class marmoIO:
         return taskname, len(levels), results_col
 
     def success_logic(self):
-        limitTrial, success_criterion, rolling_sucess_samplesize, success_framework = self.protocol_class.success_logic()
-        return limitTrial, success_criterion, rolling_sucess_samplesize, success_framework
+        limitTrial = self.protocol_class.success_logic()
+        return limitTrial
 
     def protocol_instructions(self):
         progress_instructions = self.protocol_class.instructions()
         return progress_instructions
 
-    def progression_eval(self):
-        success_state = self.protocol.success_state()
+    def progression_eval(self,success_criterion,success_samplesize, success_col):
+        success_state = self.protocol.success_state(success_criterion,success_samplesize, success_col)
         return success_state
 
     def json_create(self,taskname,animal_ID,level, protocol_instructions):

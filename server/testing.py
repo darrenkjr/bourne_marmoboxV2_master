@@ -1,19 +1,7 @@
-import protocol_exp.touchtraining as touchtraining
+from data.database_sql import database_cls as database
 
+db = database()
 
-def find_subclassess(module,clazz):
-    print('TESTING', clazz)
-    print('type: ',module)
-    for name in dir(module):
-        o = getattr(module,name)
-        # print(o)
-        print(name)
+db.create_tables()
 
-        try:
-            if (o != clazz) and issubclass(o,clazz):
-                yield name, o
-        except TypeError: pass
-
-
-
-print(list(find_subclassess(touchtraining,touchtraining.touchtraining_cls)))
+db.exit()

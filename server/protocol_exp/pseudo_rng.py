@@ -14,7 +14,7 @@ def rng_choice(possible_selection,limitTrial):
     #if not divisible, take remainder or modulo and randomly sample from list of possible selections with reference to remainder.
     remainder = math.floor(limitTrial % possible_selection)
 
-    if math.floor(limitTrial % possible_selection) > 0:
+    if remainder > 0:
         for x in range(remainder):
             choice = np.append(choice, random.randint(0, possible_selection-1))
 
