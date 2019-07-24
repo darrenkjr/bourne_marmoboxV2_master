@@ -39,8 +39,8 @@ class marmoIO:
         progress_instructions = self.protocol_class.instructions()
         return progress_instructions
 
-    def progression_eval(self,success_criterion,success_samplesize, success_col):
-        success_state = self.protocol.success_state(success_criterion,success_samplesize, success_col)
+    def progression_eval(self,success_col):
+        success_state = self.protocol_class.success_state(success_col)
         return success_state
 
     def json_create(self,taskname,animal_ID,level, protocol_instructions):

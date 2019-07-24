@@ -1,26 +1,13 @@
 from data.database_sql import database_cls as database
-class logic:
+
+class rolling_avg:
 
     def __init__(self):
+
         print('loading class sucessful')
 
-    def history_check(self):
-        print('checking history...')
-        #call SQL list for experiment history - and present marmos
-
-    def show_logic_types(self):
-        print('showing available success frameworks:', [cls.__name__ for cls in logic.__subclasses__()])
-
-class rolling_avg(logic):
-
-    def __init__(self):
-        print('Initaiting rolling average framework.')
-
     def input(self):
-        #call SQL database for current task parameter
-        print('Input protocol parameters...')
-
-        #max tries to enter trial
+        # max tries to enter trial
         for i in range(5):
             try:
                 self.limitTrial = int(input('Input number of required trial per session.'))
@@ -29,10 +16,13 @@ class rolling_avg(logic):
                 continue
             break
 
-        #this assumes using rolling average success criterion
+        # this assumes using rolling average success criterion
 
         self.success_criterion = input('Input sucess criterion % Integer only. Default is 80') or 80
-        self.rolling_sucess_samplesize = input('Input sample size to draw sucess rolling average. Default is 100') or 100
+        self.success_samplesize = input('Input sample size to draw sucess rolling average. Default is 100') or 100
+
+
+        print('Initaiting rolling average framework.')
 
         return self.limitTrial
 
@@ -40,30 +30,28 @@ class rolling_avg(logic):
 
         print('Evaluating success state for rolling averages success frameworks! ')
         #this success check uses a rolling average by calling mongodb success column, assuming that success is binary
-        success = 'placeholder'
 
-        if len(success) < self.rolling_sucess_samplesize:
+        if len(success) < self.success_samplesize:
             print('Sample size too low. Continue obtaining data')
             success_state = 'placeholder'
 
-        elif len(success) >= self.rolling_sucess_samplesize:
+        elif len(success) >= self.success_samplesize:
             print('Checking performance so far...')
 
-            if sum(success[-self.rolling_sucess_samplesize:] <= self.success_criterion):
+            if sum(success[-self.success_samplesize:] <= self.success_criterion):
                 print('No pass.')
                 success_state = False
 
-            elif sum(success[-self.rolling_sucess_samplesize:]) >= self.success_criterion:
-                print('Sucess criterion achieved. Moving on to next task if applicable. ')
+            elif sum(success[-self.success_samplesize:]) >= self.success_criterion:
+                print('Success criterion achieved. Moving on to next task if applicable. ')
                 success_state = True
 
         return success_state
 
 
-class global_success(logic):
+class global_success:
 
     def __init__(self):
-        super(logic,self).__init__()
         print('Initaiting global success framework! ')
 
     def input(self):

@@ -21,11 +21,6 @@ class touchtraining_cls(object):
                                           'Reaction Latency', 'Time held on screen', 'Success (Y/N)', 'Hit', 'Miss', 'Null', 'Trial End'
                                           ]
 
-        progression_obj = logic()
-        progression_obj.show_logic_types() #checking progression sub classes for available success frameworks
-        print('initiating touchtraining protocol classes')
-
-
     def success_logic(self):
         #defining success logic for specific protocol + defining required paramters
         success_framework = int(input('Choose success framework, 1 for global success criteria or 2 for rolling average success. Default = rolling average ' )) or 2
@@ -33,39 +28,33 @@ class touchtraining_cls(object):
             print('Initiating global success progression criterion.')
             self.success_frame = 1
 
-            #initiating success subclass
-            logic()
-            global_success()
-
-            #input initial paramters
-            limitTrial = global_success.input(self)
-            return limitTrial
+            #initiating global success class instance
+            self.success_instance = global_success()
+            self.limitTrial = self.success_instance.input()
+            return self.limitTrial
 
 
         elif success_framework == 2:
             print('Initiating rolling average success progression criterion. ')
             self.success_frame = 2
 
-            #initiating success subclass
-            # initiating success subclass
-            logic()
-            rolling_avg()
-
-            limitTrial = rolling_avg.input(self)
-            return limitTrial
+            #initiating rolling avg success instance
+            self.success_instance = rolling_avg()
+            self.limitTrial = self.success_instance.input()
+            return self.limitTrial
 
 
-    def success_state(self, success_criterion, success_samplesize, success_col):
+    def success_state(self, success_col):
         #evaluating whether to progress or not and returns pass or fail.
 
         if self.success_frame == 1:
             #global success criteria - make decision here
-            success_state = self.global_success.global_success_eval(self, success_criterion, success_samplesize, success_col)
+            success_state = self.success_instance.global_success_eval(success_col)
             return success_state
 
         elif self.success_frame == 2:
             #rolling average success criteria
-            success_state = self.rolling_avg.rolling_success_eval(self,success_criterion, success_samplesize, success_col)
+            success_state = self.success_instance.rolling_success_eval(success_col)
             return success_state
 
     def progression_decision(self, success_state,tasklist):

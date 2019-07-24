@@ -4,6 +4,7 @@ from marmoio import marmoIO
 from data.database_sql import database_cls as database
 import datetime
 
+
 results_col = ['test','test']
 #initiating marmoio instance
 marmoio = marmoIO()
@@ -43,7 +44,7 @@ if preset == 'y' or 'Y':
 #defining sucess criterion and amount of trials - via marmoio. Start new experiment
 experiment_start = datetime.datetime.now()
 
-
+#start session counter
 session = 1
 for i in range(protocol_levels):
     #define amount of trials for this specific level.
@@ -53,34 +54,52 @@ for i in range(protocol_levels):
     #defining param for each progression
     protocol_instructions = marmoio.protocol_instructions()
 
-    #start store new experiment in database.
+    #store new experiment info in database as dictionary.
+    exp_info = {
+        'protocol': experimental_protocol,
+        'Experiment start': experiment_start,
+        'progressions' : protocol_levels,
+        'animal ID' : animal_ID
+    }
 
-    store_instructions = {'instructions':protocol_instructions}
-    experimental_info = [experiment_start, protocol_instructions]
+    database.add_experiment(exp_info)
 
-    database.store_instructions(store_instructions)
-
-    #start trial and session counter
+    #start trial counter
     trial = 0
 
     #run protocol - send http request via marmoio.
-    #read in task specific paramters, (stim size, color etc.)
+    #read in task specific paramters, (stim size, color etc.) and generate protocol instructions for marmobox
     level = i
     print(protocol_instructions)
     sent_instructions = protocol_instructions[i]
+
+    #start new session and send to database as dictionary
+
     print(sent_instructions)
     json_obj = marmoio.json_create(taskname,animal_ID,level,sent_instructions)
 
     #marking start of session, where session refers to X number of trial block for a given progression in a protocol.
     session_start = datetime.datetime.now()
+
+    session_info = {
+        'session_num': session,
+        'session_start': session_start,
+        'progression_status': level,
+        'session_instructions': json_obj,
+        'trial_num': limitTrial,
+    }
+
+    database.add_session(session_info)
+
     while trial <= limitTrial:
         #sends post request to marmobox pc, and retrieve response as result from initating task
         response = marmoio.json_send(json_obj)
         #writing results, taskname, level and animal_ID to mongodb
         print(response)
-        database.store_in_database(results_col, response, trial, session, taskname+(str(level)))
+        database.new_trial(response,results_col)
         #query mongodb and determine success_state
-        success_state = marmoio.progression_eval()
+        success_col = database.extract_success()
+        success_state = marmoio.progression_eval(success_col)
 
         trial +=1
 
@@ -93,7 +112,6 @@ for i in range(protocol_levels):
     elif success_state == True:
         #progress to next task (linear), and set session for this new task = 0
         session = 1
-        session_end = datetime.datetime.now()
         continue
 
 experiment_end = datetime.datetime.now()
