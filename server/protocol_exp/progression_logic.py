@@ -30,21 +30,30 @@ class rolling_avg:
 
         print('Evaluating success state for rolling averages success frameworks! ')
         #this success check uses a rolling average by calling mongodb success column, assuming that success is binary
+        print(success)
+        print(len(success))
+        success_samplesize = int(self.success_samplesize)
+        success_criterion = int(self.success_criterion)
 
-        if len(success) < self.success_samplesize:
+        if len(success) < int(success_samplesize):
             print('Sample size too low. Continue obtaining data')
             success_state = 'placeholder'
 
-        elif len(success) >= self.success_samplesize:
+        elif len(success) >= int(success_samplesize):
             print('Checking performance so far...')
+            #convert success list to percentage
+            success_percent = ((sum(success[:success_samplesize]))/success_samplesize) *100
+            print(success_percent)
 
-            if sum(success[-self.success_samplesize:] <= self.success_criterion):
+            if success_percent <= success_criterion:
                 print('No pass.')
                 success_state = False
 
-            elif sum(success[-self.success_samplesize:]) >= self.success_criterion:
+            elif success_percent >= success_criterion:
                 print('Success criterion achieved. Moving on to next task if applicable. ')
                 success_state = True
+
+        print(success_state)
 
         return success_state
 
