@@ -14,6 +14,7 @@ class marmoIO:
     marmobox_child_url = 'http://127.0.0.1:5000/'
 
     def __init__(self):
+
         print('marmoio intitiated. ')
 
     def protocol_param(self,protocol, exp_protocol):
@@ -37,24 +38,53 @@ class marmoIO:
 
     def protocol_instructions(self):
         progress_instructions = self.protocol_class.instructions()
+        self.multi = False
+        self.key_list = []
+        self.value_list = []
         return progress_instructions
 
     def progression_eval(self,success_col):
         success_state = self.protocol_class.success_state(success_col)
         return success_state
 
-    def json_create(self,taskname,animal_ID,level, protocol_instructions):
+    def json_create(self,taskname,animal_ID,level, sent_instructions, validTrial_index):
         #create json file into json_file folder for export to marmobox
+
         timestamp = datetime.datetime.now()
         print('Creating json and instructions for action by marmobox...')
+        #iterating through dictionary to check for list of lists, and extract them, only run once per session
+        while self.multi is False:
+            for x, y in sent_instructions.items():
+                print(x)
+                print(y)
+                try:
+                    if any(isinstance(el, list) for el in y) is True:
+                        print('list, of lists detected')
+                        self.key_list.append(x)
+                        self.value_list.append(y)
+                        print(self.key_list)
+                        print(self.value_list)
+                except:
+                    print('not a list of lists, moving on')
+                    continue
+                finally:
+                    self.multi = True
+
+        #iterate through dictionary keys that contain lists of list and modify according to valid_trial index
+        if self.key_list != []:
+            for list_num in range(len(self.key_list)):
+                try:
+                    sent_instructions[str(self.key_list[list_num])] = self.value_list[list_num][validTrial_index]
+                except:
+                    print('index exceeded, moving on')
+                    continue
+
+        print(sent_instructions)
 
         #creating dictionary file
-        json_input = {'animal_ID':animal_ID, 'taskname':taskname, 'level': level, 'instructions': protocol_instructions
+        json_input = {'animal_ID':animal_ID, 'taskname':taskname, 'level': level, 'instructions': sent_instructions
                       }
-        print(json_input)
         json_obj = json.dumps(dict(json_input))
-        print(json_input)
-        print(type(json_input))
         return json_obj
 
 

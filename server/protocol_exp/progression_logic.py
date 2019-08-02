@@ -4,7 +4,7 @@ class rolling_avg:
 
     def __init__(self):
 
-        print('loading class sucessful')
+        print('loading class successful')
 
     def input(self):
         # max tries to enter trial

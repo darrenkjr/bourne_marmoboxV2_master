@@ -18,8 +18,11 @@ class touchtraining_cls(object):
         self.taskname = 'tasks.touch-training'
         self.results_col = ['Trial Start', 'X-Position (Pressed)', 'Y-Position (Pressed)',
                                           'Stimulus type','Stimulus Position (Center)',
-                                          'Reaction Latency', 'Time held on screen', 'Success (Y/N)', 'Hit', 'Miss', 'Null', 'Trial End'
+                                          'Reaction Latency', 'Time held on screen', 'Success (Y/N)', 'Hit', 'Miss', 'Null', 'Valid_Trial', 'Trial End'
                                           ]
+
+        #all interactions with system during touch trainings, are VALID TRIALS
+        self.validTrial = True
 
     def success_logic(self):
         #defining success logic for specific protocol + defining required paramters
@@ -99,7 +102,8 @@ class level_1(touchtraining_cls):
             'Stimulus size': stim_size,
             'Stimulus color': color,
             'Stimulus coordinates': stim_coord,
-            'ITI for Wrong Response': time_penalty
+            'ITI for Wrong Response': time_penalty,
+            'Valid Trial': self.validTrial
         }
 
         return instructions
@@ -123,7 +127,8 @@ class level_2(touchtraining_cls):
             'Stimulus size': stim_size,
             'Stimulus color': color,
             'Stimulus coordinates': stim_coord,
-            'ITI for Wrong Response': time_penalty
+            'ITI for Wrong Response': time_penalty,
+            'Valid Trial': self.validTrial
         }
 
         return instructions
@@ -158,7 +163,8 @@ class level_3(touchtraining_cls):
             'Stimulus size': stim_size,
             'Stimulus color': color, #is a list of RGB codes for x amount of trials
             'Stimulus coordinates': stim_coord,
-            'ITI for Wrong Response': time_penalty
+            'ITI for Wrong Response': time_penalty,
+            'Valid Trial': self.validTrial
         }
 
         return instructions
@@ -201,7 +207,8 @@ class level_4(touchtraining_cls):
             'Stimulus size': stim_size,
             'Stimulus color': color,
             'Stimulus coordinates': stim_coord,
-            'ITI for Wrong Response': time_penalty
+            'ITI for Wrong Response': time_penalty,
+            'Valid Trial': self.validTrial
         }
 
         return instructions
