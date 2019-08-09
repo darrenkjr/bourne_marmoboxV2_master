@@ -33,8 +33,8 @@ class marmoIO:
         return taskname, len(levels), results_col
 
     def success_logic(self):
-        limitTrial = self.protocol_class.success_logic()
-        return limitTrial
+        limitTrial, success_framework = self.protocol_class.success_logic()
+        return limitTrial, success_framework
 
     def protocol_instructions(self):
         progress_instructions = self.protocol_class.instructions()

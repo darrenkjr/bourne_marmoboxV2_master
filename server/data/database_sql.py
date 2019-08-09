@@ -61,6 +61,7 @@ class database_cls:
                 exp_protocol VARCHAR,
                 exp_date TIMESTAMP,   
                 progressions VARCHAR,
+                success_framework TEXT,
                 animal_ID INT REFERENCES animals(animal_id)
                
             )
@@ -97,17 +98,23 @@ class database_cls:
         return self.__exec_command(commands)
 
     def check_animal(self,animalid):
-        ''' checks records for animal, if doesnt exist, create record in table '''
+        ''' checks records for animal, if doesnt exist, create record in animal table '''
 
         command = (
             ''' 
-            INSERT INTO animals(animal_name) VALUES(%s) on conflict do nothing; 
+            INSERT INTO animals(animal_name) VALUES(%s) on conflict do nothing RETURNING animal_ID; 
         '''
                    )
         self.cur.execute(command,(animalid,))
+        self.animal_ID = self.cur.fetchone()[0]
         self.connection.commit()
 
-    def add_experiment(self, exp_info):
+
+
+
+
+
+    def add_newexperiment(self, exp_info):
         ''' cross reference current animal ID and extracts unique animal identified in database and adds new experiment entry into sql database, '''
 
         exp_protocol, exp_date, progressions, animal_ID = exp_info['protocol'],exp_info['Experiment start'],exp_info['progressions'], exp_info['animal ID']
@@ -191,11 +198,47 @@ class database_cls:
 
         return clean_success_list
 
+    def load_state(self, animalid):
+        """
+        cross_references animalID, pulls latest instruction data, and checks whether previous experiments was incomplete. if so prompt user to either resume or start new
+        """
 
+        extract_exp = (
 
+            '''
+            SELECT * FROM experiment where animal_id = %s order by exp_date desc limit 1;
 
+            '''
+        )
 
+        self.cursor.execute(extract_exp,[animalid])
+        exp_info = dict(self.cursor.fetchall())
 
+        extract_session = (
+            '''
+            SELECT * FROM sessions where exp_id = %s order by session_start desc limit 1;
+            '''
+        )
+        self.cursor.execute(extract_session, exp_info['exp_id'])
+        session_info = dict(self.cursor.fetchall())
+
+        extract_event = (
+            '''
+            SELECT * FROM raw_events where session_id = %s order by trial_start desc limit 1;
+            '''
+        )
+
+        self.cursor.execute(extract_event, session_info['session_id'])
+        event_info = dict(self.cursor.fetchall())
+
+        state = {
+            'exp_info': exp_info,
+            'session_info': session_info,
+            'raw_event' : event_info
+
+        }
+
+        return state
 
 
 

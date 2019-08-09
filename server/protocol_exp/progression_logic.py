@@ -5,6 +5,8 @@ class rolling_avg:
     def __init__(self):
 
         print('loading class successful')
+        self.success_samplesize = 'placeholder'
+        self.success_criterion = 'placeholder1'
 
     def input(self):
         # max tries to enter trial

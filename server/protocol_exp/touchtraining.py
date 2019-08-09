@@ -29,22 +29,22 @@ class touchtraining_cls(object):
         success_framework = int(input('Choose success framework, 1 for global success criteria or 2 for rolling average success. Default = rolling average ' )) or 2
         if success_framework == 1:
             print('Initiating global success progression criterion.')
-            self.success_frame = 1
+            self.success_frame = 'global_success'
 
             #initiating global success class instance
             self.success_instance = global_success()
             self.limitTrial = self.success_instance.input()
-            return self.limitTrial
+            return self.limitTrial, self.success_frame
 
 
         elif success_framework == 2:
             print('Initiating rolling average success progression criterion. ')
-            self.success_frame = 2
+            self.success_frame = 'rolling_average'
 
             #initiating rolling avg success instance
             self.success_instance = rolling_avg()
             self.limitTrial = self.success_instance.input()
-            return self.limitTrial
+            return self.limitTrial, self.success.frame
 
 
     def success_state(self, success_col):
@@ -59,16 +59,6 @@ class touchtraining_cls(object):
             #rolling average success criteria
             success_state = self.success_instance.rolling_success_eval(success_col)
             return success_state
-
-    def progression_decision(self, success_state,tasklist):
-
-        #decision making for moving on etc.
-        if success_state == True:
-            print('Progression criterion satisfied. Proceeding to next task. ')
-             #do something
-        else:
-            print('Progression criterion not satisfied. Repeating task.')
-             #do something
 
 
     def instructions(self):
