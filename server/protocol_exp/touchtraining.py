@@ -44,18 +44,18 @@ class touchtraining_cls(object):
             #initiating rolling avg success instance
             self.success_instance = rolling_avg()
             self.limitTrial = self.success_instance.input()
-            return self.limitTrial, self.success.frame
+            return self.limitTrial, self.success_frame
 
 
     def success_state(self, success_col):
         #evaluating whether to progress or not and returns pass or fail.
 
-        if self.success_frame == 1:
+        if self.success_frame == 'global_success':
             #global success criteria - make decision here
             success_state = self.success_instance.global_success_eval(success_col)
             return success_state
 
-        elif self.success_frame == 2:
+        elif self.success_frame == 'rolling_average':
             #rolling average success criteria
             success_state = self.success_instance.rolling_success_eval(success_col)
             return success_state

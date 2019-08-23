@@ -20,31 +20,19 @@ print('test')
 animal_ID = input("Enter animal I.D, press enter/return for 'test' : ") or 'test'
 #check for previous collection based on animal_ID, if doesnt exist, insert new row
 database.check_animal(animal_ID)
-
+state = database.load_state(animal_ID)
 #load previous save state if applicable from sql database, to be unpacked
 try:
-    state = database.load_state(animal_ID)
+    continue_state = database.load_state(animal_ID)
 except:
-    print('no animal_id found')
-
-if state is True:
-    print('Previous incomplete experiment or session found')
-    print('Previous experiment. ', state['exp_info'])
-    print('Previous session. ', state['session_info'])
-    print('Previous trial. ', state['raw_event'])
-
-    continue_state = input('Continue from previous incomplete experiment or session ? y/n ') or 'y'
-
-else:
-    print('starting new experiment')
-    continue_state = 'n'
-
-if continue_state == 'y' or 'Y':
-    print('continuing from previous session')
-    #unpack state
+    print('no previous session history found')
 
 
-else:
+
+print(continue_state)
+
+
+if continue_state == 'n' or 'N':
     print('starting new experiment on animal: ', animal_ID)
     experimental_protocol = input('Enter desired protocol ')  # enter name of protocol eg: touch training
 
@@ -62,6 +50,11 @@ else:
     #defining sucess criterion and amount of trials - via marmoio. Start new experiment
     experiment_start = datetime.datetime.now()
     limitTrial, success_framework = marmoio.success_logic()
+
+elif continue_state == 'y' or 'Y':
+    print('continuing from previous session')
+    #unpack state
+
 
 #store new experiment info in database as dictionary.
 exp_info = {
@@ -118,7 +111,7 @@ for i in range(protocol_levels):
             #query mongodb and determine success_state
             success_col = database.extract_success()
             success_state = marmoio.progression_eval(success_col,)
-
+            print(success_state)
             if valid is True:
                 validTrial += 1
             # determinging success_state, if suces_state == True, move to next level, (next class)

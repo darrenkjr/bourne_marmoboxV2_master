@@ -1,6 +1,5 @@
 import psycopg2
-from psycopg2.extras import RealDictCursor
-from data.config import config
+from config import config
 import json
 from datetime import datetime
 
@@ -30,12 +29,16 @@ class database_cls:
         self.cur.close()
         self.connection.close()
 
-    def __exec_command(self,commands):
+    def exec_command(self,commands):
         ''' for executing multiple sql commands at once '''
         try:
             for command in commands:
+                print(commands)
                 self.cur.execute(command)
+                result = self.cur.fetchall()
             self.connection.commit()
+
+            return result
 
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
@@ -105,13 +108,10 @@ class database_cls:
             INSERT INTO animals(animal_name) VALUES(%s) on conflict do nothing RETURNING animal_ID; 
         '''
                    )
+
         self.cur.execute(command,(animalid,))
-        self.animal_ID = self.cur.fetchone()[0]
+        self.animal_ID = self.cur.fetchall()
         self.connection.commit()
-
-
-
-
 
 
     def add_newexperiment(self, exp_info):
@@ -124,6 +124,8 @@ class database_cls:
         self.cur.execute(unique_animal_query,(animal_ID,))
         self.animal_ID = self.cur.fetchone()[0]
         print(self.animal_ID)
+
+        print('adding new experiment entry')
 
         insert_experiment_command = (
             """
@@ -138,6 +140,7 @@ class database_cls:
 
     def add_session(self, session_info):
         ''' adds new session entry into sql database. Each session entry is associated with a unique experiment ID, linked to a uniqe animal ID. '''
+        print('adding new session')
 
         sess_num, sess_start, progression, sess_instr, trial_num = session_info['session_num'],session_info['session_start'],session_info['progression_status'],session_info['session_instructions'],session_info['trial_num']
 
@@ -198,10 +201,21 @@ class database_cls:
 
         return clean_success_list
 
-    def load_state(self, animalid):
+    def load_state(self, animal_name):
         """
         cross_references animalID, pulls latest instruction data, and checks whether previous experiments was incomplete. if so prompt user to either resume or start new
         """
+
+        extract_animalid = (
+
+            '''
+            SELECT animal_id FROM animals where animal_name = %s;
+            
+            '''
+        )
+
+        self.cur.execute(extract_animalid, [animal_name])
+        unique_id = self.cur.fetchall()
 
         extract_exp = (
 
@@ -211,16 +225,26 @@ class database_cls:
             '''
         )
 
-        self.cursor.execute(extract_exp,[animalid])
-        exp_info = dict(self.cursor.fetchall())
+        self.cur.execute(extract_exp,unique_id)
+
+        exp_col = [col[0] for  col  in self.cur.description]
+        exp_info = list(self.cur.fetchall()[0])
+
+        exp_id = exp_info[0]
+
+        print(type(exp_id))
 
         extract_session = (
             '''
             SELECT * FROM sessions where exp_id = %s order by session_start desc limit 1;
             '''
         )
-        self.cursor.execute(extract_session, exp_info['exp_id'])
-        session_info = dict(self.cursor.fetchall())
+        self.cur.execute(extract_session, [exp_id])
+
+        session_col = [col[0] for col in self.cur.description]
+        session_info = list(self.cur.fetchall()[0])
+
+        session_id = session_info[0]
 
         extract_event = (
             '''
@@ -228,17 +252,40 @@ class database_cls:
             '''
         )
 
-        self.cursor.execute(extract_event, session_info['session_id'])
-        event_info = dict(self.cursor.fetchall())
+        self.cur.execute(extract_event, [session_id])
 
-        state = {
+        event_col = [col[0] for col in self.cur.description]
+        event_info = list(self.cur.fetchall()[0])
+
+        #zipping dictionary
+        exp_info = dict(zip(exp_col,exp_info))
+        session_info = dict(zip(session_col,session_info))
+        event_info = dict(zip(event_col, event_info))
+
+        latest_state = {
             'exp_info': exp_info,
             'session_info': session_info,
-            'raw_event' : event_info
-
+            'raw_event': event_info
         }
 
-        return state
+        print('Previous history found.')
+        print(latest_state)
+
+        #testing for incompleteness
+        print('testing for incompleteness')
+        latest_progression = int((latest_state['session_info']['progression_status'])) + 1
+        total_progression = int((latest_state['exp_info']['progressions']))
+
+        if total_progression > latest_progression+1:
+            print('incomplete experiment detected')
+
+            continue_state = input('Continue from previous incomplete experiment or session ? y/n ') or 'y'
+
+        else:
+            print('previous experiment is complete. Proceeding')
+            continue_state = 'n'
+
+        return continue_state
 
 
 
