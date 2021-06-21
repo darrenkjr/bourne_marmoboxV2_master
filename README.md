@@ -12,7 +12,7 @@ Its purpose is to allow researchers or users to interrogate behaviour related qu
 - More reproducible protocols
 - More ethical treatment of animals (equating to lower stress levels, and quality of life for animals)
 
-#Design Principles
+# Design Principles
 
 To frame design work going forward, and to focus discussion so as to prioritise features, here are a few suggested principles to adhere to: 
 
@@ -27,16 +27,13 @@ To frame design work going forward, and to focus discussion so as to prioritise 
 
 This repository contains the code for the server (master) version of Marmobox version 2.
 
-# Requirements
-You must have python 3 or greater. 
-
-#General architecture 
+# General architecture 
 
 There are 2 repos associated dwith Project Marmobox. A central server that contains internal protocol logic, and child pcs that controls the stimuli and rewards for our animals. 
 
 The central server, handles communication with a  SQL database, (To be run separately), and communicates with the child pc via json. The child pc consists of touchscreens, a 3D printed enclosure, and an arduino based system. 
 
-#Difference with Marmobox V1
+# Difference with Marmobox V1
 
 We've set up version 2 to tackle the folllwing shortomcings: 
 
@@ -51,4 +48,9 @@ We've set up version 2 to tackle the folllwing shortomcings:
 - Current user experience is limited. Customisability by operator has not been a guiding design principle, as such thinking behind allowing variation in reward dispensing or modification of reward tones has been limited. This reflects in the **concrete limitations of the system and how these limitations came to be.**
 - Furthermore, Marmobox V1 was built with no guiding design principles. Thus, current design rationale does not take into account what Marmobox should be able to achieve, focus on, and do well in. What should sit in the realm of the operator, and should be done by Marmobox?
     - A discussion between engineers + designers, along with potential users should be had to discuss the philosophy behind Marmobox as a project.
+
+# Requirements
+You must have python 3 or greater. 
+
+
 
