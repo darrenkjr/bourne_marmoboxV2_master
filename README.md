@@ -1,5 +1,5 @@
 # bourne_marmoboxV2_master
-MarmoboxV2 - Executive Code - To be Run on Main Server 
+MarmoboxV2 - Executive Code - To be Run on Main Server. To start, run marmobox_master.py and follow prompts. Ensure a sql database is running, and edit database details in server -> data -> database.ini
 
 # Introduction
 Project Marmobox is an automated, modular system for in cage operant conditioning of marmosets. It is a hardware + service that automates the training of marmosets in simple behavioural tasks, and allows for seamless interrogation of behavioural tasks and rudimentary data analysis and visualisation. 
